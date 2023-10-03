@@ -15,7 +15,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -84,13 +83,8 @@ public class TemplateEditorItem extends BaseItem {
     }
 
     @Override
-    public boolean canAttackBlock(BlockState blockState, Level level, BlockPos blockPos, Player player){
-        return false;
-    }
-
-    @Override
-    public boolean allowContinuingBlockBreaking(Player player, ItemStack oldStack, ItemStack newStack){
-        return false;
+    public boolean onBlockStartBreak(ItemStack itemstack, BlockPos pos, Player player){
+        return true;
     }
 
     @Override

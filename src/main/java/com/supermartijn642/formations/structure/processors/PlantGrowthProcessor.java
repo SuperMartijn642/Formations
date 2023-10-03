@@ -56,6 +56,6 @@ public class PlantGrowthProcessor extends StructureProcessor implements Formatio
 
     @Override
     protected StructureProcessorType<?> getType(){
-        return FormationsStructures.PLANT_GROWTH_PROCESSOR;
+        return FormationsStructures.PLANT_GROWTH_PROCESSOR.get();
     }
 }

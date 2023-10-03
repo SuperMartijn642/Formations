@@ -1,6 +1,6 @@
 package com.supermartijn642.formations.mixin;
 
-import net.fabricmc.loader.impl.util.SystemProperties;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class FormationsMixinPlugin implements IMixinConfigPlugin {
 
-    private static final boolean isDevEnvironment = Boolean.parseBoolean(System.getProperty(SystemProperties.DEVELOPMENT, "false"));
+    private static final boolean isDevEnvironment = !FMLEnvironment.production;
 
     @Override
     public void onLoad(String mixinPackage){

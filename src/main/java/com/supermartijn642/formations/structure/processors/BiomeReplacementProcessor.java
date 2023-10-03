@@ -579,6 +579,6 @@ public class BiomeReplacementProcessor extends StructureProcessor implements For
 
     @Override
     protected StructureProcessorType<?> getType(){
-        return FormationsStructures.BIOME_REPLACEMENT_PROCESSOR;
+        return FormationsStructures.BIOME_REPLACEMENT_PROCESSOR.get();
     }
 }

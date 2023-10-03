@@ -67,6 +67,6 @@ public class ChiseledBookshelfProcessor extends StructureProcessor implements Fo
 
     @Override
     protected StructureProcessorType<?> getType(){
-        return FormationsStructures.CHISELED_BOOKSHELF_PROCESSOR;
+        return FormationsStructures.CHISELED_BOOKSHELF_PROCESSOR.get();
     }
 }

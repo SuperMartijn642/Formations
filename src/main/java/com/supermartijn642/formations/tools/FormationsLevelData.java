@@ -1,16 +1,18 @@
 package com.supermartijn642.formations.tools;
 
 import com.supermartijn642.formations.FormationsDev;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.storage.LevelResource;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.function.Consumer;
 
 /**
  * Created 27/08/2023 by SuperMartijn642
@@ -18,7 +20,7 @@ import java.nio.file.Path;
 public class FormationsLevelData {
 
     public static void registerListeners(){
-        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> SERVER.syncToPlayer(handler.player));
+        MinecraftForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerLoggedInEvent>)event -> SERVER.syncToPlayer(event.getEntity()));
     }
 
     public static FormationsLevelData SERVER = new FormationsLevelData(), CLIENT = new FormationsLevelData();

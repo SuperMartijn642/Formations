@@ -25,7 +25,7 @@ public class SimpleStructure extends Structure {
 
     public static final Codec<SimpleStructure> CODEC = RecordCodecBuilder.create(instance ->
         instance.group(
-            StructureSettings.CODEC.forGetter(s -> s.settings),
+            StructureSettings.CODEC.forGetter(s -> s.modifiableStructureInfo().getOriginalStructureInfo().structureSettings()),
             Codec.either(StructurePoolElement.CODEC, StructureTemplatePool.CODEC).fieldOf("template").forGetter(s -> s.structure),
             StructurePlacement.CODEC.fieldOf("placement").forGetter(s -> s.placement)
         ).apply(instance, SimpleStructure::new)
@@ -74,6 +74,6 @@ public class SimpleStructure extends Structure {
 
     @Override
     public StructureType<?> type(){
-        return FormationsStructures.SIMPLE_STRUCTURE;
+        return FormationsStructures.SIMPLE_STRUCTURE.get();
     }
 }

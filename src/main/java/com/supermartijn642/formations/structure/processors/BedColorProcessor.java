@@ -77,6 +77,6 @@ public class BedColorProcessor extends StructureProcessor implements FormationsS
 
     @Override
     protected StructureProcessorType<?> getType(){
-        return FormationsStructures.BED_COLOR_PROCESSOR;
+        return FormationsStructures.BED_COLOR_PROCESSOR.get();
     }
 }

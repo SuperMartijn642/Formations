@@ -69,6 +69,6 @@ public class BrewingStandProcessor extends StructureProcessor implements Formati
 
     @Override
     protected StructureProcessorType<?> getType(){
-        return FormationsStructures.BREWING_STAND_PROCESSOR;
+        return FormationsStructures.BREWING_STAND_PROCESSOR.get();
     }
 }

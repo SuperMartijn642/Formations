@@ -52,6 +52,6 @@ public class RespawnAnchorProcessor extends StructureProcessor implements Format
 
     @Override
     protected StructureProcessorType<?> getType(){
-        return FormationsStructures.RESPAWN_ANCHOR_PROCESSOR;
+        return FormationsStructures.RESPAWN_ANCHOR_PROCESSOR.get();
     }
 }

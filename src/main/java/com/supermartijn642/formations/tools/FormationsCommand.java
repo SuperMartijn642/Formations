@@ -6,10 +6,13 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.util.Pair;
 import com.supermartijn642.formations.tools.template.TemplateManager;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
+
+import java.util.function.Consumer;
 
 /**
  * Created 27/08/2023 by SuperMartijn642
@@ -17,14 +20,14 @@ import net.minecraft.commands.Commands;
 public class FormationsCommand {
 
     public static void register(){
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            dispatcher.register(
+        MinecraftForge.EVENT_BUS.addListener((Consumer<RegisterCommandsEvent>)event ->
+            event.getDispatcher().register(
                 Commands.literal("formations")
                     .requires(source -> source.hasPermission(Commands.LEVEL_ADMINS))
                     .then(registerExportTemplates())
                     .then(registerDevMode())
-            );
-        });
+            )
+        );
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> registerExportTemplates(){

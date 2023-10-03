@@ -118,6 +118,6 @@ public class FormationsBlockAgeProcessor extends StructureProcessor implements F
 
     @Override
     protected StructureProcessorType<?> getType(){
-        return FormationsStructures.BLOCK_AGE_PROCESSOR;
+        return FormationsStructures.BLOCK_AGE_PROCESSOR.get();
     }
 }

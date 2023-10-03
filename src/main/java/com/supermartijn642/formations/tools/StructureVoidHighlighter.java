@@ -19,6 +19,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.StructureVoidBlock;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.MinecraftForge;
 import org.joml.Matrix4f;
 
 /**
@@ -30,7 +31,7 @@ public class StructureVoidHighlighter {
     private static final BlockShape HIGHLIGHT_SHAPE = BlockShape.fullCube().shrink(0.2);
 
     public static void registerListeners(){
-        RenderWorldEvent.EVENT.register(StructureVoidHighlighter::highlightStructureVoidBlocks);
+        MinecraftForge.EVENT_BUS.addListener(StructureVoidHighlighter::highlightStructureVoidBlocks);
     }
 
     private static void highlightStructureVoidBlocks(RenderWorldEvent e){
@@ -76,9 +77,10 @@ public class StructureVoidHighlighter {
 
         e.getPoseStack().popPose();
     }
+
     private static final RenderConfiguration QUADS = RenderConfiguration.create("supermartijn642corelib", "quads", DefaultVertexFormat.POSITION_COLOR, RenderConfiguration.PrimitiveType.QUADS, 256, false, true, RenderStateConfiguration.builder().useShader(GameRenderer::getPositionColorShader).useTranslucentTransparency().disableTexture().disableCulling().useLessThanOrEqualDepthTest().disableDepthMask().build());
 
-    public static void renderShapeSides(PoseStack poseStack, VertexConsumer builder, BlockShape shape, float red, float green, float blue, float alpha) {
+    public static void renderShapeSides(PoseStack poseStack, VertexConsumer builder, BlockShape shape, float red, float green, float blue, float alpha){
         Matrix4f matrix = poseStack.last().pose();
         shape.forEachBox((box) -> {
             float minX = (float)box.minX;

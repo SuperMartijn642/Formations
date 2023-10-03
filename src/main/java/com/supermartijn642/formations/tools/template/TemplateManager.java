@@ -6,9 +6,6 @@ import com.supermartijn642.formations.FormationsDev;
 import com.supermartijn642.formations.extensions.TemplateHoldingLevel;
 import com.supermartijn642.formations.tools.template.packets.AllTemplatesPacket;
 import com.supermartijn642.formations.tools.template.packets.DeleteTemplatePacket;
-import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
-import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -16,12 +13,15 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * Created 25/08/2023 by SuperMartijn642
@@ -33,9 +33,9 @@ public class TemplateManager {
     }
 
     public static void registerListeners(){
-        ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, origin, destination) -> get(origin).sendTemplatesToPlayer(player));
-        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> get(handler.player.level()).sendTemplatesToPlayer(handler.player));
-        ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> get(newPlayer.level()).sendTemplatesToPlayer(newPlayer));
+        MinecraftForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerChangedDimensionEvent>)event -> get(event.getEntity().level()).sendTemplatesToPlayer(event.getEntity()));
+        MinecraftForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerLoggedInEvent>)event -> get(event.getEntity().level()).sendTemplatesToPlayer(event.getEntity()));
+        MinecraftForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerRespawnEvent>)event -> get(event.getEntity().level()).sendTemplatesToPlayer(event.getEntity()));
     }
 
     private final Level level;

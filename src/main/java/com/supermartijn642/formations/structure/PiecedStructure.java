@@ -36,7 +36,7 @@ public class PiecedStructure extends Structure {
 
     public static final Codec<PiecedStructure> CODEC = RecordCodecBuilder.create(instance ->
         instance.group(
-            StructureSettings.CODEC.forGetter(structure -> structure.settings),
+            StructureSettings.CODEC.forGetter(structure -> structure.modifiableStructureInfo().getOriginalStructureInfo().structureSettings()),
             StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
             Codec.intRange(0, 7).fieldOf("max_depth").forGetter(structure -> structure.maxDepth),
             Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter(structure -> structure.maxDistanceFromCenter),
@@ -80,7 +80,7 @@ public class PiecedStructure extends Structure {
 
     @Override
     public StructureType<?> type(){
-        return FormationsStructures.PIECED_STRUCTURE;
+        return FormationsStructures.PIECED_STRUCTURE.get();
     }
 
     private static Optional<Structure.GenerationStub> addPieces(Structure.GenerationContext context, StructurePoolElement startElement, Rotation rotation, int maxDepth, BlockPos pos, int maxDistanceFromCenter){

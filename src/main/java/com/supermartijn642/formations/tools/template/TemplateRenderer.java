@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.MinecraftForge;
 import org.joml.Quaternionf;
 
 import java.util.Optional;
@@ -26,7 +27,7 @@ public class TemplateRenderer {
     public static BlockPos selectionPos1, selectionPos2;
 
     public static void registerListeners(){
-        RenderWorldEvent.EVENT.register(TemplateRenderer::renderTemplates);
+        MinecraftForge.EVENT_BUS.addListener(TemplateRenderer::renderTemplates);
     }
 
     public static Template getAimedAtTemplate(){

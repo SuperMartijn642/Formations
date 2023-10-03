@@ -34,6 +34,6 @@ public class FormationsSinglePoolElement extends SinglePoolElement {
 
     @Override
     public StructurePoolElementType<?> getType(){
-        return FormationsStructures.SINGLE_POOL_ELEMENT;
+        return FormationsStructures.SINGLE_POOL_ELEMENT.get();
     }
 }
