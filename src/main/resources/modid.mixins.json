@@ -1,0 +1,27 @@
+{
+  "required": true,
+  "minVersion": "${mixin_minimum_version}",
+  "package": "${mod_package}.${mixin_package}",
+  "compatibilityLevel": "${mixin_compatibility_level}",
+  "refmap": "${mod_id}.mixins.refmap.json",
+  "plugin": "${mod_package}.${mixin_package}.${mixin_plugin}",
+  "mixins": [
+    "dev.BaseSpawnerMixin",
+    "dev.LevelMixin",
+    "dev.MinecraftServerMixin",
+    "dev.RandomizableContainerBlockEntityMixin",
+    "dev.RespawnAnchorBlockMixin",
+    "dev.ServerLevelMixin",
+    "dev.StructureVoidBlockMixin",
+    "dev.TntBlockMixin",
+    "StructureTemplateMixin"
+  ],
+  "client": [
+    "dev.MinecraftMixin",
+    "dev.MultiPlayerGameModeMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
