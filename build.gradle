@@ -74,7 +74,7 @@ minecraft {
             workingDirectory project.file("run")
 
             property "forge.logging.markers", "REGISTRIES"
-            property "formations.templates.export-location=${file("src/main/resources/data/formations/structures")}"
+            property "formations.templates.export-location", "${file("src/main/resources/data/formations/structures")}"
 
             mods {
                 source sourceSets.main
@@ -85,7 +85,7 @@ minecraft {
             workingDirectory project.file("run")
 
             property "forge.logging.markers", "REGISTRIES"
-            property "formations.templates.export-location=${file("src/main/resources/data/formations/structures")}"
+            property "formations.templates.export-location", "${file("src/main/resources/data/formations/structures")}"
 
             mods {
                 source sourceSets.main
