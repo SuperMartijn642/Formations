@@ -39,7 +39,7 @@ public class StructureTemplateMixin {
 
         // Put all the blocks into a map
         Map<BlockPos,BlockInstance> blocksByPosition = blocks.stream()
-            .collect(Collectors.toUnmodifiableMap(StructureTemplate.StructureBlockInfo::pos, block -> new BlockInstance(block.state(), block.nbt() == null ? null : block.nbt().copy())));
+            .collect(Collectors.toUnmodifiableMap(StructureTemplate.StructureBlockInfo::pos, block -> new BlockInstance(block.state(), block.nbt() == null ? null : block.nbt())));
         // Create a list containing the processed blocks
         List<StructureTemplate.StructureBlockInfo> newBlocks = new ArrayList<>(blocks.size());
         for(Map.Entry<BlockPos,BlockInstance> entry : blocksByPosition.entrySet()){
