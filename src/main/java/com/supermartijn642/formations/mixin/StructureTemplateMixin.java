@@ -28,14 +28,18 @@ public class StructureTemplateMixin {
         ordinal = 0
     )
     private static List<StructureTemplate.StructureBlockInfo> processBlockInfos(List<StructureTemplate.StructureBlockInfo> blocks, ServerLevelAccessor level, BlockPos piecePosition, BlockPos structurePosition, StructurePlaceSettings placeSettings){
-        // Put all the blocks into a map
-        Map<BlockPos,BlockInstance> blocksByPosition = blocks.stream()
-            .collect(Collectors.toUnmodifiableMap(StructureTemplate.StructureBlockInfo::pos, block -> new BlockInstance(block.state(), block.nbt() == null ? null : block.nbt().copy())));
         // Find all the processors
         List<FormationsStructureProcessor> processors = placeSettings.getProcessors().stream()
             .filter(FormationsStructureProcessor.class::isInstance)
             .map(FormationsStructureProcessor.class::cast)
             .toList();
+        // Ignore if there aren't any FormationsStructureProcessor
+        if(processors.isEmpty())
+            return blocks;
+
+        // Put all the blocks into a map
+        Map<BlockPos,BlockInstance> blocksByPosition = blocks.stream()
+            .collect(Collectors.toUnmodifiableMap(StructureTemplate.StructureBlockInfo::pos, block -> new BlockInstance(block.state(), block.nbt() == null ? null : block.nbt().copy())));
         // Create a list containing the processed blocks
         List<StructureTemplate.StructureBlockInfo> newBlocks = new ArrayList<>(blocks.size());
         for(Map.Entry<BlockPos,BlockInstance> entry : blocksByPosition.entrySet()){
