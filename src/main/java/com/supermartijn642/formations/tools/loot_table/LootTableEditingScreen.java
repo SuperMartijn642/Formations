@@ -1,10 +1,10 @@
 package com.supermartijn642.formations.tools.loot_table;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
 import com.supermartijn642.core.gui.ScreenUtils;
 import com.supermartijn642.core.gui.widget.BaseWidget;
-import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.TextFieldWidget;
 import com.supermartijn642.core.registry.RegistryUtil;
 import com.supermartijn642.formations.Formations;
@@ -63,18 +63,18 @@ public class LootTableEditingScreen extends BaseWidget {
     }
 
     @Override
-    public void renderBackground(WidgetRenderContext context, int mouseX, int mouseY){
+    public void renderBackground(PoseStack poseStack, int mouseX, int mouseY){
         ScreenUtils.bindTexture(SCREEN_BACKGROUND);
-        ScreenUtils.drawTexture(context.poseStack(), this.left(), this.top(), this.width, this.height, 0, 0, 1, 1);
-        super.renderBackground(context, mouseX, mouseY);
+        ScreenUtils.drawTexture(poseStack, this.left(), this.top(), this.width, this.height, 0, 0, 1, 1);
+        super.renderBackground(poseStack, mouseX, mouseY);
     }
 
     @Override
-    public void renderForeground(WidgetRenderContext context, int mouseX, int mouseY){
-        super.renderForeground(context, mouseX, mouseY);
+    public void renderForeground(PoseStack poseStack, int mouseX, int mouseY){
+        super.renderForeground(poseStack, mouseX, mouseY);
         // Title
-        ScreenUtils.drawCenteredStringWithShadow(context.poseStack(), TextComponents.translation("formations.edit_loot.title").get(), 100, 3, ScreenUtils.ACTIVE_TEXT_COLOR);
+        ScreenUtils.drawCenteredStringWithShadow(poseStack, TextComponents.translation("formations.edit_loot.title").get(), 100, 3, ScreenUtils.ACTIVE_TEXT_COLOR);
         // Loot table field label
-        ScreenUtils.drawCenteredString(context.poseStack(), TextComponents.translation("formations.edit_loot.loot_table_hint").get(), 35, 22);
+        ScreenUtils.drawCenteredString(poseStack, TextComponents.translation("formations.edit_loot.loot_table_hint").get(), 35, 22);
     }
 }

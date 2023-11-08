@@ -34,8 +34,8 @@ public class TemplateManager {
 
     public static void registerListeners(){
         ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, origin, destination) -> get(origin).sendTemplatesToPlayer(player));
-        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> get(handler.player.level()).sendTemplatesToPlayer(handler.player));
-        ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> get(newPlayer.level()).sendTemplatesToPlayer(newPlayer));
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> get(handler.player.level).sendTemplatesToPlayer(handler.player));
+        ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> get(newPlayer.level).sendTemplatesToPlayer(newPlayer));
     }
 
     private final Level level;

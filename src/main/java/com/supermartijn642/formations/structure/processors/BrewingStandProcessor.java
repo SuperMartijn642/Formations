@@ -7,7 +7,7 @@ import com.supermartijn642.formations.structure.BlockInstance;
 import com.supermartijn642.formations.structure.FormationsStructureProcessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.ContainerHelper;
@@ -22,7 +22,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
@@ -53,7 +55,7 @@ public class BrewingStandProcessor extends StructureProcessor implements Formati
             RandomSource random = placeSettings.getRandom(pos);
             for(int i = 0; i < 3; i++){
                 if(potions.get(i).isEmpty() && random.nextFloat() < this.slotFillChance){
-                    Potion potion = BuiltInRegistries.POTION.getRandom(random).get().value();
+                    Potion potion = Registry.POTION.getRandom(random).get().value();
                     ItemStack bottle = PotionUtils.setPotion((random.nextFloat() < 0.4f ? Items.POTION : random.nextFloat() < 0.66f ? Items.SPLASH_POTION : Items.LINGERING_POTION).getDefaultInstance(), potion);
                     potions.set(i, bottle);
                     state = state.setValue(BrewingStandBlock.HAS_BOTTLE[i], true);
@@ -65,6 +67,12 @@ public class BrewingStandProcessor extends StructureProcessor implements Formati
             return new BlockInstance(state, nbt);
         }
         return block;
+    }
+
+    @Nullable
+    @Override
+    public StructureTemplate.StructureBlockInfo processBlock(LevelReader level, BlockPos piecePosition, BlockPos structurePosition, StructureTemplate.StructureBlockInfo info, StructureTemplate.StructureBlockInfo info2, StructurePlaceSettings placeSettings){
+        return info2;
     }
 
     @Override

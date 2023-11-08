@@ -7,7 +7,6 @@ import com.supermartijn642.formations.FormationsStructures;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -58,7 +57,7 @@ public class PiecedStructure extends Structure {
     }
 
     @Override
-    protected Optional<GenerationStub> findGenerationPoint(GenerationContext context){
+    public Optional<GenerationStub> findGenerationPoint(GenerationContext context){
         // Pick a random structure element
         StructurePoolElement element = this.startPool.value().getRandomTemplate(context.random());
         if(element == EmptyPoolElement.INSTANCE)
@@ -91,7 +90,7 @@ public class PiecedStructure extends Structure {
         StructureTemplateManager templateManager = context.structureTemplateManager();
         LevelHeightAccessor levelHeightAccessor = context.heightAccessor();
         WorldgenRandom random = context.random();
-        Registry<StructureTemplatePool> registry = context.registryAccess().registryOrThrow(Registries.TEMPLATE_POOL);
+        Registry<StructureTemplatePool> registry = context.registryAccess().registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
 
         PoolElementStructurePiece structurePiece = new PoolElementStructurePiece(templateManager, startElement, pos, startElement.getGroundLevelDelta(), rotation, startElement.getBoundingBox(templateManager, pos, rotation));
         BoundingBox boundingBox = structurePiece.getBoundingBox();

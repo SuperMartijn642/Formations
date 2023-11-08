@@ -1,6 +1,7 @@
 package com.supermartijn642.formations.tools.template;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Quaternion;
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.gui.ScreenUtils;
 import com.supermartijn642.core.render.RenderUtils;
@@ -13,7 +14,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Quaternionf;
 
 import java.util.Optional;
 
@@ -37,7 +37,7 @@ public class TemplateRenderer {
 
         // Find the aimed at template
         Vec3 playerPos = ClientUtils.getMinecraft().gameRenderer.getMainCamera().getPosition();
-        Vec3 playerFacingPos = new Vec3(ClientUtils.getMinecraft().gameRenderer.getMainCamera().getPosition().toVector3f().add(ClientUtils.getMinecraft().gameRenderer.getMainCamera().getLookVector().mul(100)));
+        Vec3 playerFacingPos = ClientUtils.getMinecraft().gameRenderer.getMainCamera().getPosition().add(new Vec3(ClientUtils.getMinecraft().gameRenderer.getMainCamera().getLookVector()).scale(100));
         Template aimedTemplate = null;
         double distance = 0;
         for(Template template : TemplateManager.get(ClientUtils.getWorld()).getAllTemplates()){
@@ -58,7 +58,7 @@ public class TemplateRenderer {
 
         // Render all the saved templates
         TemplateManager.get(ClientUtils.getWorld()).getAllTemplates().stream()
-            .filter(template -> template.getArea().distanceToSqr(ClientUtils.getPlayer().position()) < 200 * 200)
+            .filter(template -> template.getArea().getCenter().distanceToSqr(ClientUtils.getPlayer().position()) < 300 * 300)
             .forEach(template -> {
                 RenderUtils.renderBox(e.getPoseStack(), template.getArea().inflate(0.1), 1, 1, 1, 0.8f, true);
                 RenderUtils.renderBoxSides(e.getPoseStack(), template.getArea().inflate(0.1), 1, 1, 1, 0.2f, true);
@@ -114,14 +114,14 @@ public class TemplateRenderer {
         poseStack.pushPose();
         poseStack.translate(area.minX - 0.1, center.y, center.z);
         poseStack.scale(1, zScaling, zScaling);
-        poseStack.mulPose(new Quaternionf().rotateAxis((float)Math.PI / 2, 0, 1, 0));
+        poseStack.mulPose(new Quaternion(0, (float)Math.PI / 2, 0, false));
         ScreenUtils.drawString(poseStack, template.getName(), -nameWidth / 2f, -renderer.lineHeight / 2f, 0xC8FFFFFF);
         poseStack.popPose();
         // East
         poseStack.pushPose();
         poseStack.translate(area.maxX + 0.1, center.y, center.z);
         poseStack.scale(1, zScaling, -zScaling);
-        poseStack.mulPose(new Quaternionf().rotateAxis((float)Math.PI / 2, 0, 1, 0));
+        poseStack.mulPose(new Quaternion(0, (float)Math.PI / 2, 0, false));
         ScreenUtils.drawString(poseStack, template.getName(), -nameWidth / 2f, -renderer.lineHeight / 2f, 0xC8FFFFFF);
         poseStack.popPose();
     }

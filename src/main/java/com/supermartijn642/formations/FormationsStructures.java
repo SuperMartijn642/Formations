@@ -24,7 +24,6 @@ public class FormationsStructures {
     public static final StructureProcessorType<BedColorProcessor> BED_COLOR_PROCESSOR = StructureProcessorType.register("formations:random_bed_color", BedColorProcessor.CODEC);
     public static final StructureProcessorType<BiomeReplacementProcessor> BIOME_REPLACEMENT_PROCESSOR = StructureProcessorType.register("formations:biome_replacements", BiomeReplacementProcessor.CODEC);
     public static final StructureProcessorType<BrewingStandProcessor> BREWING_STAND_PROCESSOR = StructureProcessorType.register("formations:fill_brewing_stands", BrewingStandProcessor.CODEC);
-    public static final StructureProcessorType<ChiseledBookshelfProcessor> CHISELED_BOOKSHELF_PROCESSOR = StructureProcessorType.register("formations:fill_chiseled_bookshelves", ChiseledBookshelfProcessor.CODEC);
     public static final StructureProcessorType<FormationsBlockAgeProcessor> BLOCK_AGE_PROCESSOR = StructureProcessorType.register("formations:block_age", FormationsBlockAgeProcessor.CODEC);
     public static final StructureProcessorType<PlantGrowthProcessor> PLANT_GROWTH_PROCESSOR = StructureProcessorType.register("formations:random_plant_growth", PlantGrowthProcessor.CODEC);
     public static final StructureProcessorType<RespawnAnchorProcessor> RESPAWN_ANCHOR_PROCESSOR = StructureProcessorType.register("formations:respawn_anchor_charges", RespawnAnchorProcessor.CODEC);

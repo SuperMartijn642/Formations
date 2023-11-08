@@ -3,6 +3,7 @@ package com.supermartijn642.formations.tools;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Matrix4f;
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.block.BlockShape;
 import com.supermartijn642.core.render.RenderConfiguration;
@@ -19,7 +20,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.StructureVoidBlock;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Matrix4f;
 
 /**
  * Created 26/08/2023 by SuperMartijn642
@@ -76,9 +76,10 @@ public class StructureVoidHighlighter {
 
         e.getPoseStack().popPose();
     }
+
     private static final RenderConfiguration QUADS = RenderConfiguration.create("supermartijn642corelib", "quads", DefaultVertexFormat.POSITION_COLOR, RenderConfiguration.PrimitiveType.QUADS, 256, false, true, RenderStateConfiguration.builder().useShader(GameRenderer::getPositionColorShader).useTranslucentTransparency().disableTexture().disableCulling().useLessThanOrEqualDepthTest().disableDepthMask().build());
 
-    public static void renderShapeSides(PoseStack poseStack, VertexConsumer builder, BlockShape shape, float red, float green, float blue, float alpha) {
+    public static void renderShapeSides(PoseStack poseStack, VertexConsumer builder, BlockShape shape, float red, float green, float blue, float alpha){
         Matrix4f matrix = poseStack.last().pose();
         shape.forEachBox((box) -> {
             float minX = (float)box.minX;

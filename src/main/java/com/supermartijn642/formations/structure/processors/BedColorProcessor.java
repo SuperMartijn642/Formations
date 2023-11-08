@@ -17,7 +17,9 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -73,6 +75,12 @@ public class BedColorProcessor extends StructureProcessor implements FormationsS
             return new BlockInstance(state, block.nbt());
         }
         return block;
+    }
+
+    @Nullable
+    @Override
+    public StructureTemplate.StructureBlockInfo processBlock(LevelReader level, BlockPos piecePosition, BlockPos structurePosition, StructureTemplate.StructureBlockInfo info, StructureTemplate.StructureBlockInfo info2, StructurePlaceSettings placeSettings){
+        return info2;
     }
 
     @Override

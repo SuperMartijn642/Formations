@@ -36,7 +36,7 @@ public class FormationsCommand {
                 if(successes.left() > 0 && successes.right() > 0)
                     source.sendFailure(TextComponents.translation("formations.command.export.success_fail", successes.left()).get());
                 else if(successes.left() > 0)
-                    source.sendSuccess(() -> TextComponents.translation("formations.command.export.success", successes.left(), successes.right()).get(), true);
+                    source.sendSuccess(TextComponents.translation("formations.command.export.success", successes.left(), successes.right()).get(), true);
                 else if(successes.right() > 0)
                     source.sendFailure(TextComponents.translation("formations.command.export.fail", successes.right()).get());
                 else
@@ -48,14 +48,14 @@ public class FormationsCommand {
     private static LiteralArgumentBuilder<CommandSourceStack> registerDevMode(){
         return Commands.literal("dev_mode")
             .executes(context -> {
-                context.getSource().sendSuccess(() -> TextComponents.translation("formations.command.dev_mode.query", TextComponents.translation("formations.command.dev_mode." + (FormationsLevelData.SERVER.isDevMode() ? "true" : "false")).color(FormationsLevelData.SERVER.isDevMode() ? ChatFormatting.GREEN : ChatFormatting.RED).get()).get(), false);
+                context.getSource().sendSuccess(TextComponents.translation("formations.command.dev_mode.query", TextComponents.translation("formations.command.dev_mode." + (FormationsLevelData.SERVER.isDevMode() ? "true" : "false")).color(FormationsLevelData.SERVER.isDevMode() ? ChatFormatting.GREEN : ChatFormatting.RED).get()).get(), false);
                 return Command.SINGLE_SUCCESS;
             })
             .then(
                 Commands.argument("enabled", BoolArgumentType.bool())
                     .executes(context -> {
                         FormationsLevelData.SERVER.setDevMode(BoolArgumentType.getBool(context, "enabled"));
-                        context.getSource().sendSuccess(() -> TextComponents.translation("formations.command.dev_mode.set", TextComponents.translation("formations.command.dev_mode." + (FormationsLevelData.SERVER.isDevMode() ? "true" : "false")).color(FormationsLevelData.SERVER.isDevMode() ? ChatFormatting.GREEN : ChatFormatting.RED).get()).get(), false);
+                        context.getSource().sendSuccess(TextComponents.translation("formations.command.dev_mode.set", TextComponents.translation("formations.command.dev_mode." + (FormationsLevelData.SERVER.isDevMode() ? "true" : "false")).color(FormationsLevelData.SERVER.isDevMode() ? ChatFormatting.GREEN : ChatFormatting.RED).get()).get(), false);
                         return Command.SINGLE_SUCCESS;
                     })
             );

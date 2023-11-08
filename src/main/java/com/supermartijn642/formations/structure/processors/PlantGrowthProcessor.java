@@ -13,7 +13,9 @@ import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
@@ -52,6 +54,12 @@ public class PlantGrowthProcessor extends StructureProcessor implements Formatio
             return new BlockInstance(block.state().setValue(NetherWartBlock.AGE, age), block.nbt());
         }
         return block;
+    }
+
+    @Nullable
+    @Override
+    public StructureTemplate.StructureBlockInfo processBlock(LevelReader level, BlockPos piecePosition, BlockPos structurePosition, StructureTemplate.StructureBlockInfo info, StructureTemplate.StructureBlockInfo info2, StructurePlaceSettings placeSettings){
+        return info2;
     }
 
     @Override

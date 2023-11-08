@@ -73,7 +73,7 @@ public class TemplateEditorItem extends BaseItem {
     }
 
     public boolean leftClickBlock(ItemStack stack, Player player, BlockPos pos){
-        Level level = player.level();
+        Level level = player.level;
         if(level.isClientSide){
             if(TemplateRenderer.selectionDimension != level.dimension())
                 TemplateRenderer.selectionPos2 = null;

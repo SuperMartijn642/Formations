@@ -13,7 +13,9 @@ import net.minecraft.world.level.block.RespawnAnchorBlock;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -26,7 +28,7 @@ public class RespawnAnchorProcessor extends StructureProcessor implements Format
     public static final Codec<RespawnAnchorProcessor> CODEC = RecordCodecBuilder.<RespawnAnchorProcessor>create(instance -> instance.group(Codec.intRange(0, 4).optionalFieldOf("minCharges", 0).forGetter(p -> p.minCharges), Codec.intRange(0, 4).optionalFieldOf("maxCharges", 4).forGetter(p -> p.maxCharges)).apply(instance, RespawnAnchorProcessor::new))
         .comapFlatMap(processor -> {
             if(processor.minCharges > processor.maxCharges)
-                return DataResult.error(() -> "Max charges must be greater than or equal to min charges, minCharges: " + processor.minCharges + ", maxCharges: " + processor.maxCharges);
+                return DataResult.error("Max charges must be greater than or equal to min charges, minCharges: " + processor.minCharges + ", maxCharges: " + processor.maxCharges);
             return DataResult.success(processor);
         }, Function.identity());
 
@@ -48,6 +50,12 @@ public class RespawnAnchorProcessor extends StructureProcessor implements Format
             return new BlockInstance(block.state().setValue(RespawnAnchorBlock.CHARGE, charges), block.nbt());
         }
         return block;
+    }
+
+    @Nullable
+    @Override
+    public StructureTemplate.StructureBlockInfo processBlock(LevelReader level, BlockPos piecePosition, BlockPos structurePosition, StructureTemplate.StructureBlockInfo info, StructureTemplate.StructureBlockInfo info2, StructurePlaceSettings placeSettings){
+        return info2;
     }
 
     @Override

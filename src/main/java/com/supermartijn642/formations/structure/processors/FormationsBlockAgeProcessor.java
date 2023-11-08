@@ -18,7 +18,9 @@ import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -114,6 +116,12 @@ public class FormationsBlockAgeProcessor extends StructureProcessor implements F
         if(state == block.state())
             return block;
         return new BlockInstance(state, state.is(block.state().getBlock()) ? block.nbt() : null);
+    }
+
+    @Nullable
+    @Override
+    public StructureTemplate.StructureBlockInfo processBlock(LevelReader level, BlockPos piecePosition, BlockPos structurePosition, StructureTemplate.StructureBlockInfo info, StructureTemplate.StructureBlockInfo info2, StructurePlaceSettings placeSettings){
+        return info2;
     }
 
     @Override
