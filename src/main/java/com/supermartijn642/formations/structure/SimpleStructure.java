@@ -41,7 +41,7 @@ public class SimpleStructure extends Structure {
     }
 
     @Override
-    protected Optional<GenerationStub> findGenerationPoint(GenerationContext context){
+    public Optional<GenerationStub> findGenerationPoint(GenerationContext context){
         // Pick a random structure element
         StructurePoolElement element = this.structure.map(
             Function.identity(),
