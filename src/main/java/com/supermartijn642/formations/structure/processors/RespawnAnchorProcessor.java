@@ -28,7 +28,7 @@ public class RespawnAnchorProcessor extends StructureProcessor implements Format
     public static final Codec<RespawnAnchorProcessor> CODEC = RecordCodecBuilder.<RespawnAnchorProcessor>create(instance -> instance.group(Codec.intRange(0, 4).optionalFieldOf("minCharges", 0).forGetter(p -> p.minCharges), Codec.intRange(0, 4).optionalFieldOf("maxCharges", 4).forGetter(p -> p.maxCharges)).apply(instance, RespawnAnchorProcessor::new))
         .comapFlatMap(processor -> {
             if(processor.minCharges > processor.maxCharges)
-                return DataResult.error("Max charges must be greater than or equal to min charges, minCharges: " + processor.minCharges + ", maxCharges: " + processor.maxCharges);
+                return DataResult.error(() -> "Max charges must be greater than or equal to min charges, minCharges: " + processor.minCharges + ", maxCharges: " + processor.maxCharges);
             return DataResult.success(processor);
         }, Function.identity());
 
