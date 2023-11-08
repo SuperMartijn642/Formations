@@ -4,7 +4,7 @@ import com.supermartijn642.formations.Formations;
 import com.supermartijn642.formations.structure.BlockInstance;
 import com.supermartijn642.formations.structure.FormationsStructureProcessor;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,7 +27,7 @@ public class StructureTemplateMixin {
         at = @At("HEAD"),
         ordinal = 0
     )
-    private static List<StructureTemplate.StructureBlockInfo> processBlockInfos(List<StructureTemplate.StructureBlockInfo> blocks, ServerLevelAccessor level, BlockPos piecePosition, BlockPos structurePosition, StructurePlaceSettings placeSettings){
+    private static List<StructureTemplate.StructureBlockInfo> processBlockInfos(List<StructureTemplate.StructureBlockInfo> blocks, LevelAccessor level, BlockPos piecePosition, BlockPos structurePosition, StructurePlaceSettings placeSettings){
         // Find all the processors
         List<FormationsStructureProcessor> processors = placeSettings.getProcessors().stream()
             .filter(FormationsStructureProcessor.class::isInstance)
@@ -39,7 +39,7 @@ public class StructureTemplateMixin {
 
         // Put all the blocks into a map
         Map<BlockPos,BlockInstance> blocksByPosition = blocks.stream()
-            .collect(Collectors.toUnmodifiableMap(StructureTemplate.StructureBlockInfo::pos, block -> new BlockInstance(block.state(), block.nbt() == null ? null : block.nbt())));
+            .collect(Collectors.toUnmodifiableMap(info -> info.pos, block -> new BlockInstance(block.state, block.nbt)));
         // Create a list containing the processed blocks
         List<StructureTemplate.StructureBlockInfo> newBlocks = new ArrayList<>(blocks.size());
         for(Map.Entry<BlockPos,BlockInstance> entry : blocksByPosition.entrySet()){

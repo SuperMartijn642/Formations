@@ -33,9 +33,9 @@ public class TemplateManager {
     }
 
     public static void registerListeners(){
-        MinecraftForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerChangedDimensionEvent>)event -> get(event.getEntity().level()).sendTemplatesToPlayer(event.getEntity()));
-        MinecraftForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerLoggedInEvent>)event -> get(event.getEntity().level()).sendTemplatesToPlayer(event.getEntity()));
-        MinecraftForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerRespawnEvent>)event -> get(event.getEntity().level()).sendTemplatesToPlayer(event.getEntity()));
+        MinecraftForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerChangedDimensionEvent>)event -> get(event.getEntity().level).sendTemplatesToPlayer(event.getEntity()));
+        MinecraftForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerLoggedInEvent>)event -> get(event.getEntity().level).sendTemplatesToPlayer(event.getEntity()));
+        MinecraftForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerRespawnEvent>)event -> get(event.getEntity().level).sendTemplatesToPlayer(event.getEntity()));
     }
 
     private final Level level;

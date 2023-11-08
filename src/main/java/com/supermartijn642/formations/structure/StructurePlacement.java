@@ -5,7 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
@@ -26,7 +25,7 @@ public enum StructurePlacement implements StringRepresentable {
     /**
      * At the highest solid blocks, but below oceans
      */
-    SURFACE((context, box) -> findFromTop(context, box, Heightmap.Types.WORLD_SURFACE_WG, 10, 3, BlockBehaviour.BlockStateBase::isSolid)),
+    SURFACE((context, box) -> findFromTop(context, box, Heightmap.Types.WORLD_SURFACE_WG, 10, 3, state -> state.getMaterial().isSolid())),
     /**
      * At the lowest solid blocks
      */
@@ -134,7 +133,7 @@ public enum StructurePlacement implements StringRepresentable {
                     break;
                 y--;
             }
-            if(!column.getBlock(y).isSolid())
+            if(!column.getBlock(y).getMaterial().isSolid())
                 return null;
             return y;
         }).toArray(Integer[]::new);
@@ -196,7 +195,7 @@ public enum StructurePlacement implements StringRepresentable {
                     break;
                 y++;
             }
-            if(!column.getBlock(y).isSolid())
+            if(!column.getBlock(y).getMaterial().isSolid())
                 return null;
             return y;
         }).toArray(Integer[]::new);
@@ -247,19 +246,19 @@ public enum StructurePlacement implements StringRepresentable {
             NoiseColumn column = t.getLeft();
             int y = height;
             for(int i = 0; i < 10 && y > min; i++){
-                if(column.getBlock(y).isSolid())
+                if(column.getBlock(y).getMaterial().isSolid())
                     break;
                 y--;
             }
-            if(!column.getBlock(y).isSolid())
+            if(!column.getBlock(y).getMaterial().isSolid())
                 return null;
             y -= 2;
             for(int i = 0; i < ySpan; i++){
-                if(!column.getBlock(y).isSolid())
+                if(!column.getBlock(y).getMaterial().isSolid())
                     return null;
                 y--;
             }
-            if(!column.getBlock(y).isSolid() || !column.getBlock(y - 1).isSolid())
+            if(!column.getBlock(y).getMaterial().isSolid() || !column.getBlock(y - 1).getMaterial().isSolid())
                 return null;
             return y;
         }).toArray(Integer[]::new);
@@ -270,7 +269,7 @@ public enum StructurePlacement implements StringRepresentable {
         int average = (int)Math.round(Stream.of(heights).mapToInt(Integer::intValue).average().getAsDouble());
         if(!positions.stream().allMatch(t -> {
             NoiseColumn column = t.getLeft();
-            return column.getBlock(average).isSolid() && column.getBlock(average + ySpan).isSolid();
+            return column.getBlock(average).getMaterial().isSolid() && column.getBlock(average + ySpan).getMaterial().isSolid();
         }))
             return null;
 
