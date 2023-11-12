@@ -39,7 +39,7 @@ public class StructureTemplateMixin {
 
         // Put all the blocks into a map
         Map<BlockPos,BlockInstance> blocksByPosition = blocks.stream()
-            .collect(Collectors.toUnmodifiableMap(StructureTemplate.StructureBlockInfo::pos, block -> new BlockInstance(block.state(), block.nbt() == null ? null : block.nbt())));
+            .collect(Collectors.toUnmodifiableMap(block -> block.pos().offset(piecePosition), block -> new BlockInstance(block.state(), block.nbt())));
         // Create a list containing the processed blocks
         List<StructureTemplate.StructureBlockInfo> newBlocks = new ArrayList<>(blocks.size());
         for(Map.Entry<BlockPos,BlockInstance> entry : blocksByPosition.entrySet()){
@@ -58,7 +58,7 @@ public class StructureTemplateMixin {
             }
             // Finally, add the resulting block to the list
             if(block.state() != null)
-                newBlocks.add(new StructureTemplate.StructureBlockInfo(pos, block.state(), block.nbt()));
+                newBlocks.add(new StructureTemplate.StructureBlockInfo(pos.subtract(piecePosition), block.state(), block.nbt()));
         }
         return newBlocks;
     }
