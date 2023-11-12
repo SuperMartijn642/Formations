@@ -14,11 +14,15 @@ public class TemplateManagerSaveData extends SavedData {
     private final TemplateManager manager;
 
     public static void init(ServerLevel level, TemplateManager manager){
-        level.getDataStorage().computeIfAbsent(tag -> {
-            TemplateManagerSaveData saveData = new TemplateManagerSaveData(manager);
-            saveData.load(tag);
-            return saveData;
-        }, () -> new TemplateManagerSaveData(manager), IDENTIFIER);
+        level.getDataStorage().computeIfAbsent(new Factory<SavedData>(
+            () -> new TemplateManagerSaveData(manager),
+            tag -> {
+                TemplateManagerSaveData saveData = new TemplateManagerSaveData(manager);
+                saveData.load(tag);
+                return saveData;
+            },
+            null
+        ), IDENTIFIER);
     }
 
     public TemplateManagerSaveData(TemplateManager manager){
