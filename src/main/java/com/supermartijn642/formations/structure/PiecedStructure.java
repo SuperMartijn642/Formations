@@ -20,6 +20,7 @@ import net.minecraft.world.level.levelgen.structure.pools.EmptyPoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -108,7 +109,7 @@ public class PiecedStructure extends Structure {
 
             VoxelShape allowedSpace = Shapes.join(Shapes.create(new AABB(centeredPos).inflate(maxDistanceFromCenter)), Shapes.create(AABB.of(boundingBox)), BooleanOp.ONLY_FIRST);
             ArrayList<PoolElementStructurePiece> pieces = Lists.newArrayList();
-            JigsawPlacement.addPieces(context.randomState(), maxDepth, false, chunkGenerator, templateManager, levelHeightAccessor, random, registry, structurePiece, pieces, allowedSpace);
+            JigsawPlacement.addPieces(context.randomState(), maxDepth, false, chunkGenerator, templateManager, levelHeightAccessor, random, registry, structurePiece, pieces, allowedSpace, PoolAliasLookup.EMPTY);
             pieces.forEach(piecesBuilder::addPiece);
         }));
     }

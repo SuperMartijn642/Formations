@@ -105,7 +105,7 @@ public class Template {
         // Write the nbt to the output file
         try{
             Files.createDirectories(output.getParent());
-            NbtIo.writeCompressed(data, output.toFile());
+            NbtIo.writeCompressed(data, output);
         }catch(IOException e){
             throw new RuntimeException(e);
         }
