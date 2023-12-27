@@ -9,8 +9,8 @@ import com.supermartijn642.formations.tools.template.TemplateManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
 import java.util.function.Consumer;
 
@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 public class FormationsCommand {
 
     public static void register(){
-        MinecraftForge.EVENT_BUS.addListener((Consumer<RegisterCommandsEvent>)event ->
+        NeoForge.EVENT_BUS.addListener((Consumer<RegisterCommandsEvent>)event ->
             event.getDispatcher().register(
                 Commands.literal("formations")
                     .requires(source -> source.hasPermission(Commands.LEVEL_ADMINS))

@@ -19,7 +19,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.StructureVoidBlock;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import org.joml.Matrix4f;
 
 /**
@@ -31,7 +31,7 @@ public class StructureVoidHighlighter {
     private static final BlockShape HIGHLIGHT_SHAPE = BlockShape.fullCube().shrink(0.2);
 
     public static void registerListeners(){
-        MinecraftForge.EVENT_BUS.addListener(StructureVoidHighlighter::highlightStructureVoidBlocks);
+        NeoForge.EVENT_BUS.addListener(StructureVoidHighlighter::highlightStructureVoidBlocks);
     }
 
     private static void highlightStructureVoidBlocks(RenderWorldEvent e){

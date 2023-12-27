@@ -13,8 +13,8 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,9 +33,9 @@ public class TemplateManager {
     }
 
     public static void registerListeners(){
-        MinecraftForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerChangedDimensionEvent>)event -> get(event.getEntity().level()).sendTemplatesToPlayer(event.getEntity()));
-        MinecraftForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerLoggedInEvent>)event -> get(event.getEntity().level()).sendTemplatesToPlayer(event.getEntity()));
-        MinecraftForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerRespawnEvent>)event -> get(event.getEntity().level()).sendTemplatesToPlayer(event.getEntity()));
+        NeoForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerChangedDimensionEvent>)event -> get(event.getEntity().level()).sendTemplatesToPlayer(event.getEntity()));
+        NeoForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerLoggedInEvent>)event -> get(event.getEntity().level()).sendTemplatesToPlayer(event.getEntity()));
+        NeoForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerRespawnEvent>)event -> get(event.getEntity().level()).sendTemplatesToPlayer(event.getEntity()));
     }
 
     private final Level level;

@@ -2,8 +2,8 @@ package com.supermartijn642.formations;
 
 import com.supermartijn642.formations.tools.StructureVoidHighlighter;
 import com.supermartijn642.formations.tools.template.TemplateRenderer;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 /**
  * Created 7/1/2021 by SuperMartijn642

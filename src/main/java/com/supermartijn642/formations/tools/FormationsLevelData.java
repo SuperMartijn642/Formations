@@ -4,8 +4,8 @@ import com.supermartijn642.formations.FormationsDev;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.storage.LevelResource;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 public class FormationsLevelData {
 
     public static void registerListeners(){
-        MinecraftForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerLoggedInEvent>)event -> SERVER.syncToPlayer(event.getEntity()));
+        NeoForge.EVENT_BUS.addListener((Consumer<PlayerEvent.PlayerLoggedInEvent>)event -> SERVER.syncToPlayer(event.getEntity()));
     }
 
     public static FormationsLevelData SERVER = new FormationsLevelData(), CLIENT = new FormationsLevelData();
