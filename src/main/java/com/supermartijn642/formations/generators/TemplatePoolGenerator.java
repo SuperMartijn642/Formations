@@ -66,7 +66,7 @@ public abstract class TemplatePoolGenerator extends ResourceGenerator {
                 else{
                     JsonArray processors = new JsonArray(entry.processors.size());
                     entry.processors.stream()
-                        .map(processor -> StructureProcessorType.SINGLE_CODEC.encodeStart(JsonOps.INSTANCE, processor).getOrThrow(false, s -> {}))
+                        .map(processor -> StructureProcessorType.SINGLE_CODEC.encodeStart(JsonOps.INSTANCE, processor).getOrThrow())
                         .forEach(processors::add);
                     propertyJson.add("processors", processors);
                 }

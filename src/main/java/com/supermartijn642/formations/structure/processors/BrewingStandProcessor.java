@@ -1,11 +1,13 @@
 package com.supermartijn642.formations.structure.processors;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.supermartijn642.formations.FormationsStructures;
 import com.supermartijn642.formations.structure.BlockInstance;
 import com.supermartijn642.formations.structure.FormationsStructureProcessor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -14,7 +16,7 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BrewingStandBlock;
@@ -31,7 +33,7 @@ import java.util.Map;
  */
 public class BrewingStandProcessor extends StructureProcessor implements FormationsStructureProcessor {
 
-    public static final Codec<BrewingStandProcessor> CODEC = RecordCodecBuilder.create(instance -> instance.group(Codec.floatRange(0, 1).optionalFieldOf("slotFillChance", 0.5f).forGetter(p -> p.slotFillChance), Codec.intRange(0, 64).optionalFieldOf("maxBlazePowder", 16).forGetter(p -> p.maxBlazePowder)).apply(instance, BrewingStandProcessor::new));
+    public static final MapCodec<BrewingStandProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(Codec.floatRange(0, 1).optionalFieldOf("slotFillChance", 0.5f).forGetter(p -> p.slotFillChance), Codec.intRange(0, 64).optionalFieldOf("maxBlazePowder", 16).forGetter(p -> p.maxBlazePowder)).apply(instance, BrewingStandProcessor::new));
 
     private final float slotFillChance;
     private final int maxBlazePowder;
@@ -48,20 +50,20 @@ public class BrewingStandProcessor extends StructureProcessor implements Formati
             // Load the potions from the brewing stand's nbt
             NonNullList<ItemStack> potions = NonNullList.withSize(5, ItemStack.EMPTY);
             if(block.nbt() != null)
-                ContainerHelper.loadAllItems(block.nbt(), potions);
+                ContainerHelper.loadAllItems(block.nbt(), potions, level.registryAccess());
             // Randomly add potions
             RandomSource random = placeSettings.getRandom(pos);
             for(int i = 0; i < 3; i++){
                 if(potions.get(i).isEmpty() && random.nextFloat() < this.slotFillChance){
-                    Potion potion = BuiltInRegistries.POTION.getRandom(random).get().value();
-                    ItemStack bottle = PotionUtils.setPotion((random.nextFloat() < 0.4f ? Items.POTION : random.nextFloat() < 0.66f ? Items.SPLASH_POTION : Items.LINGERING_POTION).getDefaultInstance(), potion);
+                    Holder<Potion> potion = BuiltInRegistries.POTION.getRandom(random).get();
+                    ItemStack bottle = PotionContents.createItemStack(random.nextFloat() < 0.4f ? Items.POTION : random.nextFloat() < 0.66f ? Items.SPLASH_POTION : Items.LINGERING_POTION, potion);
                     potions.set(i, bottle);
                     state = state.setValue(BrewingStandBlock.HAS_BOTTLE[i], true);
                 }
             }
             // Convert the potions back to nbt
             CompoundTag nbt = block.nbt() == null ? new CompoundTag() : block.nbt().copy();
-            ContainerHelper.saveAllItems(nbt, potions, true);
+            ContainerHelper.saveAllItems(nbt, potions, level.registryAccess());
             return new BlockInstance(state, nbt);
         }
         return block;
