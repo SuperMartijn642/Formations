@@ -1,5 +1,6 @@
 package com.supermartijn642.formations.tools.template;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
@@ -16,7 +17,7 @@ public class TemplateManagerSaveData extends SavedData {
     public static void init(ServerLevel level, TemplateManager manager){
         level.getDataStorage().computeIfAbsent(new Factory<SavedData>(
             () -> new TemplateManagerSaveData(manager),
-            tag -> {
+            (tag, provider) -> {
                 TemplateManagerSaveData saveData = new TemplateManagerSaveData(manager);
                 saveData.load(tag);
                 return saveData;
@@ -30,7 +31,7 @@ public class TemplateManagerSaveData extends SavedData {
     }
 
     @Override
-    public CompoundTag save(CompoundTag tag){
+    public CompoundTag save(CompoundTag tag, HolderLookup.Provider provider){
         return this.manager.write();
     }
 

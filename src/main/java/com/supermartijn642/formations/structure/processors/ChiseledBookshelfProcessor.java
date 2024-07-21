@@ -1,6 +1,7 @@
 package com.supermartijn642.formations.structure.processors;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.supermartijn642.formations.FormationsStructures;
 import com.supermartijn642.formations.structure.BlockInstance;
@@ -31,7 +32,7 @@ import java.util.Map;
  */
 public class ChiseledBookshelfProcessor extends StructureProcessor implements FormationsStructureProcessor {
 
-    public static final Codec<ChiseledBookshelfProcessor> CODEC = RecordCodecBuilder.create(instance -> instance.group(Codec.floatRange(0, 1).optionalFieldOf("slotFillChance", 0.4f).forGetter(p -> p.slotFillChance)).apply(instance, ChiseledBookshelfProcessor::new));
+    public static final MapCodec<ChiseledBookshelfProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(Codec.floatRange(0, 1).optionalFieldOf("slotFillChance", 0.4f).forGetter(p -> p.slotFillChance)).apply(instance, ChiseledBookshelfProcessor::new));
 
     private final float slotFillChance;
 
@@ -46,7 +47,7 @@ public class ChiseledBookshelfProcessor extends StructureProcessor implements Fo
             // Load the books from the bookshelf's nbt
             NonNullList<ItemStack> books = NonNullList.withSize(6, ItemStack.EMPTY);
             if(block.nbt() != null)
-                ContainerHelper.loadAllItems(block.nbt(), books);
+                ContainerHelper.loadAllItems(block.nbt(), books, level.registryAccess());
             // Randomly add books
             RandomSource random = placeSettings.getRandom(pos);
             for(int i = 0; i < 6; i++){ // This isn't very efficient, but since there's only 6 slots, it should be fine
@@ -59,7 +60,7 @@ public class ChiseledBookshelfProcessor extends StructureProcessor implements Fo
             }
             // Convert the books back to nbt
             CompoundTag nbt = block.nbt() == null ? new CompoundTag() : block.nbt().copy();
-            ContainerHelper.saveAllItems(nbt, books, true);
+            ContainerHelper.saveAllItems(nbt, books, level.registryAccess());
             return new BlockInstance(state, nbt);
         }
         return block;

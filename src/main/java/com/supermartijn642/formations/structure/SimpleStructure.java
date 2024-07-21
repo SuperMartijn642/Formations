@@ -2,6 +2,7 @@ package com.supermartijn642.formations.structure;
 
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.supermartijn642.formations.FormationsStructures;
 import net.minecraft.core.BlockPos;
@@ -23,7 +24,7 @@ import java.util.function.Function;
  */
 public class SimpleStructure extends Structure {
 
-    public static final Codec<SimpleStructure> CODEC = RecordCodecBuilder.create(instance ->
+    public static final MapCodec<SimpleStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
         instance.group(
             StructureSettings.CODEC.forGetter(s -> s.settings),
             Codec.either(StructurePoolElement.CODEC, StructureTemplatePool.CODEC).fieldOf("template").forGetter(s -> s.structure),

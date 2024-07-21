@@ -1,6 +1,7 @@
 package com.supermartijn642.formations.structure.processors;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.supermartijn642.formations.FormationsStructures;
 import com.supermartijn642.formations.structure.BlockInstance;
@@ -29,7 +30,7 @@ import java.util.Set;
  */
 public class FormationsBlockAgeProcessor extends StructureProcessor implements FormationsStructureProcessor {
 
-    public static final Codec<FormationsBlockAgeProcessor> CODEC = RecordCodecBuilder.create(instance -> instance.group(Codec.floatRange(0, 1).optionalFieldOf("mossy_chance", 0.3f).forGetter(p -> p.mossiness), Codec.floatRange(0, 1).optionalFieldOf("degradation_chance", 0.15f).forGetter(p -> p.degradation), Codec.floatRange(0, 1).optionalFieldOf("disintegration_chance", 0.05f).forGetter(p -> p.disintegration)).apply(instance, FormationsBlockAgeProcessor::new));
+    public static final MapCodec<FormationsBlockAgeProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(Codec.floatRange(0, 1).optionalFieldOf("mossy_chance", 0.3f).forGetter(p -> p.mossiness), Codec.floatRange(0, 1).optionalFieldOf("degradation_chance", 0.15f).forGetter(p -> p.degradation), Codec.floatRange(0, 1).optionalFieldOf("disintegration_chance", 0.05f).forGetter(p -> p.disintegration)).apply(instance, FormationsBlockAgeProcessor::new));
 
     private static final Set<Block> DISINTEGRATABLE_BLOCKS = Set.of(
         Blocks.STONE_BRICKS, Blocks.STONE_BRICK_STAIRS, Blocks.STONE_BRICK_SLAB, Blocks.STONE_BRICK_WALL,

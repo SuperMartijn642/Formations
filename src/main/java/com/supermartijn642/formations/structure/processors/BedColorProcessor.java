@@ -1,6 +1,6 @@
 package com.supermartijn642.formations.structure.processors;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.supermartijn642.formations.FormationsStructures;
 import com.supermartijn642.formations.structure.BlockInstance;
 import com.supermartijn642.formations.structure.FormationsStructureProcessor;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 public class BedColorProcessor extends StructureProcessor implements FormationsStructureProcessor {
 
     private static final BedColorProcessor INSTANCE = new BedColorProcessor();
-    public static final Codec<BedColorProcessor> CODEC = Codec.unit(INSTANCE);
+    public static final MapCodec<BedColorProcessor> CODEC = MapCodec.unit(INSTANCE);
     private static final RandomSource RANDOM = RandomSource.create();
 
     private static final Map<DyeColor,BedBlock> COLOR_TO_BED_MAP;

@@ -13,11 +13,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
@@ -94,11 +92,11 @@ public class TemplateEditorItem extends BaseItem {
     }
 
     @Override
-    protected void appendItemInformation(ItemStack stack, @Nullable BlockGetter level, Consumer<Component> info, boolean advanced){
+    protected void appendItemInformation(ItemStack stack, Consumer<Component> info, boolean advanced){
         info.accept(TextComponents.translation("formations.template_editor_item.left_click_block", TextComponents.fromTextComponent(ClientUtils.getMinecraft().options.keyAttack.getTranslatedKeyMessage()).color(ChatFormatting.GOLD).get()).color(ChatFormatting.GRAY).get());
         info.accept(TextComponents.translation("formations.template_editor_item.right_click_block", TextComponents.fromTextComponent(ClientUtils.getMinecraft().options.keyUse.getTranslatedKeyMessage()).color(ChatFormatting.GOLD).get()).color(ChatFormatting.GRAY).get());
         info.accept(TextComponents.translation("formations.template_editor_item.shift_right_click", TextComponents.fromTextComponent(ClientUtils.getMinecraft().options.keyShift.getTranslatedKeyMessage()).color(ChatFormatting.GOLD).get(), TextComponents.fromTextComponent(ClientUtils.getMinecraft().options.keyUse.getTranslatedKeyMessage()).color(ChatFormatting.GOLD).get()).color(ChatFormatting.GRAY).get());
         info.accept(TextComponents.translation("formations.template_editor_item.left_click", TextComponents.fromTextComponent(ClientUtils.getMinecraft().options.keyAttack.getTranslatedKeyMessage()).color(ChatFormatting.GOLD).get()).color(ChatFormatting.GRAY).get());
-        super.appendItemInformation(stack, level, info, advanced);
+        super.appendItemInformation(stack, info, advanced);
     }
 }

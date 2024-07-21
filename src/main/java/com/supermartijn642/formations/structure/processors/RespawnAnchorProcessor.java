@@ -2,6 +2,7 @@ package com.supermartijn642.formations.structure.processors;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.supermartijn642.formations.FormationsStructures;
 import com.supermartijn642.formations.structure.BlockInstance;
@@ -16,19 +17,18 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
-import java.util.function.Function;
 
 /**
  * Created 22/09/2023 by SuperMartijn642
  */
 public class RespawnAnchorProcessor extends StructureProcessor implements FormationsStructureProcessor {
 
-    public static final Codec<RespawnAnchorProcessor> CODEC = RecordCodecBuilder.<RespawnAnchorProcessor>create(instance -> instance.group(Codec.intRange(0, 4).optionalFieldOf("minCharges", 0).forGetter(p -> p.minCharges), Codec.intRange(0, 4).optionalFieldOf("maxCharges", 4).forGetter(p -> p.maxCharges)).apply(instance, RespawnAnchorProcessor::new))
-        .comapFlatMap(processor -> {
+    public static final MapCodec<RespawnAnchorProcessor> CODEC = RecordCodecBuilder.<RespawnAnchorProcessor>mapCodec(instance -> instance.group(Codec.intRange(0, 4).optionalFieldOf("minCharges", 0).forGetter(p -> p.minCharges), Codec.intRange(0, 4).optionalFieldOf("maxCharges", 4).forGetter(p -> p.maxCharges)).apply(instance, RespawnAnchorProcessor::new))
+        .validate(processor -> {
             if(processor.minCharges > processor.maxCharges)
                 return DataResult.error(() -> "Max charges must be greater than or equal to min charges, minCharges: " + processor.minCharges + ", maxCharges: " + processor.maxCharges);
             return DataResult.success(processor);
-        }, Function.identity());
+        });
 
     private final int minCharges, maxCharges;
 
