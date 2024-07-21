@@ -13,6 +13,8 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 
+import java.util.Optional;
+
 /**
  * Created 30/08/2023 by SuperMartijn642
  */
@@ -28,7 +30,7 @@ public class FormationsSinglePoolElement extends SinglePoolElement {
     private final int ground_level;
 
     protected FormationsSinglePoolElement(Either<ResourceLocation,StructureTemplate> either, Holder<StructureProcessorList> holder, StructureTemplatePool.Projection projection, int groundLevel){
-        super(either, holder, projection);
+        super(either, holder, projection, Optional.empty());
         this.ground_level = groundLevel;
     }
 

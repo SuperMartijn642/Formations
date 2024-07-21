@@ -54,7 +54,7 @@ public class LootTableEditingScreen extends BaseWidget {
         this.saveButton = this.addWidget(new TemplateEditButton(128, 51, 72, 15, TextComponents.translation("formations.edit_loot.save").get(), TemplateEditButton.GREEN_RIGHT_BUTTON, () -> {
             String lootTableText = lootTableField.getText().trim();
             if(lootTableText.isEmpty() || RegistryUtil.isValidIdentifier(lootTableText)){
-                ResourceLocation lootTable = lootTableText.isEmpty() ? null : new ResourceLocation(lootTableText);
+                ResourceLocation lootTable = lootTableText.isEmpty() ? null : ResourceLocation.parse(lootTableText);
                 if(!Objects.equals(lootTable, this.original))
                     FormationsDev.CHANNEL.sendToServer(new SetLootTablePacket(this.pos, lootTable));
                 ClientUtils.getMinecraft().setScreen(null);

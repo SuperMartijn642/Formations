@@ -20,7 +20,7 @@ public class PiecedStructureProperties implements StructureProperties {
     }
 
     public PiecedStructureProperties startPool(String pool){
-        this.startPool = new ResourceLocation(this.namespace, pool);
+        this.startPool = ResourceLocation.fromNamespaceAndPath(this.namespace, pool);
         return this;
     }
 
