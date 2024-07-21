@@ -15,7 +15,7 @@ public class Formations implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
     public static ResourceLocation location(String identifier){
-        return new ResourceLocation(MODID, identifier);
+        return ResourceLocation.fromNamespaceAndPath(MODID, identifier);
     }
 
     @Override

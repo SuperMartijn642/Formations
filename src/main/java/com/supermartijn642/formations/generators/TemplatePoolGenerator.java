@@ -81,7 +81,7 @@ public abstract class TemplatePoolGenerator extends ResourceGenerator {
     }
 
     public TemplatePoolBuilder pool(String namespace, String identifier){
-        return this.builders.computeIfAbsent(new ResourceLocation(namespace, identifier), i -> new TemplatePoolBuilder(this.modid, i));
+        return this.builders.computeIfAbsent(ResourceLocation.fromNamespaceAndPath(namespace, identifier), i -> new TemplatePoolBuilder(this.modid, i));
     }
 
     public TemplatePoolBuilder pool(String identifier){
@@ -97,7 +97,7 @@ public abstract class TemplatePoolGenerator extends ResourceGenerator {
 
         private final String owningModid;
         private final ResourceLocation identifier;
-        private ResourceLocation fallbackPool = new ResourceLocation("minecraft", "empty");
+        private ResourceLocation fallbackPool = ResourceLocation.fromNamespaceAndPath("minecraft", "empty");
         private final List<TemplatePoolEntryBuilder> entries = new ArrayList<>();
 
         private TemplatePoolBuilder(String owningModid, ResourceLocation identifier){
@@ -106,12 +106,12 @@ public abstract class TemplatePoolGenerator extends ResourceGenerator {
         }
 
         public TemplatePoolBuilder fallback(String namespace, String identifier){
-            this.fallbackPool = new ResourceLocation(namespace, identifier);
+            this.fallbackPool = ResourceLocation.fromNamespaceAndPath(namespace, identifier);
             return this;
         }
 
         public TemplatePoolBuilder entry(String template, Consumer<TemplatePoolEntryBuilder> entryBuilder){
-            TemplatePoolEntryBuilder entry = new TemplatePoolEntryBuilder(new ResourceLocation(this.owningModid, template));
+            TemplatePoolEntryBuilder entry = new TemplatePoolEntryBuilder(ResourceLocation.fromNamespaceAndPath(this.owningModid, template));
             entryBuilder.accept(entry);
             this.entries.add(entry);
             return this;
@@ -133,7 +133,7 @@ public abstract class TemplatePoolGenerator extends ResourceGenerator {
         private final List<StructureProcessor> processors = new ArrayList<>();
         private StructureTemplatePool.Projection projection = StructureTemplatePool.Projection.RIGID;
         private Integer groundLevel;
-        private ResourceLocation type = new ResourceLocation("formations", "single_pool_element");
+        private ResourceLocation type = ResourceLocation.fromNamespaceAndPath("formations", "single_pool_element");
         private int weight = 1;
 
         private TemplatePoolEntryBuilder(ResourceLocation location){

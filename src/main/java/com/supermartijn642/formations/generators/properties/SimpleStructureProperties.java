@@ -22,7 +22,7 @@ public class SimpleStructureProperties implements StructureProperties {
         if(this.templatePool != null)
             throw new IllegalStateException("Cannot have both a template and a template pool!");
 
-        this.template = new ResourceLocation(this.namespace, template);
+        this.template = ResourceLocation.fromNamespaceAndPath(this.namespace, template);
         return this;
     }
 
@@ -30,7 +30,7 @@ public class SimpleStructureProperties implements StructureProperties {
         if(this.template != null)
             throw new IllegalStateException("Cannot have both a template and a template pool!");
 
-        this.templatePool = new ResourceLocation(this.namespace, template);
+        this.templatePool = ResourceLocation.fromNamespaceAndPath(this.namespace, template);
         return this;
     }
 

@@ -22,6 +22,7 @@ import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
+import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -95,7 +96,7 @@ public class PiecedStructure extends Structure {
         WorldgenRandom random = context.random();
         Registry<StructureTemplatePool> registry = context.registryAccess().registryOrThrow(Registries.TEMPLATE_POOL);
 
-        PoolElementStructurePiece structurePiece = new PoolElementStructurePiece(templateManager, startElement, pos, startElement.getGroundLevelDelta(), rotation, startElement.getBoundingBox(templateManager, pos, rotation));
+        PoolElementStructurePiece structurePiece = new PoolElementStructurePiece(templateManager, startElement, pos, startElement.getGroundLevelDelta(), rotation, startElement.getBoundingBox(templateManager, pos, rotation), LiquidSettings.APPLY_WATERLOGGING);
         BoundingBox boundingBox = structurePiece.getBoundingBox();
         int centeredX = (boundingBox.maxX() + boundingBox.minX()) / 2;
         int centeredZ = (boundingBox.maxZ() + boundingBox.minZ()) / 2;
@@ -110,7 +111,7 @@ public class PiecedStructure extends Structure {
 
             VoxelShape allowedSpace = Shapes.join(Shapes.create(new AABB(centeredPos).inflate(maxDistanceFromCenter)), Shapes.create(AABB.of(boundingBox)), BooleanOp.ONLY_FIRST);
             ArrayList<PoolElementStructurePiece> pieces = Lists.newArrayList();
-            JigsawPlacement.addPieces(context.randomState(), maxDepth, false, chunkGenerator, templateManager, levelHeightAccessor, random, registry, structurePiece, pieces, allowedSpace, PoolAliasLookup.EMPTY);
+            JigsawPlacement.addPieces(context.randomState(), maxDepth, false, chunkGenerator, templateManager, levelHeightAccessor, random, registry, structurePiece, pieces, allowedSpace, PoolAliasLookup.EMPTY, LiquidSettings.APPLY_WATERLOGGING);
             pieces.forEach(piecesBuilder::addPiece);
         }));
     }

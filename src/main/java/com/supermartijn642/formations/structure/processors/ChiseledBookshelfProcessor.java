@@ -7,8 +7,9 @@ import com.supermartijn642.formations.FormationsStructures;
 import com.supermartijn642.formations.structure.BlockInstance;
 import com.supermartijn642.formations.structure.FormationsStructureProcessor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.ContainerHelper;
@@ -52,8 +53,9 @@ public class ChiseledBookshelfProcessor extends StructureProcessor implements Fo
             RandomSource random = placeSettings.getRandom(pos);
             for(int i = 0; i < 6; i++){ // This isn't very efficient, but since there's only 6 slots, it should be fine
                 if(books.get(i).isEmpty() && random.nextFloat() < this.slotFillChance){
-                    Enchantment enchantment = BuiltInRegistries.ENCHANTMENT.getRandom(random).get().value();
-                    ItemStack book = EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchantment, random.nextInt(enchantment.getMaxLevel()) + 1));
+                    //noinspection OptionalGetWithoutIsPresent
+                    Holder<Enchantment> enchantment = level.registryAccess().registry(Registries.ENCHANTMENT).get().getRandom(random).get();
+                    ItemStack book = EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchantment, random.nextInt(enchantment.value().getMaxLevel()) + 1));
                     books.set(i, book);
                     state = state.setValue(ChiseledBookShelfBlock.SLOT_OCCUPIED_PROPERTIES.get(i), true);
                 }
