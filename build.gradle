@@ -69,6 +69,8 @@ runs {
     configureEach {
         systemProperty "forge.logging.markers", "REGISTRIES"
 
+        systemProperty "formations.templates.export-location", "${file("src/main/resources/data/formations/structures")}"
+
         //noinspection GroovyAssignabilityCheck
         modSource sourceSets.main
     }
