@@ -79,6 +79,9 @@ minecraft {
 
             property "forge.logging.markers", "REGISTRIES"
 
+            // Set the export location for all the structure files
+            property "formations.templates.export-location", "${file("src/main/resources/data/formations/structures")}"
+
             mods {
                 //noinspection GroovyAssignabilityCheck
                 source sourceSets.main
