@@ -134,7 +134,7 @@ public final class StructureResourceGenerators {
         handler.addGenerator(cache -> new FormationsStructureSetGenerator(this.modid, cache) {
             @Override
             public void generate(){
-                properties.forEach(structure -> this.addStructure(structure.structureSet, new ResourceLocation(this.modid, structure.identifier), structure.weight));
+                properties.forEach(structure -> this.addStructure(structure.structureSet, ResourceLocation.fromNamespaceAndPath(this.modid, structure.identifier), structure.weight));
             }
         });
     }

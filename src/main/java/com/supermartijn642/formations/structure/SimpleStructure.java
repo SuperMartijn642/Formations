@@ -15,6 +15,7 @@ import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pools.EmptyPoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -68,7 +69,8 @@ public class SimpleStructure extends Structure {
                     new BlockPos(x, y, z),
                     element.getGroundLevelDelta(),
                     rotation,
-                    boundingBox.move(0, y, 0)
+                    boundingBox.move(0, y, 0),
+                    LiquidSettings.APPLY_WATERLOGGING
                 ))
             ));
     }
