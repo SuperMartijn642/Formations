@@ -4,7 +4,9 @@ import com.supermartijn642.core.CoreSide;
 import com.supermartijn642.core.network.BasePacket;
 import com.supermartijn642.core.network.PacketContext;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Clearable;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -46,7 +48,7 @@ public class SetLootTablePacket implements BasePacket {
             BlockEntity entity = context.getWorld().getBlockEntity(this.pos);
             if(entity instanceof RandomizableContainerBlockEntity){
                 Clearable.tryClear(entity);
-                ((RandomizableContainerBlockEntity)entity).setLootTable(this.lootTable, 0);
+                ((RandomizableContainerBlockEntity)entity).setLootTable(ResourceKey.create(Registries.LOOT_TABLE, this.lootTable), 0);
                 entity.setChanged();
             }
         }

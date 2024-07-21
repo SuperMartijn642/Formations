@@ -12,14 +12,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
-import net.minecraft.world.level.storage.loot.LootDataType;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.AABB;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
 
 /**
  * Created 25/08/2023 by SuperMartijn642
@@ -88,8 +86,8 @@ public class Template {
                             }
                             Formations.LOGGER.warn("Template '" + this.name + "' has an empty '" + TextComponents.blockState(container.getBlockState()).format() + "' at {x=" + pos.getX() + ", y=" + pos.getY() + ", z=" + pos.getZ() + "}!");
                         }else if(level.getServer() != null){
-                            Optional<LootTable> lootTable = level.getServer().getLootData().getElementOptional(LootDataType.TABLE, container.lootTable);
-                            if(lootTable.isEmpty())
+                            LootTable lootTable = level.getServer().reloadableRegistries().getLootTable(container.lootTable);
+                            if(lootTable == LootTable.EMPTY)
                                 Formations.LOGGER.warn("Template '" + this.name + "' has a '" + TextComponents.blockState(container.getBlockState()).format() + "' at {x=" + pos.getX() + ", y=" + pos.getY() + ", z=" + pos.getZ() + "} with missing loot table '" + container.lootTable + "'!");
                         }
                     }

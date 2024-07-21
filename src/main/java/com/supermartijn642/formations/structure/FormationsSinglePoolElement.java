@@ -1,7 +1,7 @@
 package com.supermartijn642.formations.structure;
 
 import com.mojang.datafixers.util.Either;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.supermartijn642.formations.FormationsStructures;
 import net.minecraft.core.Holder;
@@ -18,7 +18,12 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
  */
 public class FormationsSinglePoolElement extends SinglePoolElement {
 
-    public static final Codec<FormationsSinglePoolElement> CODEC = RecordCodecBuilder.create(instance -> instance.group(SinglePoolElement.templateCodec(), SinglePoolElement.processorsCodec(), SinglePoolElement.projectionCodec(), ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("ground_level", 1).forGetter(FormationsSinglePoolElement::getGroundLevelDelta)).apply(instance, FormationsSinglePoolElement::new));
+    public static final MapCodec<FormationsSinglePoolElement> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        SinglePoolElement.templateCodec(),
+        SinglePoolElement.processorsCodec(),
+        SinglePoolElement.projectionCodec(),
+        ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("ground_level", 1).forGetter(FormationsSinglePoolElement::getGroundLevelDelta)
+    ).apply(instance, FormationsSinglePoolElement::new));
 
     private final int ground_level;
 

@@ -1,7 +1,7 @@
 package com.supermartijn642.formations.structure.processors;
 
 import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.supermartijn642.formations.FormationsStructures;
 import com.supermartijn642.formations.structure.BlockInstance;
 import com.supermartijn642.formations.structure.FormationsStructureProcessor;
@@ -30,7 +30,7 @@ import java.util.*;
  */
 public class BiomeReplacementProcessor extends StructureProcessor implements FormationsStructureProcessor {
 
-    public static final Codec<BiomeReplacementProcessor> CODEC = Codec.unit(BiomeReplacementProcessor::new);
+    public static final MapCodec<BiomeReplacementProcessor> CODEC = MapCodec.unit(BiomeReplacementProcessor::new);
 
     private static final Map<ResourceKey<Biome>,Map<Block,Block>> BIOME_REPLACEMENT_MAP = new HashMap<>();
     private static final Map<ResourceKey<Biome>,Map<Block,Block>> BIOME_SOIL_REPLACEMENT_MAP = new HashMap<>();

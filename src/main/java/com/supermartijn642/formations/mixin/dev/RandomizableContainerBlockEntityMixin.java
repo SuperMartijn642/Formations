@@ -28,7 +28,7 @@ public class RandomizableContainerBlockEntityMixin {
             //noinspection DataFlowIssue
             RandomizableContainerBlockEntity entity = (RandomizableContainerBlockEntity)(Object)this;
             if(!player.isShiftKeyDown() || entity.lootTable != null){
-                FormationsDev.CHANNEL.sendToPlayer(player, new OpenLootTableScreenPacket(entity.getBlockPos(), entity.lootTable));
+                FormationsDev.CHANNEL.sendToPlayer(player, new OpenLootTableScreenPacket(entity.getBlockPos(), entity.lootTable.location()));
                 ci.setReturnValue(null);
             }
         }
