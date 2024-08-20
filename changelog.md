@@ -1,3 +1,6 @@
+### Formations 1.0.2a
+- Fixed structure processors not being applied
+
 ### Formations 1.0.2
 - Fixed some structure processors accessing blocks at the wrong position
 
