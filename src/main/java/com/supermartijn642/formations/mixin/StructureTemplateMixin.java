@@ -23,9 +23,10 @@ import java.util.stream.Collectors;
 public class StructureTemplateMixin {
 
     @ModifyVariable(
-        method = "processBlockInfos",
+        method = "processBlockInfos(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructurePlaceSettings;Ljava/util/List;Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate;)Ljava/util/List;",
         at = @At("HEAD"),
-        ordinal = 0
+        ordinal = 0,
+        remap = false
     )
     private static List<StructureTemplate.StructureBlockInfo> processBlockInfos(List<StructureTemplate.StructureBlockInfo> blocks, LevelAccessor level, BlockPos piecePosition, BlockPos structurePosition, StructurePlaceSettings placeSettings){
         // Find all the processors
