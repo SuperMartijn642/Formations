@@ -61,7 +61,7 @@ public class SimpleStructure extends Structure {
         Optional<Integer> height = this.placement.findHeight(context, boundingBox);
         // Define a random piece to be placed
         return height.map(y -> y - element.getGroundLevelDelta() + 1)
-            .filter(y -> y >= context.heightAccessor().getMinBuildHeight())
+            .filter(y -> y >= context.heightAccessor().getMinY())
             .map(y -> new GenerationStub(new BlockPos(x, y, z), piecesBuilder ->
                 piecesBuilder.addPiece(new PoolElementStructurePiece(
                     context.structureTemplateManager(),

@@ -94,7 +94,7 @@ public class PiecedStructure extends Structure {
         StructureTemplateManager templateManager = context.structureTemplateManager();
         LevelHeightAccessor levelHeightAccessor = context.heightAccessor();
         WorldgenRandom random = context.random();
-        Registry<StructureTemplatePool> registry = context.registryAccess().registryOrThrow(Registries.TEMPLATE_POOL);
+        Registry<StructureTemplatePool> registry = context.registryAccess().lookupOrThrow(Registries.TEMPLATE_POOL);
 
         PoolElementStructurePiece structurePiece = new PoolElementStructurePiece(templateManager, startElement, pos, startElement.getGroundLevelDelta(), rotation, startElement.getBoundingBox(templateManager, pos, rotation), LiquidSettings.APPLY_WATERLOGGING);
         BoundingBox boundingBox = structurePiece.getBoundingBox();

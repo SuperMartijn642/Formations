@@ -92,8 +92,7 @@ public class TemplateEditingScreen extends BaseWidget {
 
     @Override
     public void renderBackground(WidgetRenderContext context, int mouseX, int mouseY){
-        ScreenUtils.bindTexture(SCREEN_BACKGROUND);
-        ScreenUtils.drawTexture(context.poseStack(), this.left(), this.top(), this.width, this.height, 0, 0, 1, 1);
+        ScreenUtils.drawTexture(SCREEN_BACKGROUND, context.poseStack(), this.left(), this.top(), this.width, this.height, 0, 0, 1, 1);
         super.renderBackground(context, mouseX, mouseY);
     }
 

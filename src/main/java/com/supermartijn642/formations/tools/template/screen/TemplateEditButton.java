@@ -34,8 +34,7 @@ public class TemplateEditButton extends AbstractButtonWidget {
 
     @Override
     public void renderBackground(WidgetRenderContext context, int mouseX, int mouseY){
-        ScreenUtils.bindTexture(this.background);
-        ScreenUtils.drawTexture(context.poseStack(), this.x, this.y, this.width, this.height, 0, this.active ? this.isFocused() ? 1 / 3f : 0 : 2 / 3f, 1, 1 / 3f);
+        ScreenUtils.drawTexture(this.background, context.poseStack(), this.x, this.y, this.width, this.height, 0, this.active ? this.isFocused() ? 1 / 3f : 0 : 2 / 3f, 1, 1 / 3f);
         super.renderBackground(context, mouseX, mouseY);
     }
 
