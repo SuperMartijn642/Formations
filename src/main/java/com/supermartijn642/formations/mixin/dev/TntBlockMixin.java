@@ -29,7 +29,7 @@ public class TntBlockMixin {
         if(!level.isClientSide && FormationsLevelData.SERVER.isDevMode()){
             // Place back the tnt block during the next tick
             BlockState state = level.getBlockState(pos);
-            CommonUtils.getServer().tell(new TickTask(0, () -> level.setBlock(pos, state, Block.UPDATE_ALL)));
+            CommonUtils.getServer().schedule(new TickTask(0, () -> level.setBlock(pos, state, Block.UPDATE_ALL)));
             ci.cancel();
         }
     }
