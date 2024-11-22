@@ -1,3 +1,6 @@
+### Formations 1.0.3
+- Added `formations:waterlogging` structure processor
+
 ### Formations 1.0.2a
 - Fixed structure processors not being applied
 
