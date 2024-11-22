@@ -37,6 +37,7 @@ public class FormationsStructures {
     public static final DeferredHolder<StructureProcessorType<?>,StructureProcessorType<FormationsBlockAgeProcessor>> BLOCK_AGE_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("block_age", () -> () -> FormationsBlockAgeProcessor.CODEC);
     public static final DeferredHolder<StructureProcessorType<?>,StructureProcessorType<PlantGrowthProcessor>> PLANT_GROWTH_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("random_plant_growth", () -> () -> PlantGrowthProcessor.CODEC);
     public static final DeferredHolder<StructureProcessorType<?>,StructureProcessorType<RespawnAnchorProcessor>> RESPAWN_ANCHOR_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("respawn_anchor_charges", () -> () -> RespawnAnchorProcessor.CODEC);
+    public static final DeferredHolder<StructureProcessorType<?>,StructureProcessorType<WaterloggingProcessor>> WATERLOGGING_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("waterlogging", () -> () -> WaterloggingProcessor.CODEC);
 
     public static void init(){
         IEventBus eventBus = ModLoadingContext.get().getActiveContainer().getEventBus();
