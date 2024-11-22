@@ -27,6 +27,7 @@ public class FormationsStructures {
     public static final StructureProcessorType<FormationsBlockAgeProcessor> BLOCK_AGE_PROCESSOR = StructureProcessorType.register("formations:block_age", FormationsBlockAgeProcessor.CODEC);
     public static final StructureProcessorType<PlantGrowthProcessor> PLANT_GROWTH_PROCESSOR = StructureProcessorType.register("formations:random_plant_growth", PlantGrowthProcessor.CODEC);
     public static final StructureProcessorType<RespawnAnchorProcessor> RESPAWN_ANCHOR_PROCESSOR = StructureProcessorType.register("formations:respawn_anchor_charges", RespawnAnchorProcessor.CODEC);
+    public static final StructureProcessorType<WaterloggingProcessor> WATERLOGGING_PROCESSOR = StructureProcessorType.register("formations:waterlogging", WaterloggingProcessor.CODEC);
 
     public static void init(){
     }
