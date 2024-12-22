@@ -32,9 +32,9 @@ public enum StructurePlacement implements StringRepresentable {
      */
     CEILING((context, box) -> {
         List<BlockPos> positions = cornersAndCenter(box).map(pos -> {
-            int highest = Math.min(context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState()), context.heightAccessor().getMaxBuildHeight());
+            int highest = Math.min(context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState()), context.heightAccessor().getMaxY());
             NoiseColumn column = context.chunkGenerator().getBaseColumn(pos.getX(), pos.getZ(), context.heightAccessor(), context.randomState());
-            for(int y = context.heightAccessor().getMinBuildHeight() + 1; y < highest; y++){
+            for(int y = context.heightAccessor().getMinY() + 1; y < highest; y++){
                 if(!column.getBlock(y).isAir())
                     return pos.setY(y);
             }
@@ -66,16 +66,16 @@ public enum StructurePlacement implements StringRepresentable {
      */
     UNDERGROUND((context, box) -> {
         List<Triple<NoiseColumn,Integer,Integer>> positions = cornersAndCenter(box).map(pos -> {
-            int highest = Math.min(context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState()), context.heightAccessor().getMaxBuildHeight());
+            int highest = Math.min(context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState()), context.heightAccessor().getMaxY());
             NoiseColumn column = context.chunkGenerator().getBaseColumn(pos.getX(), pos.getZ(), context.heightAccessor(), context.randomState());
-            int lowest = context.heightAccessor().getMinBuildHeight();
+            int lowest = context.heightAccessor().getMinY();
             for(int y = lowest + 1; y < highest; y++){
                 if(!column.getBlock(y).isAir()){
                     lowest = y;
                     break;
                 }
             }
-            if(lowest == context.heightAccessor().getMinBuildHeight())
+            if(lowest == context.heightAccessor().getMinY())
                 return null;
             return Triple.of(column, highest, lowest);
         }).toList();
@@ -95,16 +95,16 @@ public enum StructurePlacement implements StringRepresentable {
      */
     UNDERGROUND_SURFACE((context, box) -> {
         List<Triple<NoiseColumn,Integer,Integer>> positions = cornersAndCenter(box).map(pos -> {
-            int highest = Math.min(context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState()), context.heightAccessor().getMaxBuildHeight());
+            int highest = Math.min(context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState()), context.heightAccessor().getMaxY());
             NoiseColumn column = context.chunkGenerator().getBaseColumn(pos.getX(), pos.getZ(), context.heightAccessor(), context.randomState());
-            int lowest = context.heightAccessor().getMinBuildHeight();
+            int lowest = context.heightAccessor().getMinY();
             for(int y = lowest + 1; y < highest; y++){
                 if(!column.getBlock(y).isAir()){
                     lowest = y;
                     break;
                 }
             }
-            if(lowest == context.heightAccessor().getMinBuildHeight())
+            if(lowest == context.heightAccessor().getMinY())
                 return null;
             return Triple.of(column, highest, lowest);
         }).toList();
@@ -157,16 +157,16 @@ public enum StructurePlacement implements StringRepresentable {
      */
     UNDERGROUND_CEILING((context, box) -> {
         List<Triple<NoiseColumn,Integer,Integer>> positions = cornersAndCenter(box).map(pos -> {
-            int highest = Math.min(context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState()), context.heightAccessor().getMaxBuildHeight());
+            int highest = Math.min(context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState()), context.heightAccessor().getMaxY());
             NoiseColumn column = context.chunkGenerator().getBaseColumn(pos.getX(), pos.getZ(), context.heightAccessor(), context.randomState());
-            int lowest = context.heightAccessor().getMinBuildHeight();
+            int lowest = context.heightAccessor().getMinY();
             for(int y = lowest + 1; y < highest; y++){
                 if(!column.getBlock(y).isAir()){
                     lowest = y;
                     break;
                 }
             }
-            if(lowest == context.heightAccessor().getMinBuildHeight())
+            if(lowest == context.heightAccessor().getMinY())
                 return null;
             return Triple.of(column, highest, lowest);
         }).toList();
@@ -219,16 +219,16 @@ public enum StructurePlacement implements StringRepresentable {
      */
     UNDERGROUND_BURIED((context, box) -> {
         List<Triple<NoiseColumn,Integer,Integer>> positions = cornersAndCenter(box).map(pos -> {
-            int highest = Math.min(context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState()), context.heightAccessor().getMaxBuildHeight());
+            int highest = Math.min(context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState()), context.heightAccessor().getMaxY());
             NoiseColumn column = context.chunkGenerator().getBaseColumn(pos.getX(), pos.getZ(), context.heightAccessor(), context.randomState());
-            int lowest = context.heightAccessor().getMinBuildHeight();
+            int lowest = context.heightAccessor().getMinY();
             for(int y = lowest + 1; y < highest; y++){
                 if(!column.getBlock(y).isAir()){
                     lowest = y;
                     break;
                 }
             }
-            if(lowest == context.heightAccessor().getMinBuildHeight())
+            if(lowest == context.heightAccessor().getMinY())
                 return null;
             return Triple.of(column, highest, lowest);
         }).toList();
@@ -281,16 +281,16 @@ public enum StructurePlacement implements StringRepresentable {
      */
     UNDERGROUND_ON_LAVA((context, box) -> {
         List<Triple<NoiseColumn,Integer,Integer>> positions = cornersAndCenter(box).map(pos -> {
-            int highest = Math.min(context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState()), context.heightAccessor().getMaxBuildHeight());
+            int highest = Math.min(context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState()), context.heightAccessor().getMaxY());
             NoiseColumn column = context.chunkGenerator().getBaseColumn(pos.getX(), pos.getZ(), context.heightAccessor(), context.randomState());
-            int lowest = context.heightAccessor().getMinBuildHeight();
+            int lowest = context.heightAccessor().getMinY();
             for(int y = lowest + 1; y < highest; y++){
                 if(!column.getBlock(y).isAir()){
                     lowest = y;
                     break;
                 }
             }
-            if(lowest == context.heightAccessor().getMinBuildHeight())
+            if(lowest == context.heightAccessor().getMinY())
                 return null;
             return Triple.of(column, highest, lowest);
         }).toList();
@@ -371,7 +371,7 @@ public enum StructurePlacement implements StringRepresentable {
         List<BlockPos> positions = cornersAndCenter(box).map(pos -> pos.setY(context.chunkGenerator().getFirstOccupiedHeight(pos.getX(), pos.getZ(), heightmap, context.heightAccessor(), context.randomState()))).collect(Collectors.toList());
         int[] heights = positions.stream().mapToInt(BlockPos::getY).toArray();
         // If any pos did not find a block, fail
-        if(IntStream.of(heights).anyMatch(y -> y <= context.heightAccessor().getMinBuildHeight()))
+        if(IntStream.of(heights).anyMatch(y -> y <= context.heightAccessor().getMinY()))
             return null;
         // Check if the found block is accepted
         if(positions.stream().anyMatch(pos -> !target.test(context.chunkGenerator().getBaseColumn(pos.getX(), pos.getZ(), context.heightAccessor(), context.randomState()).getBlock(pos.getY()))))

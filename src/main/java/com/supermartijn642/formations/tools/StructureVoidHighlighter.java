@@ -9,7 +9,7 @@ import com.supermartijn642.core.render.RenderConfiguration;
 import com.supermartijn642.core.render.RenderStateConfiguration;
 import com.supermartijn642.core.render.RenderUtils;
 import com.supermartijn642.core.render.RenderWorldEvent;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -78,7 +78,7 @@ public class StructureVoidHighlighter {
         e.getPoseStack().popPose();
     }
 
-    private static final RenderConfiguration QUADS = RenderConfiguration.create("supermartijn642corelib", "quads", DefaultVertexFormat.POSITION_COLOR, RenderConfiguration.PrimitiveType.QUADS, 256, false, true, RenderStateConfiguration.builder().useShader(GameRenderer::getPositionColorShader).useTranslucentTransparency().disableTexture().disableCulling().useLessThanOrEqualDepthTest().disableDepthMask().build());
+    private static final RenderConfiguration QUADS = RenderConfiguration.create("supermartijn642corelib", "quads", DefaultVertexFormat.POSITION_COLOR, RenderConfiguration.PrimitiveType.QUADS, 256, false, true, RenderStateConfiguration.builder().useShader(CoreShaders.POSITION_COLOR).useTranslucentTransparency().disableTexture().disableCulling().useLessThanOrEqualDepthTest().disableDepthMask().build());
 
     public static void renderShapeSides(PoseStack poseStack, VertexConsumer builder, BlockShape shape, float red, float green, float blue, float alpha){
         Matrix4f matrix = poseStack.last().pose();
