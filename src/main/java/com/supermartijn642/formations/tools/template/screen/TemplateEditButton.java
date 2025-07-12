@@ -1,6 +1,6 @@
 package com.supermartijn642.formations.tools.template.screen;
 
-import com.supermartijn642.core.gui.ScreenUtils;
+import com.supermartijn642.core.gui.GuiGraphicsHelper;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.AbstractButtonWidget;
 import com.supermartijn642.formations.Formations;
@@ -33,15 +33,15 @@ public class TemplateEditButton extends AbstractButtonWidget {
     }
 
     @Override
-    public void renderBackground(WidgetRenderContext context, int mouseX, int mouseY){
-        ScreenUtils.drawTexture(this.background, context.poseStack(), this.x, this.y, this.width, this.height, 0, this.active ? this.isFocused() ? 1 / 3f : 0 : 2 / 3f, 1, 1 / 3f);
-        super.renderBackground(context, mouseX, mouseY);
+    public void renderBackground(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+        graphics.submitTexture(this.background, this.x, this.y, this.width, this.height, p -> p.uv(0, this.active ? this.isFocused() ? 1 / 3f : 0 : 2 / 3f, 1, 1 / 3f));
+        super.renderBackground(context, graphics, mouseX, mouseY);
     }
 
     @Override
-    public void render(WidgetRenderContext context, int mouseX, int mouseY){
-        ScreenUtils.drawCenteredString(context.poseStack(), this.text, this.x + this.width / 2f, this.y + 3, this.active ? ScreenUtils.DEFAULT_TEXT_COLOR : ScreenUtils.INACTIVE_TEXT_COLOR);
-        super.render(context, mouseX, mouseY);
+    public void render(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+        graphics.submitText(this.text, this.x + this.width / 2f, this.y + 3, p -> (this.active ? p.defaultColor() : p.inactiveColor()).centerHorizontally());
+        super.render(context, graphics, mouseX, mouseY);
     }
 
     @Override

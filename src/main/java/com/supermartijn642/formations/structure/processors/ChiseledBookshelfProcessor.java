@@ -3,6 +3,7 @@ package com.supermartijn642.formations.structure.processors;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.supermartijn642.formations.Formations;
 import com.supermartijn642.formations.FormationsStructures;
 import com.supermartijn642.formations.structure.BlockInstance;
 import com.supermartijn642.formations.structure.FormationsStructureProcessor;
@@ -11,6 +12,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
@@ -24,6 +27,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -47,8 +52,12 @@ public class ChiseledBookshelfProcessor extends StructureProcessor implements Fo
         if(state != null && state.is(Blocks.CHISELED_BOOKSHELF)){
             // Load the books from the bookshelf's nbt
             NonNullList<ItemStack> books = NonNullList.withSize(6, ItemStack.EMPTY);
-            if(block.nbt() != null)
-                ContainerHelper.loadAllItems(block.nbt(), books, level.registryAccess());
+            if(block.nbt() != null){
+                ResourceLocation name = level.registryAccess().lookupOrThrow(Registries.STRUCTURE_PROCESSOR).getKey(this.getType());
+                try(ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(name::toString, Formations.LOGGER)){
+                    ContainerHelper.loadAllItems(TagValueInput.create(reporter, level.registryAccess(), block.nbt()), books);
+                }
+            }
             // Randomly add books
             RandomSource random = placeSettings.getRandom(pos);
             for(int i = 0; i < 6; i++){ // This isn't very efficient, but since there's only 6 slots, it should be fine
@@ -62,7 +71,12 @@ public class ChiseledBookshelfProcessor extends StructureProcessor implements Fo
             }
             // Convert the books back to nbt
             CompoundTag nbt = block.nbt() == null ? new CompoundTag() : block.nbt().copy();
-            ContainerHelper.saveAllItems(nbt, books, level.registryAccess());
+            ResourceLocation name = level.registryAccess().lookupOrThrow(Registries.STRUCTURE_PROCESSOR).getKey(this.getType());
+            try(ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(name::toString, Formations.LOGGER)){
+                TagValueOutput output = TagValueOutput.createWithContext(reporter, level.registryAccess());
+                ContainerHelper.saveAllItems(output, books);
+                nbt.merge(output.buildResult());
+            }
             return new BlockInstance(state, nbt);
         }
         return block;
