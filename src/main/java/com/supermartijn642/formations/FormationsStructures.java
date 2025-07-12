@@ -17,7 +17,6 @@ import net.minecraftforge.registries.RegistryObject;
  */
 public class FormationsStructures {
 
-
     // Structures
     private static final DeferredRegister<StructureType<?>> STRUCTURE_TYPES = DeferredRegister.create(Registries.STRUCTURE_TYPE, Formations.MODID);
     public static final RegistryObject<StructureType<SimpleStructure>> SIMPLE_STRUCTURE = STRUCTURE_TYPES.register("simple", () -> () -> SimpleStructure.CODEC);
@@ -38,9 +37,9 @@ public class FormationsStructures {
     public static final RegistryObject<StructureProcessorType<RespawnAnchorProcessor>> RESPAWN_ANCHOR_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("respawn_anchor_charges", () -> () -> RespawnAnchorProcessor.CODEC);
     public static final RegistryObject<StructureProcessorType<WaterloggingProcessor>> WATERLOGGING_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("waterlogging", () -> () -> WaterloggingProcessor.CODEC);
 
-    public static void init(){
-        STRUCTURE_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        STRUCTURE_POOL_ELEMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        STRUCTURE_PROCESSOR_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
+    public static void init(FMLJavaModLoadingContext context){
+        STRUCTURE_TYPES.register(context.getModEventBus());
+        STRUCTURE_POOL_ELEMENTS.register(context.getModEventBus());
+        STRUCTURE_PROCESSOR_TYPES.register(context.getModEventBus());
     }
 }
