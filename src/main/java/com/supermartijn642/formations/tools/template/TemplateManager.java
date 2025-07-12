@@ -9,7 +9,6 @@ import com.supermartijn642.formations.tools.template.packets.DeleteTemplatePacke
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -164,17 +163,21 @@ public class TemplateManager {
             throw new AssertionError();
 
         this.clearAll();
-        ListTag templates = data.getList("templates", Tag.TAG_COMPOUND);
+        ListTag templates = data.getListOrEmpty("templates");
         templates.stream()
+            .filter(CompoundTag.class::isInstance)
             .map(CompoundTag.class::cast)
             .map(Template::load)
             .forEach(this.templates::add);
         this.templates.forEach(template -> this.templatesByArea.put(template.getArea(), template));
         this.templates.forEach(template -> this.templatesByName.put(template.getName(), template));
-        ListTag removedTemplates = data.getList("removedTemplates", Tag.TAG_STRING);
+        ListTag removedTemplates = data.getListOrEmpty("removedTemplates");
         removedTemplates.stream()
+            .filter(StringTag.class::isInstance)
             .map(StringTag.class::cast)
-            .map(StringTag::getAsString)
+            .map(StringTag::asString)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
             .forEach(this.removedTemplates::add);
     }
 }

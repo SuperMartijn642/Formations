@@ -37,10 +37,10 @@ public class Template {
 
     public static Template load(CompoundTag data){
         AABB area = new AABB(
-            data.getDouble("areaMinX"), data.getDouble("areaMinY"), data.getDouble("areaMinZ"),
-            data.getDouble("areaMaxX"), data.getDouble("areaMaxY"), data.getDouble("areaMaxZ")
+            data.getDoubleOr("areaMinX", 0), data.getDoubleOr("areaMinY", 0), data.getDoubleOr("areaMinZ", 0),
+            data.getDoubleOr("areaMaxX", 0), data.getDoubleOr("areaMaxY", 0), data.getDoubleOr("areaMaxZ", 0)
         );
-        String name = data.getString("name");
+        String name = data.getStringOr("name", null);
         return create(area, name);
     }
 
