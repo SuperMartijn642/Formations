@@ -38,8 +38,8 @@ public class FormationsStructures {
     public static final RegistryObject<StructureProcessorType<WaterloggingProcessor>> WATERLOGGING_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("waterlogging", () -> () -> WaterloggingProcessor.CODEC);
 
     public static void init(FMLJavaModLoadingContext context){
-        STRUCTURE_TYPES.register(context.getModEventBus());
-        STRUCTURE_POOL_ELEMENTS.register(context.getModEventBus());
-        STRUCTURE_PROCESSOR_TYPES.register(context.getModEventBus());
+        STRUCTURE_TYPES.register(context.getModBusGroup());
+        STRUCTURE_POOL_ELEMENTS.register(context.getModBusGroup());
+        STRUCTURE_PROCESSOR_TYPES.register(context.getModBusGroup());
     }
 }

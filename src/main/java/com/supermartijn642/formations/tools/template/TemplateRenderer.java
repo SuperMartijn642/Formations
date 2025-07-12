@@ -2,10 +2,11 @@ package com.supermartijn642.formations.tools.template;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.supermartijn642.core.ClientUtils;
-import com.supermartijn642.core.gui.ScreenUtils;
 import com.supermartijn642.core.render.RenderUtils;
 import com.supermartijn642.core.render.RenderWorldEvent;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
@@ -13,7 +14,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
 import org.joml.Quaternionf;
 
 import java.util.Optional;
@@ -27,7 +27,7 @@ public class TemplateRenderer {
     public static BlockPos selectionPos1, selectionPos2;
 
     public static void registerListeners(){
-        MinecraftForge.EVENT_BUS.addListener(TemplateRenderer::renderTemplates);
+        RenderWorldEvent.EVENT_BUS.addListener(TemplateRenderer::renderTemplates);
     }
 
     public static Template getAimedAtTemplate(){
@@ -99,31 +99,32 @@ public class TemplateRenderer {
         Vec3 center = area.getCenter();
         float xScaling = -Math.min(((float)area.getXsize() + 1) / nameWidth, ((float)area.getYsize() + 1) / renderer.lineHeight) * 0.8f;
         float zScaling = -Math.min(((float)area.getZsize() + 1) / nameWidth, ((float)area.getYsize() + 1) / renderer.lineHeight) * 0.8f;
+        MultiBufferSource.BufferSource bufferSource = RenderUtils.getMainBufferSource();
         // South
         poseStack.pushPose();
         poseStack.translate(center.x, center.y, area.minZ - 0.1);
         poseStack.scale(xScaling, xScaling, 1);
-        ScreenUtils.drawString(poseStack, template.getName(), -nameWidth / 2f, -renderer.lineHeight / 2f, 0xC8FFFFFF);
+        renderer.drawInBatch(template.getName(), -nameWidth / 2f, -renderer.lineHeight / 2f, 0xC8FFFFFF, false, poseStack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, LightTexture.FULL_BRIGHT);
         poseStack.popPose();
         // North
         poseStack.pushPose();
         poseStack.translate(center.x, center.y, area.maxZ + 0.1);
         poseStack.scale(-xScaling, xScaling, 1);
-        ScreenUtils.drawString(poseStack, template.getName(), -nameWidth / 2f, -renderer.lineHeight / 2f, 0xC8FFFFFF);
+        renderer.drawInBatch(template.getName(), -nameWidth / 2f, -renderer.lineHeight / 2f, 0xC8FFFFFF, false, poseStack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, LightTexture.FULL_BRIGHT);
         poseStack.popPose();
         // West
         poseStack.pushPose();
         poseStack.translate(area.minX - 0.1, center.y, center.z);
         poseStack.scale(1, zScaling, zScaling);
         poseStack.mulPose(new Quaternionf().rotateAxis((float)Math.PI / 2, 0, 1, 0));
-        ScreenUtils.drawString(poseStack, template.getName(), -nameWidth / 2f, -renderer.lineHeight / 2f, 0xC8FFFFFF);
+        renderer.drawInBatch(template.getName(), -nameWidth / 2f, -renderer.lineHeight / 2f, 0xC8FFFFFF, false, poseStack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, LightTexture.FULL_BRIGHT);
         poseStack.popPose();
         // East
         poseStack.pushPose();
         poseStack.translate(area.maxX + 0.1, center.y, center.z);
         poseStack.scale(1, zScaling, -zScaling);
         poseStack.mulPose(new Quaternionf().rotateAxis((float)Math.PI / 2, 0, 1, 0));
-        ScreenUtils.drawString(poseStack, template.getName(), -nameWidth / 2f, -renderer.lineHeight / 2f, 0xC8FFFFFF);
+        renderer.drawInBatch(template.getName(), -nameWidth / 2f, -renderer.lineHeight / 2f, 0xC8FFFFFF, false, poseStack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, LightTexture.FULL_BRIGHT);
         poseStack.popPose();
     }
 }

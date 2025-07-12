@@ -2,7 +2,7 @@ package com.supermartijn642.formations.tools.loot_table;
 
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
-import com.supermartijn642.core.gui.ScreenUtils;
+import com.supermartijn642.core.gui.GuiGraphicsHelper;
 import com.supermartijn642.core.gui.widget.BaseWidget;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.TextFieldWidget;
@@ -63,17 +63,18 @@ public class LootTableEditingScreen extends BaseWidget {
     }
 
     @Override
-    public void renderBackground(WidgetRenderContext context, int mouseX, int mouseY){
-        ScreenUtils.drawTexture(SCREEN_BACKGROUND, context.poseStack(), this.left(), this.top(), this.width, this.height, 0, 0, 1, 1);
-        super.renderBackground(context, mouseX, mouseY);
+    public void renderBackground(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+        graphics.submitTexture(SCREEN_BACKGROUND, this.left(), this.top(), this.width, this.height);
+        super.renderBackground(context, graphics, mouseX, mouseY);
     }
 
+    @SuppressWarnings("Convert2MethodRef")
     @Override
-    public void renderForeground(WidgetRenderContext context, int mouseX, int mouseY){
-        super.renderForeground(context, mouseX, mouseY);
+    public void renderForeground(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+        super.renderForeground(context, graphics, mouseX, mouseY);
         // Title
-        ScreenUtils.drawCenteredStringWithShadow(context.poseStack(), TextComponents.translation("formations.edit_loot.title").get(), 100, 3, ScreenUtils.ACTIVE_TEXT_COLOR);
+        graphics.submitText(TextComponents.translation("formations.edit_loot.title").get(), 100, 3, p -> p.shadow().activeColor().centerHorizontally());
         // Loot table field label
-        ScreenUtils.drawCenteredString(context.poseStack(), TextComponents.translation("formations.edit_loot.loot_table_hint").get(), 35, 22);
+        graphics.submitText(TextComponents.translation("formations.edit_loot.loot_table_hint").get(), 35, 22, p -> p.centerHorizontally());
     }
 }

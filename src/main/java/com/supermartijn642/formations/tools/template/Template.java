@@ -18,6 +18,7 @@ import net.minecraft.world.phys.AABB;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 /**
  * Created 25/08/2023 by SuperMartijn642
@@ -97,7 +98,7 @@ public class Template {
 
         // Create a structure template and record the blocks in the world
         StructureTemplate structure = new StructureTemplate();
-        structure.fillFromWorld(level, new BlockPos((int)this.area.minX, (int)this.area.minY, (int)this.area.minZ), new Vec3i((int)this.area.getXsize(), (int)this.area.getYsize(), (int)this.area.getZsize()), true, Blocks.STRUCTURE_VOID);
+        structure.fillFromWorld(level, new BlockPos((int)this.area.minX, (int)this.area.minY, (int)this.area.minZ), new Vec3i((int)this.area.getXsize(), (int)this.area.getYsize(), (int)this.area.getZsize()), true, List.of(Blocks.STRUCTURE_VOID));
         // Convert the structure template to nbt
         CompoundTag data = structure.save(new CompoundTag());
         // Write the nbt to the output file

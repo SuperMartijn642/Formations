@@ -2,7 +2,7 @@ package com.supermartijn642.formations.tools.template.screen;
 
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.TextComponents;
-import com.supermartijn642.core.gui.ScreenUtils;
+import com.supermartijn642.core.gui.GuiGraphicsHelper;
 import com.supermartijn642.core.gui.widget.BaseWidget;
 import com.supermartijn642.core.gui.widget.WidgetRenderContext;
 import com.supermartijn642.core.gui.widget.premade.TextFieldWidget;
@@ -91,42 +91,43 @@ public class TemplateEditingScreen extends BaseWidget {
     }
 
     @Override
-    public void renderBackground(WidgetRenderContext context, int mouseX, int mouseY){
-        ScreenUtils.drawTexture(SCREEN_BACKGROUND, context.poseStack(), this.left(), this.top(), this.width, this.height, 0, 0, 1, 1);
-        super.renderBackground(context, mouseX, mouseY);
+    public void renderBackground(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+        graphics.submitTexture(SCREEN_BACKGROUND, this.left(), this.top(), this.width, this.height);
+        super.renderBackground(context, graphics, mouseX, mouseY);
     }
 
+    @SuppressWarnings("Convert2MethodRef")
     @Override
-    public void renderForeground(WidgetRenderContext context, int mouseX, int mouseY){
-        super.renderForeground(context, mouseX, mouseY);
+    public void renderForeground(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
+        super.renderForeground(context, graphics, mouseX, mouseY);
         AABB area = this.template == null ? new AABB(TemplateRenderer.selectionPos1).minmax(new AABB(TemplateRenderer.selectionPos2)) : this.template.getArea();
         Vec3 center = area.getCenter();
         // Title
-        ScreenUtils.drawCenteredStringWithShadow(context.poseStack(), TextComponents.translation("formations.template.edit.new_template").get(), 72, 3, ScreenUtils.ACTIVE_TEXT_COLOR);
+        graphics.submitText(TextComponents.translation("formations.template.edit.new_template").get(), 72, 3, p -> p.shadow().activeColor().centerHorizontally());
         // Name label
-        ScreenUtils.drawCenteredString(context.poseStack(), TextComponents.translation("formations.template.edit.name").get(), 32, 22);
+        graphics.submitText(TextComponents.translation("formations.template.edit.name").get(), 32, 22, p -> p.centerHorizontally());
         // Location
-        ScreenUtils.drawCenteredString(context.poseStack(), TextComponents.translation("formations.template.edit.location").get(), 32, 51);
-        ScreenUtils.drawString(context.poseStack(), TextComponents.translation("formations.template.edit.location.x").get(), 10, 63);
-        ScreenUtils.drawString(context.poseStack(), TextComponents.translation("formations.template.edit.location.y").get(), 10, 74);
-        ScreenUtils.drawString(context.poseStack(), TextComponents.translation("formations.template.edit.location.z").get(), 10, 85);
+        graphics.submitText(TextComponents.translation("formations.template.edit.location").get(), 32, 51, p -> p.centerHorizontally());
+        graphics.submitText(TextComponents.translation("formations.template.edit.location.x").get(), 10, 63);
+        graphics.submitText(TextComponents.translation("formations.template.edit.location.y").get(), 10, 74);
+        graphics.submitText(TextComponents.translation("formations.template.edit.location.z").get(), 10, 85);
         Font font = ClientUtils.getFontRenderer();
         Component posX = TextComponents.number(center.x, 1).get();
         Component posY = TextComponents.number(center.y, 1).get();
         Component posZ = TextComponents.number(center.z, 1).get();
-        ScreenUtils.drawString(context.poseStack(), posX, 132 - font.width(posX), 63);
-        ScreenUtils.drawString(context.poseStack(), posY, 132 - font.width(posY), 74);
-        ScreenUtils.drawString(context.poseStack(), posZ, 132 - font.width(posZ), 85);
+        graphics.submitText(posX, 132 - font.width(posX), 63);
+        graphics.submitText(posY, 132 - font.width(posY), 74);
+        graphics.submitText(posZ, 132 - font.width(posZ), 85);
         // Size
-        ScreenUtils.drawCenteredString(context.poseStack(), TextComponents.translation("formations.template.edit.size").get(), 32, 101);
-        ScreenUtils.drawString(context.poseStack(), TextComponents.translation("formations.template.edit.size.x").get(), 10, 113);
-        ScreenUtils.drawString(context.poseStack(), TextComponents.translation("formations.template.edit.size.y").get(), 10, 124);
-        ScreenUtils.drawString(context.poseStack(), TextComponents.translation("formations.template.edit.size.z").get(), 10, 135);
+        graphics.submitText(TextComponents.translation("formations.template.edit.size").get(), 32, 101, p -> p.centerHorizontally());
+        graphics.submitText(TextComponents.translation("formations.template.edit.size.x").get(), 10, 113);
+        graphics.submitText(TextComponents.translation("formations.template.edit.size.y").get(), 10, 124);
+        graphics.submitText(TextComponents.translation("formations.template.edit.size.z").get(), 10, 135);
         Component sizeX = TextComponents.number((int)area.getXsize()).get();
         Component sizeY = TextComponents.number((int)area.getYsize()).get();
         Component sizeZ = TextComponents.number((int)area.getZsize()).get();
-        ScreenUtils.drawString(context.poseStack(), sizeX, 132 - font.width(sizeX), 113);
-        ScreenUtils.drawString(context.poseStack(), sizeY, 132 - font.width(sizeY), 124);
-        ScreenUtils.drawString(context.poseStack(), sizeZ, 132 - font.width(sizeZ), 135);
+        graphics.submitText(sizeX, 132 - font.width(sizeX), 113);
+        graphics.submitText(sizeY, 132 - font.width(sizeY), 124);
+        graphics.submitText(sizeZ, 132 - font.width(sizeZ), 135);
     }
 }
