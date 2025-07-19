@@ -1,20 +1,19 @@
 package com.supermartijn642.formations.mixin;
 
+import com.mojang.datafixers.util.Pair;
 import com.supermartijn642.formations.Formations;
 import com.supermartijn642.formations.structure.BlockInstance;
 import com.supermartijn642.formations.structure.FormationsStructureProcessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 /**
  * Created 25/09/2023 by SuperMartijn642
@@ -30,36 +29,47 @@ public class StructureTemplateMixin {
     )
     private static List<StructureTemplate.StructureBlockInfo> processBlockInfos(List<StructureTemplate.StructureBlockInfo> blocks, ServerLevelAccessor level, BlockPos piecePosition, BlockPos structurePosition, StructurePlaceSettings placeSettings){
         // Find all the processors
-        List<FormationsStructureProcessor> processors = placeSettings.getProcessors().stream()
-            .filter(FormationsStructureProcessor.class::isInstance)
-            .map(FormationsStructureProcessor.class::cast)
-            .toList();
+        List<FormationsStructureProcessor> processors = null;
+        for(StructureProcessor processor : placeSettings.getProcessors()){
+            if(processor instanceof FormationsStructureProcessor){
+                if(processors == null)
+                    processors = new ArrayList<>();
+                processors.add((FormationsStructureProcessor)processor);
+            }
+        }
         // Ignore if there aren't any FormationsStructureProcessor
-        if(processors.isEmpty())
+        if(processors == null)
             return blocks;
 
         // Put all the blocks into a map
-        Map<BlockPos,BlockInstance> blocksByPosition = blocks.stream()
-            .collect(Collectors.toUnmodifiableMap(block -> block.pos().offset(piecePosition), block -> new BlockInstance(block.state(), block.nbt())));
+        Map<BlockPos,Pair<BlockPos,BlockInstance>> blocksByPosition = new HashMap<>(blocks.size());
+        Map<BlockPos,BlockInstance> blockView = new HashMap<>(blocks.size());
+        for(StructureTemplate.StructureBlockInfo block : blocks){
+            BlockPos realPosition = StructureTemplate.calculateRelativePosition(placeSettings, block.pos()).offset(piecePosition);
+            BlockInstance blockInstance = new BlockInstance(block.state(), block.nbt());
+            blocksByPosition.put(realPosition, Pair.of(block.pos(), blockInstance));
+            blockView.put(realPosition, blockInstance);
+        }
+        blockView = Collections.unmodifiableMap(blockView);
         // Create a list containing the processed blocks
         List<StructureTemplate.StructureBlockInfo> newBlocks = new ArrayList<>(blocks.size());
-        for(Map.Entry<BlockPos,BlockInstance> entry : blocksByPosition.entrySet()){
+        for(Map.Entry<BlockPos,Pair<BlockPos,BlockInstance>> entry : blocksByPosition.entrySet()){
             BlockPos pos = entry.getKey();
-            BlockInstance block = entry.getValue();
+            BlockInstance block = entry.getValue().getSecond();
             // Run all the processors
             for(FormationsStructureProcessor processor : processors){
                 try{
-                    BlockInstance newBlock = processor.processBlock(block, pos, level, piecePosition, structurePosition, placeSettings, blocksByPosition);
+                    BlockInstance newBlock = processor.processBlock(block, pos, level, piecePosition, structurePosition, placeSettings, blockView);
                     if(newBlock == null)
                         throw new NullPointerException("Processor returned null!");
                     block = newBlock;
                 }catch(Exception e){
-                    Formations.LOGGER.error("Encountered an exception whilst processing block '" + block + "' with processor of class '" + processor.getClass() + "'!", e);
+                    Formations.LOGGER.error("Encountered an exception whilst processing block '{}' with processor of class '{}'!", block, processor.getClass(), e);
                 }
             }
             // Finally, add the resulting block to the list
             if(block.state() != null)
-                newBlocks.add(new StructureTemplate.StructureBlockInfo(pos.subtract(piecePosition), block.state(), block.nbt()));
+                newBlocks.add(new StructureTemplate.StructureBlockInfo(entry.getValue().getFirst(), block.state(), block.nbt()));
         }
         return newBlocks;
     }
