@@ -1,3 +1,8 @@
+### Formations 1.0.4
+- Significantly improved performance of Formations' structure processors
+- Fixed `formations:waterlogging` structure processor getting overwritten by vanilla behaviour
+- Fixed crash when the highest and lowest block are the same where a Formations structure is placed
+
 ### Formations 1.0.3
 - Added `formations:waterlogging` structure processor
 
