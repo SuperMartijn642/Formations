@@ -85,7 +85,7 @@ public enum StructurePlacement implements StringRepresentable {
 
         int min = positions.stream().mapToInt(Triple::getRight).max().getAsInt();
         int max = positions.stream().mapToInt(Triple::getMiddle).min().getAsInt();
-        if(max - min - 2 < box.getYSpan())
+        if(max - min - 2 <= box.getYSpan())
             return null;
 
         return min + 1 + context.random().nextInt(max - min - box.getYSpan() - 2);
@@ -114,7 +114,7 @@ public enum StructurePlacement implements StringRepresentable {
 
         int min = positions.stream().mapToInt(Triple::getRight).max().getAsInt();
         int max = positions.stream().mapToInt(Triple::getMiddle).min().getAsInt();
-        if(max - min - 2 < box.getYSpan())
+        if(max - min - 2 <= box.getYSpan())
             return null;
 
         int height = min + 1 + context.random().nextInt(max - min - box.getYSpan() - 2);
@@ -176,7 +176,7 @@ public enum StructurePlacement implements StringRepresentable {
 
         int min = positions.stream().mapToInt(Triple::getRight).max().getAsInt();
         int max = positions.stream().mapToInt(Triple::getMiddle).min().getAsInt();
-        if(max - min - 2 < box.getYSpan())
+        if(max - min - 2 <= box.getYSpan())
             return null;
 
         int height = min + 1 + context.random().nextInt(max - min - box.getYSpan() - 2);
@@ -238,7 +238,7 @@ public enum StructurePlacement implements StringRepresentable {
 
         int min = positions.stream().mapToInt(Triple::getRight).max().getAsInt();
         int max = positions.stream().mapToInt(Triple::getMiddle).min().getAsInt();
-        if(max - min - 2 < box.getYSpan())
+        if(max - min - 2 <= box.getYSpan())
             return null;
 
         int ySpan = box.getYSpan();
@@ -300,7 +300,7 @@ public enum StructurePlacement implements StringRepresentable {
 
         int min = positions.stream().mapToInt(Triple::getRight).max().getAsInt();
         int max = positions.stream().mapToInt(Triple::getMiddle).min().getAsInt();
-        if(max - min - 2 < box.getYSpan())
+        if(max - min - 2 <= box.getYSpan())
             return null;
 
         int height = min + 1 + context.random().nextInt(max - min - box.getYSpan() - 2);
