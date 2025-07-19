@@ -7,14 +7,10 @@ import com.supermartijn642.formations.structure.BlockInstance;
 import com.supermartijn642.formations.structure.FormationsStructureProcessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChiseledBookShelfBlock;
@@ -25,18 +21,40 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created 01/09/2023 by SuperMartijn642
  */
 public class ChiseledBookshelfProcessor extends StructureProcessor implements FormationsStructureProcessor {
 
-    public static final Codec<ChiseledBookshelfProcessor> CODEC = RecordCodecBuilder.create(instance -> instance.group(Codec.floatRange(0, 1).optionalFieldOf("slotFillChance", 0.4f).forGetter(p -> p.slotFillChance)).apply(instance, ChiseledBookshelfProcessor::new));
+    public static final Codec<ChiseledBookshelfProcessor> CODEC = RecordCodecBuilder.create(instance ->
+        instance.group(
+            Codec.floatRange(0, 1).optionalFieldOf("slotFillChance", 0.4f).forGetter(p -> p.slotFillChance),
+            Codec.intRange(1, 1000).optionalFieldOf("levels").forGetter(p -> p.minLevels != p.maxLevels || p.minLevels == 10 ? Optional.empty() : Optional.of(p.maxLevels)),
+            Codec.intRange(1, 1000).optionalFieldOf("min_levels").forGetter(p -> p.minLevels == p.maxLevels ? Optional.empty() : Optional.of(p.minLevels)),
+            Codec.intRange(1, 1000).optionalFieldOf("max_levels").forGetter(p -> p.minLevels == p.maxLevels ? Optional.empty() : Optional.of(p.maxLevels)),
+            Codec.BOOL.optionalFieldOf("allow_curses", true).forGetter(p -> p.allowCurses)
+        ).apply(instance, (slotFillChance, levels, minLevels, maxLevels, allowCurses) -> {
+            if(minLevels.isPresent() && maxLevels.isPresent())
+                return new ChiseledBookshelfProcessor(slotFillChance, minLevels.get(), maxLevels.get(), allowCurses);
+            int l = levels.orElse(10);
+            return new ChiseledBookshelfProcessor(slotFillChance, l, l, allowCurses);
+        }));
 
     private final float slotFillChance;
+    private final int minLevels, maxLevels;
+    private final boolean allowCurses;
+
+    public ChiseledBookshelfProcessor(float slotFillChance, int minLevels, int maxLevels, boolean allowCurses){
+        this.slotFillChance = slotFillChance;
+        this.minLevels = minLevels;
+        this.maxLevels = maxLevels;
+        this.allowCurses = allowCurses;
+    }
 
     public ChiseledBookshelfProcessor(float slotFillChance){
-        this.slotFillChance = slotFillChance;
+        this(slotFillChance, 10, 10, true);
     }
 
     @Override
@@ -51,8 +69,8 @@ public class ChiseledBookshelfProcessor extends StructureProcessor implements Fo
             RandomSource random = placeSettings.getRandom(pos);
             for(int i = 0; i < 6; i++){ // This isn't very efficient, but since there's only 6 slots, it should be fine
                 if(books.get(i).isEmpty() && random.nextFloat() < this.slotFillChance){
-                    Enchantment enchantment = BuiltInRegistries.ENCHANTMENT.getRandom(random).get().value();
-                    ItemStack book = EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchantment, random.nextInt(enchantment.getMaxLevel()) + 1));
+                    int levels = random.nextInt(this.maxLevels - this.minLevels + 1) + this.minLevels;
+                    ItemStack book = EnchantmentHelper.getRandomEnchantedBook(levels, true, this.allowCurses, true, random, level.enabledFeatures());
                     books.set(i, book);
                     state = state.setValue(ChiseledBookShelfBlock.SLOT_OCCUPIED_PROPERTIES.get(i), true);
                 }
