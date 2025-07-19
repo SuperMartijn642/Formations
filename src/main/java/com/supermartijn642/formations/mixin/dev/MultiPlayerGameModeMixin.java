@@ -5,7 +5,6 @@ import com.supermartijn642.formations.tools.template.TemplateEditorItem;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,7 +21,7 @@ public class MultiPlayerGameModeMixin {
         method = "startDestroyBlock",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/world/level/GameType;isCreative()Z",
+            target = "Lnet/minecraft/client/player/LocalPlayer;getAbilities()Lnet/minecraft/world/entity/player/Abilities;",
             shift = At.Shift.BEFORE
         ),
         cancellable = true
