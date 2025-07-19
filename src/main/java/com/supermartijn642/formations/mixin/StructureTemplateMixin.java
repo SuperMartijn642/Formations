@@ -4,14 +4,19 @@ import com.mojang.datafixers.util.Pair;
 import com.supermartijn642.formations.Formations;
 import com.supermartijn642.formations.structure.BlockInstance;
 import com.supermartijn642.formations.structure.FormationsStructureProcessor;
+import com.supermartijn642.formations.structure.processors.WaterloggingProcessor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.*;
 
@@ -20,6 +25,20 @@ import java.util.*;
  */
 @Mixin(StructureTemplate.class)
 public class StructureTemplateMixin {
+
+    @Inject(
+        method = "placeInWorld(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructurePlaceSettings;Lnet/minecraft/util/RandomSource;I)Z",
+        at = @At("HEAD")
+    )
+    private void placeInWorld(ServerLevelAccessor level, BlockPos structurePosition, BlockPos piecePosition, StructurePlaceSettings placeSettings, RandomSource random, int setBlockFlags, CallbackInfoReturnable<Boolean> ci){
+        // If the list of processors contains a 'formations:waterlogging' processor, disable the regular waterlogging behaviour
+        for(StructureProcessor processor : placeSettings.getProcessors()){
+            if(processor instanceof WaterloggingProcessor){
+                placeSettings.setLiquidSettings(LiquidSettings.IGNORE_WATERLOGGING);
+                return;
+            }
+        }
+    }
 
     @ModifyVariable(
         method = "processBlockInfos(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructurePlaceSettings;Ljava/util/List;Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate;)Ljava/util/List;",
