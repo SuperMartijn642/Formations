@@ -35,7 +35,7 @@ public abstract class TemplatePoolGenerator extends ResourceGenerator {
                 .map(entry -> entry.location)
                 .collect(Collectors.toSet())
                 .stream()
-                .filter(structure -> !this.cache.doesResourceExist(ResourceType.DATA, structure.getNamespace(), "structures", structure.getPath(), ".nbt"))
+                .filter(structure -> !this.cache.doesResourceExist(ResourceType.DATA, structure.getNamespace(), "structure", structure.getPath(), ".nbt"))
                 .toList();
             if(!missingStructures.isEmpty())
                 throw new RuntimeException("Template pool '" + pool.identifier + "' has missing structure nbt files: " + missingStructures);
