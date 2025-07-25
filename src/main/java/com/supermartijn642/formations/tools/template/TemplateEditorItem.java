@@ -11,7 +11,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -83,7 +82,7 @@ public class TemplateEditorItem extends BaseItem {
     }
 
     @Override
-    public boolean canDestroyBlock(ItemStack stack, BlockState blockState, Level level, BlockPos blockPos, LivingEntity entity){
+    public boolean canAttackBlock(BlockState blockState, Level level, BlockPos blockPos, Player player){
         return false;
     }
 

@@ -4,7 +4,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +21,8 @@ public class Formations {
         return ResourceLocation.fromNamespaceAndPath(MODID, identifier);
     }
 
-    public Formations(FMLJavaModLoadingContext context){
-        FormationsStructures.init(context);
+    public Formations(){
+        FormationsStructures.init();
 
         // Only register dev stuff if we're in a development environment
         if(ModList.get().isLoaded("supermartijn642corelib") && !FMLEnvironment.production)
