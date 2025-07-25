@@ -44,10 +44,10 @@ public class EnchantmentHelper {
             stack = new ItemStack(Items.ENCHANTED_BOOK);
         if(allowMultiple){
             for(EnchantmentInstance enchantment : enchantments)
-                stack.enchant(enchantment.enchantment(), enchantment.level());
+                stack.enchant(enchantment.enchantment, enchantment.level);
         }else{
             EnchantmentInstance enchantment = enchantments.get(0);
-            stack.enchant(enchantment.enchantment(), enchantment.level());
+            stack.enchant(enchantment.enchantment, enchantment.level);
         }
         return stack;
     }
