@@ -1,3 +1,6 @@
+### Formations 1.0.4a
+- Fixed crash when applying `formations:fill_chiseled_bookshelves` processor on Minecraft 1.21.4
+
 ### Formations 1.0.4
 - Significantly improved performance of Formations' structure processors
 - Added `levels` and `allowCurses` options to `formations:fill_chiseled_bookshelves` processor
