@@ -47,7 +47,7 @@ public class SetLootTablePacket implements BasePacket {
         if(context.getHandlingSide() == CoreSide.SERVER && context.getSendingPlayer().blockPosition().distManhattan(this.pos) <= 32){
             BlockEntity entity = context.getWorld().getBlockEntity(this.pos);
             if(entity instanceof RandomizableContainerBlockEntity){
-                ((Clearable)entity).clearContent();
+                Clearable.tryClear(entity);
                 ((RandomizableContainerBlockEntity)entity).setLootTable(ResourceKey.create(Registries.LOOT_TABLE, this.lootTable), 0);
                 entity.setChanged();
             }

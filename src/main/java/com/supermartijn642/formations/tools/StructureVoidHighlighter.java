@@ -1,19 +1,17 @@
 package com.supermartijn642.formations.tools;
 
-import com.mojang.blaze3d.pipeline.BlendFunction;
-import com.mojang.blaze3d.pipeline.RenderPipeline;
-import com.mojang.blaze3d.platform.DepthTestFunction;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.block.BlockShape;
+import com.supermartijn642.core.render.RenderConfiguration;
+import com.supermartijn642.core.render.RenderStateConfiguration;
 import com.supermartijn642.core.render.RenderUtils;
 import com.supermartijn642.core.render.RenderWorldEvent;
+import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -57,7 +55,7 @@ public class StructureVoidHighlighter {
         BlockPos center = player.getOnPos();
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         MultiBufferSource.BufferSource bufferSource = RenderUtils.getMainBufferSource();
-        VertexConsumer buffer = bufferSource.getBuffer(QUADS);
+        VertexConsumer builder = QUADS.begin(bufferSource);
         for(int xOffset = -HIGHLIGHT_RANGE; xOffset <= HIGHLIGHT_RANGE; xOffset++){
             for(int yOffset = -HIGHLIGHT_RANGE; yOffset <= HIGHLIGHT_RANGE; yOffset++){
                 for(int zOffset = -HIGHLIGHT_RANGE; zOffset <= HIGHLIGHT_RANGE; zOffset++){
@@ -69,17 +67,17 @@ public class StructureVoidHighlighter {
                     e.getPoseStack().pushPose();
                     e.getPoseStack().translate(pos.getX(), pos.getY(), pos.getZ());
 //                    RenderUtils.renderShapeSides(e.getPoseStack(), HIGHLIGHT_SHAPE, 245 / 255f, 93 / 255f, 209 / 255f, 0.9f, true);
-                    renderShapeSides(e.getPoseStack(), buffer, HIGHLIGHT_SHAPE, 245 / 255f, 93 / 255f, 209 / 255f, 0.9f);
+                    renderShapeSides(e.getPoseStack(), builder, HIGHLIGHT_SHAPE, 245 / 255f, 93 / 255f, 209 / 255f, 0.9f);
                     e.getPoseStack().popPose();
                 }
             }
         }
-        bufferSource.endBatch(QUADS);
+        QUADS.end(bufferSource);
 
         e.getPoseStack().popPose();
     }
 
-    private static final RenderType QUADS = RenderType.create("formations:quads", 256, false, true, RenderPipeline.builder(RenderPipelines.DEBUG_FILLED_SNIPPET).withLocation(ResourceLocation.fromNamespaceAndPath("supermartijn642corelib", "quads")).withBlend(BlendFunction.TRANSLUCENT).withCull(false).withDepthTestFunction(DepthTestFunction.LEQUAL_DEPTH_TEST).withDepthWrite(false).build(), RenderType.CompositeState.builder().createCompositeState(false));
+    private static final RenderConfiguration QUADS = RenderConfiguration.create("supermartijn642corelib", "quads", DefaultVertexFormat.POSITION_COLOR, RenderConfiguration.PrimitiveType.QUADS, 256, false, true, RenderStateConfiguration.builder().useShader(CoreShaders.POSITION_COLOR).useTranslucentTransparency().disableTexture().disableCulling().useLessThanOrEqualDepthTest().disableDepthMask().build());
 
     public static void renderShapeSides(PoseStack poseStack, VertexConsumer builder, BlockShape shape, float red, float green, float blue, float alpha){
         Matrix4f matrix = poseStack.last().pose();
