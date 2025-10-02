@@ -34,7 +34,7 @@ dependencies {
     implementation "net.neoforged:neoforge:${neoforge_version}"
 
     // Core library
-    implementation "curse.maven:supermartijn642s-core-lib-454372:${core_library_file}"
+    compileOnly "curse.maven:supermartijn642s-core-lib-454372:${core_library_file}"
 
     // Just Enough Items
 //    runtimeOnly "curse.maven:jei-238222:${just_enough_items_file}"

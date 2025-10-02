@@ -22,7 +22,7 @@ public class ContainerOpenIntercept {
         NeoForge.EVENT_BUS.addListener((Consumer<PlayerInteractEvent.RightClickBlock>)event -> {
             Player player = event.getEntity();
             Level world = event.getLevel();
-            if(player.isSpectator() || world.isClientSide || !FormationsLevelData.SERVER.isDevMode())
+            if(player.isSpectator() || world.isClientSide() || !FormationsLevelData.SERVER.isDevMode())
                 return;
 
             if(player.isShiftKeyDown() && (player.getMainHandItem().getItem() instanceof BlockItem || player.getOffhandItem().getItem() instanceof BlockItem))

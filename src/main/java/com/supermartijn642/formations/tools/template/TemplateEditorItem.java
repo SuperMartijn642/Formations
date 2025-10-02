@@ -32,7 +32,7 @@ public class TemplateEditorItem extends BaseItem {
     @Override
     public ItemUseResult interact(ItemStack stack, Player player, InteractionHand hand, Level level){
         if(player.isShiftKeyDown()){
-            if(level.isClientSide){
+            if(level.isClientSide()){
                 if(TemplateRenderer.selectionDimension == level.dimension() && TemplateRenderer.selectionPos1 != null && TemplateRenderer.selectionPos2 != null)
                     ClientUtils.displayScreen(WidgetScreen.of(new TemplateEditingScreen(null)));
                 else
@@ -52,7 +52,7 @@ public class TemplateEditorItem extends BaseItem {
 
     @Override
     public InteractionFeedback interactWithBlock(ItemStack stack, Player player, InteractionHand hand, Level level, BlockPos hitPos, Direction hitSide, Vec3 hitLocation){
-        if(level.isClientSide){
+        if(level.isClientSide()){
             if(player.isShiftKeyDown()){
                 // Open the editor menu
                 if(TemplateRenderer.selectionDimension == level.dimension() && TemplateRenderer.selectionPos1 != null && TemplateRenderer.selectionPos2 != null)
@@ -73,7 +73,7 @@ public class TemplateEditorItem extends BaseItem {
 
     public boolean leftClickBlock(ItemStack stack, Player player, BlockPos pos){
         Level level = player.level();
-        if(level.isClientSide){
+        if(level.isClientSide()){
             if(TemplateRenderer.selectionDimension != level.dimension())
                 TemplateRenderer.selectionPos2 = null;
             TemplateRenderer.selectionDimension = level.dimension();

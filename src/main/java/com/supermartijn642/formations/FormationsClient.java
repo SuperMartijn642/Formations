@@ -12,7 +12,7 @@ public class FormationsClient {
 
     public static void onInitializeClient(){
         // Only register dev stuff if we're in a development environment
-        if(ModList.get().isLoaded("supermartijn642corelib") && !FMLEnvironment.production){
+        if(ModList.get().isLoaded("supermartijn642corelib") && !FMLEnvironment.isProduction()){
             TemplateRenderer.registerListeners();
             StructureVoidHighlighter.registerListeners();
         }

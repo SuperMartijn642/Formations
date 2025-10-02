@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class FormationsMixinPlugin implements IMixinConfigPlugin {
 
-    private static final boolean isDevEnvironment = !FMLEnvironment.production;
+    private static final boolean isDevEnvironment = !FMLEnvironment.isProduction();
 
     @Override
     public void onLoad(String mixinPackage){

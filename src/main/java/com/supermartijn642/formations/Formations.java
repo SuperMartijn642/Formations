@@ -1,7 +1,6 @@
 package com.supermartijn642.formations;
 
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLEnvironment;
@@ -25,11 +24,11 @@ public class Formations {
         FormationsStructures.init();
 
         // Only register dev stuff if we're in a development environment
-        if(ModList.get().isLoaded("supermartijn642corelib") && !FMLEnvironment.production)
+        if(ModList.get().isLoaded("supermartijn642corelib") && !FMLEnvironment.isProduction())
             FormationsDev.initDevTools();
 
         // Client stuff
-        if(FMLEnvironment.dist == Dist.CLIENT)
+        if(FMLEnvironment.getDist().isClient())
             FormationsClient.onInitializeClient();
     }
 }
