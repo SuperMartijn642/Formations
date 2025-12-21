@@ -30,7 +30,7 @@ public class ContainerOpenIntercept {
 
             BlockEntity entity = world.getBlockEntity(event.getPos());
             if(entity instanceof RandomizableContainerBlockEntity && (!player.isShiftKeyDown() || ((RandomizableContainerBlockEntity)entity).lootTable != null)){
-                FormationsDev.CHANNEL.sendToPlayer(player, new OpenLootTableScreenPacket(entity.getBlockPos(), ((RandomizableContainerBlockEntity)entity).lootTable.location()));
+                FormationsDev.CHANNEL.sendToPlayer(player, new OpenLootTableScreenPacket(entity.getBlockPos(), ((RandomizableContainerBlockEntity)entity).lootTable.identifier()));
                 event.setCanceled(true);
                 event.setCancellationResult(InteractionResult.FAIL);
             }

@@ -13,7 +13,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.ContainerHelper;
@@ -56,7 +56,7 @@ public class BrewingStandProcessor extends StructureProcessor implements Formati
             // Load the potions from the brewing stand's nbt
             NonNullList<ItemStack> potions = NonNullList.withSize(5, ItemStack.EMPTY);
             if(block.nbt() != null){
-                ResourceLocation name = level.registryAccess().lookupOrThrow(Registries.STRUCTURE_PROCESSOR).getKey(this.getType());
+                Identifier name = level.registryAccess().lookupOrThrow(Registries.STRUCTURE_PROCESSOR).getKey(this.getType());
                 try(ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(name::toString, Formations.LOGGER)){
                     ContainerHelper.loadAllItems(TagValueInput.create(reporter, level.registryAccess(), block.nbt()), potions);
                 }
@@ -73,7 +73,7 @@ public class BrewingStandProcessor extends StructureProcessor implements Formati
             }
             // Convert the potions back to nbt
             CompoundTag nbt = block.nbt() == null ? new CompoundTag() : block.nbt().copy();
-            ResourceLocation name = level.registryAccess().lookupOrThrow(Registries.STRUCTURE_PROCESSOR).getKey(this.getType());
+            Identifier name = level.registryAccess().lookupOrThrow(Registries.STRUCTURE_PROCESSOR).getKey(this.getType());
             try(ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(name::toString, Formations.LOGGER)){
                 TagValueOutput output = TagValueOutput.createWithContext(reporter, level.registryAccess());
                 ContainerHelper.saveAllItems(output, potions);

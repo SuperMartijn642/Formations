@@ -2,7 +2,7 @@ package com.supermartijn642.formations.generators.properties;
 
 import com.google.gson.JsonObject;
 import com.supermartijn642.formations.structure.StructurePlacement;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 /**
  * Created 03/09/2023 by SuperMartijn642
@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 public class PiecedStructureProperties implements StructureProperties {
 
     private final String namespace;
-    private ResourceLocation startPool;
+    private Identifier startPool;
     private int maxDepth = 1;
     private int maxDistance = 116;
     private StructurePlacement placement = StructurePlacement.SURFACE;
@@ -20,7 +20,7 @@ public class PiecedStructureProperties implements StructureProperties {
     }
 
     public PiecedStructureProperties startPool(String pool){
-        this.startPool = ResourceLocation.fromNamespaceAndPath(this.namespace, pool);
+        this.startPool = Identifier.fromNamespaceAndPath(this.namespace, pool);
         return this;
     }
 

@@ -16,6 +16,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import java.util.Optional;
 
@@ -38,8 +39,8 @@ public class TemplateRenderer {
             return null;
 
         // Find the aimed at template
-        Vec3 playerPos = ClientUtils.getMinecraft().gameRenderer.getMainCamera().getPosition();
-        Vec3 playerFacingPos = new Vec3(ClientUtils.getMinecraft().gameRenderer.getMainCamera().getPosition().toVector3f().add(ClientUtils.getMinecraft().gameRenderer.getMainCamera().getLookVector().mul(100)));
+        Vec3 playerPos = ClientUtils.getMinecraft().gameRenderer.getMainCamera().position();
+        Vec3 playerFacingPos = new Vec3(ClientUtils.getMinecraft().gameRenderer.getMainCamera().position().toVector3f().add(ClientUtils.getMinecraft().gameRenderer.getMainCamera().forwardVector().mul(100, new Vector3f())));
         Template aimedTemplate = null;
         double distance = 0;
         for(Template template : TemplateManager.get(ClientUtils.getWorld()).getAllTemplates()){

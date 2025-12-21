@@ -9,7 +9,7 @@ import com.supermartijn642.core.generator.ResourceGenerator;
 import com.supermartijn642.core.generator.ResourceType;
 import com.supermartijn642.core.generator.aggregator.ResourceAggregator;
 import com.supermartijn642.core.util.Pair;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -22,16 +22,16 @@ import java.util.*;
  */
 public abstract class FormationsStructureSetGenerator extends ResourceGenerator {
 
-    private static final ResourceAggregator<Pair<Pair<StructureSetKey,String>,Set<Pair<ResourceLocation,Integer>>>,Pair<Pair<StructureSetKey,String>,Pair<ResourceLocation,Integer>>> AGGREGATOR = new ResourceAggregator<Pair<Pair<StructureSetKey,String>,Set<Pair<ResourceLocation,Integer>>>,Pair<Pair<StructureSetKey,String>,Pair<ResourceLocation,Integer>>>() {
+    private static final ResourceAggregator<Pair<Pair<StructureSetKey,String>,Set<Pair<Identifier,Integer>>>,Pair<Pair<StructureSetKey,String>,Pair<Identifier,Integer>>> AGGREGATOR = new ResourceAggregator<Pair<Pair<StructureSetKey,String>,Set<Pair<Identifier,Integer>>>,Pair<Pair<StructureSetKey,String>,Pair<Identifier,Integer>>>() {
         static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         @Override
-        public Pair<Pair<StructureSetKey,String>,Set<Pair<ResourceLocation,Integer>>> initialData(){
+        public Pair<Pair<StructureSetKey,String>,Set<Pair<Identifier,Integer>>> initialData(){
             return null;
         }
 
         @Override
-        public Pair<Pair<StructureSetKey,String>,Set<Pair<ResourceLocation,Integer>>> combine(Pair<Pair<StructureSetKey,String>,Set<Pair<ResourceLocation,Integer>>> data, Pair<Pair<StructureSetKey,String>,Pair<ResourceLocation,Integer>> newData){
+        public Pair<Pair<StructureSetKey,String>,Set<Pair<Identifier,Integer>>> combine(Pair<Pair<StructureSetKey,String>,Set<Pair<Identifier,Integer>>> data, Pair<Pair<StructureSetKey,String>,Pair<Identifier,Integer>> newData){
             if(data == null)
                 return Pair.of(newData.left(), new LinkedHashSet<>(Collections.singleton(newData.right())));
 
@@ -42,7 +42,7 @@ public abstract class FormationsStructureSetGenerator extends ResourceGenerator 
         }
 
         @Override
-        public void write(OutputStream stream, Pair<Pair<StructureSetKey,String>,Set<Pair<ResourceLocation,Integer>>> data) throws IOException{
+        public void write(OutputStream stream, Pair<Pair<StructureSetKey,String>,Set<Pair<Identifier,Integer>>> data) throws IOException{
             // Placement
             JsonObject placement = new JsonObject();
             placement.addProperty("type", "minecraft:random_spread");
@@ -56,7 +56,7 @@ public abstract class FormationsStructureSetGenerator extends ResourceGenerator 
 
             // Structures
             JsonArray structures = new JsonArray(data.right().size());
-            for(Pair<ResourceLocation,Integer> structure : data.right()){
+            for(Pair<Identifier,Integer> structure : data.right()){
                 JsonObject object = new JsonObject();
                 object.addProperty("structure", structure.left().toString());
                 object.addProperty("weight", structure.right());
@@ -75,7 +75,7 @@ public abstract class FormationsStructureSetGenerator extends ResourceGenerator 
         }
     };
 
-    private final List<Pair<StructureSetKey,Pair<ResourceLocation,Integer>>> structures = new ArrayList<>();
+    private final List<Pair<StructureSetKey,Pair<Identifier,Integer>>> structures = new ArrayList<>();
 
     public FormationsStructureSetGenerator(String modid, ResourceCache cache){
         super(modid, cache);
@@ -86,7 +86,7 @@ public abstract class FormationsStructureSetGenerator extends ResourceGenerator 
         this.structures.forEach(pair -> this.cache.saveResource(ResourceType.DATA, AGGREGATOR, Pair.of(Pair.of(pair.left(), this.modid), pair.right()), this.modid, "worldgen/structure_set", pair.left().name(), ".json"));
     }
 
-    protected void addStructure(StructureSetKey key, ResourceLocation location, int weight){
+    protected void addStructure(StructureSetKey key, Identifier location, int weight){
         this.structures.add(Pair.of(key, Pair.of(location, weight)));
         this.cache.trackToBeGeneratedResource(ResourceType.DATA, this.modid, "worldgen/structure_set", key.name(), ".json");
     }

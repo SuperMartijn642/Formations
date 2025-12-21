@@ -5,7 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.supermartijn642.formations.FormationsStructures;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
@@ -29,7 +29,7 @@ public class FormationsSinglePoolElement extends SinglePoolElement {
 
     private final int ground_level;
 
-    protected FormationsSinglePoolElement(Either<ResourceLocation,StructureTemplate> either, Holder<StructureProcessorList> holder, StructureTemplatePool.Projection projection, int groundLevel){
+    protected FormationsSinglePoolElement(Either<Identifier,StructureTemplate> either, Holder<StructureProcessorList> holder, StructureTemplatePool.Projection projection, int groundLevel){
         super(either, holder, projection, Optional.empty());
         this.ground_level = groundLevel;
     }
