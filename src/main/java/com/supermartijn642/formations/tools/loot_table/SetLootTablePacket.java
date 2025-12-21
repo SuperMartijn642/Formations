@@ -6,8 +6,8 @@ import com.supermartijn642.core.network.PacketContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Clearable;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
@@ -18,9 +18,9 @@ import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 public class SetLootTablePacket implements BasePacket {
 
     private BlockPos pos;
-    private ResourceLocation lootTable;
+    private Identifier lootTable;
 
-    public SetLootTablePacket(BlockPos pos, ResourceLocation lootTable){
+    public SetLootTablePacket(BlockPos pos, Identifier lootTable){
         this.pos = pos;
         this.lootTable = lootTable;
     }
@@ -33,13 +33,13 @@ public class SetLootTablePacket implements BasePacket {
         buffer.writeBlockPos(this.pos);
         buffer.writeBoolean(this.lootTable != null);
         if(this.lootTable != null)
-            buffer.writeResourceLocation(this.lootTable);
+            buffer.writeIdentifier(this.lootTable);
     }
 
     @Override
     public void read(FriendlyByteBuf buffer){
         this.pos = buffer.readBlockPos();
-        this.lootTable = buffer.readBoolean() ? buffer.readResourceLocation() : null;
+        this.lootTable = buffer.readBoolean() ? buffer.readIdentifier() : null;
     }
 
     @Override

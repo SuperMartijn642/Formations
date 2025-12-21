@@ -46,7 +46,7 @@ public class TemplateManager {
 
     public TemplateManager(Level level){
         this.level = level;
-        this.isClientSide = level.isClientSide;
+        this.isClientSide = level.isClientSide();
     }
 
     public void addTemplate(Template template){

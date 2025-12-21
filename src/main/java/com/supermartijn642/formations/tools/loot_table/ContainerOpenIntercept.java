@@ -15,7 +15,7 @@ public class ContainerOpenIntercept {
 
     public static void registerListeners(){
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
-            if(player.isSpectator() || world.isClientSide || !FormationsLevelData.SERVER.isDevMode())
+            if(player.isSpectator() || world.isClientSide() || !FormationsLevelData.SERVER.isDevMode())
                 return InteractionResult.PASS;
 
             if(player.isShiftKeyDown() && (player.getMainHandItem().getItem() instanceof BlockItem || player.getOffhandItem().getItem() instanceof BlockItem))
@@ -23,7 +23,7 @@ public class ContainerOpenIntercept {
 
             BlockEntity entity = world.getBlockEntity(hitResult.getBlockPos());
             if(entity instanceof RandomizableContainerBlockEntity && (!player.isShiftKeyDown() || ((RandomizableContainerBlockEntity)entity).lootTable != null)){
-                FormationsDev.CHANNEL.sendToPlayer(player, new OpenLootTableScreenPacket(entity.getBlockPos(), ((RandomizableContainerBlockEntity)entity).lootTable.location()));
+                FormationsDev.CHANNEL.sendToPlayer(player, new OpenLootTableScreenPacket(entity.getBlockPos(), ((RandomizableContainerBlockEntity)entity).lootTable.identifier()));
                 return InteractionResult.FAIL;
             }
             return InteractionResult.PASS;

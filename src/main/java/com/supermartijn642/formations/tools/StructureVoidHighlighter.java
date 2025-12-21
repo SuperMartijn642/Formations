@@ -1,8 +1,5 @@
 package com.supermartijn642.formations.tools;
 
-import com.mojang.blaze3d.pipeline.BlendFunction;
-import com.mojang.blaze3d.pipeline.RenderPipeline;
-import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.supermartijn642.core.ClientUtils;
@@ -10,10 +7,8 @@ import com.supermartijn642.core.block.BlockShape;
 import com.supermartijn642.core.render.RenderUtils;
 import com.supermartijn642.core.render.RenderWorldEvent;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -79,7 +74,7 @@ public class StructureVoidHighlighter {
         e.getPoseStack().popPose();
     }
 
-    private static final RenderType QUADS = RenderType.create("formations:quads", 256, false, true, RenderPipeline.builder(RenderPipelines.DEBUG_FILLED_SNIPPET).withLocation(ResourceLocation.fromNamespaceAndPath("supermartijn642corelib", "quads")).withBlend(BlendFunction.TRANSLUCENT).withCull(false).withDepthTestFunction(DepthTestFunction.LEQUAL_DEPTH_TEST).withDepthWrite(false).build(), RenderType.CompositeState.builder().createCompositeState(false));
+    private static final RenderType QUADS = null; // TODO RenderType.create("formations:quads", 256, false, true, RenderPipeline.builder(RenderPipelines.DEBUG_FILLED_SNIPPET).withLocation(Identifier.fromNamespaceAndPath("supermartijn642corelib", "quads")).withBlend(BlendFunction.TRANSLUCENT).withCull(false).withDepthTestFunction(DepthTestFunction.LEQUAL_DEPTH_TEST).withDepthWrite(false).build(), RenderType.CompositeState.builder().createCompositeState(false));
 
     public static void renderShapeSides(PoseStack poseStack, VertexConsumer builder, BlockShape shape, float red, float green, float blue, float alpha){
         Matrix4f matrix = poseStack.last().pose();

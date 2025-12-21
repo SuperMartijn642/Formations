@@ -2,7 +2,7 @@ package com.supermartijn642.formations.generators.properties;
 
 import com.google.gson.JsonObject;
 import com.supermartijn642.formations.structure.StructurePlacement;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 /**
  * Created 01/10/2023 by SuperMartijn642
@@ -10,8 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 public class SimpleStructureProperties implements StructureProperties {
 
     private final String namespace;
-    private ResourceLocation template;
-    private ResourceLocation templatePool;
+    private Identifier template;
+    private Identifier templatePool;
     private StructurePlacement placement = StructurePlacement.SURFACE;
 
     public SimpleStructureProperties(String namespace){
@@ -22,7 +22,7 @@ public class SimpleStructureProperties implements StructureProperties {
         if(this.templatePool != null)
             throw new IllegalStateException("Cannot have both a template and a template pool!");
 
-        this.template = ResourceLocation.fromNamespaceAndPath(this.namespace, template);
+        this.template = Identifier.fromNamespaceAndPath(this.namespace, template);
         return this;
     }
 
@@ -30,7 +30,7 @@ public class SimpleStructureProperties implements StructureProperties {
         if(this.template != null)
             throw new IllegalStateException("Cannot have both a template and a template pool!");
 
-        this.templatePool = ResourceLocation.fromNamespaceAndPath(this.namespace, template);
+        this.templatePool = Identifier.fromNamespaceAndPath(this.namespace, template);
         return this;
     }
 

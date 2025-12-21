@@ -7,7 +7,7 @@ import com.supermartijn642.core.network.BasePacket;
 import com.supermartijn642.core.network.PacketContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 /**
  * Created 27/08/2023 by SuperMartijn642
@@ -15,9 +15,9 @@ import net.minecraft.resources.ResourceLocation;
 public class OpenLootTableScreenPacket implements BasePacket {
 
     private BlockPos pos;
-    private ResourceLocation original;
+    private Identifier original;
 
-    public OpenLootTableScreenPacket(BlockPos pos, ResourceLocation original){
+    public OpenLootTableScreenPacket(BlockPos pos, Identifier original){
         this.pos = pos;
         this.original = original;
     }
@@ -30,13 +30,13 @@ public class OpenLootTableScreenPacket implements BasePacket {
         buffer.writeBlockPos(this.pos);
         buffer.writeBoolean(this.original != null);
         if(this.original != null)
-            buffer.writeResourceLocation(this.original);
+            buffer.writeIdentifier(this.original);
     }
 
     @Override
     public void read(FriendlyByteBuf buffer){
         this.pos = buffer.readBlockPos();
-        this.original = buffer.readBoolean() ? buffer.readResourceLocation() : null;
+        this.original = buffer.readBoolean() ? buffer.readIdentifier() : null;
     }
 
     @Override

@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.server.permissions.Permissions;
 
 /**
  * Created 27/08/2023 by SuperMartijn642
@@ -20,7 +21,7 @@ public class FormationsCommand {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(
                 Commands.literal("formations")
-                    .requires(source -> source.hasPermission(Commands.LEVEL_ADMINS))
+                    .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_ADMIN))
                     .then(registerExportTemplates())
                     .then(registerDevMode())
             );
@@ -29,7 +30,7 @@ public class FormationsCommand {
 
     private static LiteralArgumentBuilder<CommandSourceStack> registerExportTemplates(){
         return Commands.literal("export")
-            .requires(source -> source.hasPermission(Commands.LEVEL_ADMINS) && source.isPlayer())
+            .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_ADMIN) && source.isPlayer())
             .executes(context -> {
                 CommandSourceStack source = context.getSource();
                 Pair<Integer,Integer> successes = TemplateManager.get(source.getLevel()).exportAll();

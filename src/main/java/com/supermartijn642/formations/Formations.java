@@ -2,7 +2,7 @@ package com.supermartijn642.formations;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,8 +14,8 @@ public class Formations implements ModInitializer {
     public static final String MODID = "formations";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
-    public static ResourceLocation location(String identifier){
-        return ResourceLocation.fromNamespaceAndPath(MODID, identifier);
+    public static Identifier location(String identifier){
+        return Identifier.fromNamespaceAndPath(MODID, identifier);
     }
 
     @Override

@@ -16,7 +16,7 @@ import com.supermartijn642.formations.tools.template.packets.DeleteTemplatePacke
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -25,7 +25,7 @@ import net.minecraft.world.phys.Vec3;
  */
 public class TemplateEditingScreen extends BaseWidget {
 
-    private static final ResourceLocation SCREEN_BACKGROUND = Formations.location("textures/gui/template_creation_screen.png");
+    private static final Identifier SCREEN_BACKGROUND = Formations.location("textures/gui/template_creation_screen.png");
 
     private final Template template;
     private TemplateEditButton saveButton;

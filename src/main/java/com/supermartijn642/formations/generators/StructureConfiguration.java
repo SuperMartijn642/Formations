@@ -3,8 +3,8 @@ package com.supermartijn642.formations.generators;
 import com.supermartijn642.formations.generators.properties.PiecedStructureProperties;
 import com.supermartijn642.formations.generators.properties.SimpleStructureProperties;
 import com.supermartijn642.formations.generators.properties.StructureProperties;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
@@ -25,8 +25,8 @@ public class StructureConfiguration {
 
     final String namespace, identifier;
     StructureProperties typeProperties;
-    Set<ResourceLocation> biomes = new LinkedHashSet<>();
-    Set<ResourceLocation> biomeTags = new LinkedHashSet<>();
+    Set<Identifier> biomes = new LinkedHashSet<>();
+    Set<Identifier> biomeTags = new LinkedHashSet<>();
     GenerationStep.Decoration generationStep = GenerationStep.Decoration.SURFACE_STRUCTURES;
     TerrainAdjustment terrainAdjustment = TerrainAdjustment.BEARD_THIN;
     StructureSetKey structureSet;
@@ -53,17 +53,17 @@ public class StructureConfiguration {
         return this.type(new PiecedStructureProperties(this.namespace), propertiesConsumer);
     }
 
-    public StructureConfiguration biomes(ResourceLocation... biomes){
+    public StructureConfiguration biomes(Identifier... biomes){
         this.biomes.addAll(Arrays.asList(biomes));
         return this;
     }
 
     public StructureConfiguration biomes(ResourceKey<Biome>... biomes){
-        Arrays.stream(biomes).map(ResourceKey::location).forEach(this.biomes::add);
+        Arrays.stream(biomes).map(ResourceKey::identifier).forEach(this.biomes::add);
         return this;
     }
 
-    public StructureConfiguration biomeTags(ResourceLocation... tags){
+    public StructureConfiguration biomeTags(Identifier... tags){
         this.biomeTags.addAll(Arrays.asList(tags));
         return this;
     }

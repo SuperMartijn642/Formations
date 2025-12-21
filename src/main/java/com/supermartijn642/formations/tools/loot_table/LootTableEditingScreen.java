@@ -13,7 +13,7 @@ import com.supermartijn642.formations.tools.template.screen.TemplateEditButton;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.Objects;
 
@@ -22,14 +22,14 @@ import java.util.Objects;
  */
 public class LootTableEditingScreen extends BaseWidget {
 
-    private static final ResourceLocation SCREEN_BACKGROUND = Formations.location("textures/gui/loot_table_editing_screen.png");
+    private static final Identifier SCREEN_BACKGROUND = Formations.location("textures/gui/loot_table_editing_screen.png");
 
     private final BlockPos pos;
-    private final ResourceLocation original;
+    private final Identifier original;
 
     private TemplateEditButton saveButton;
 
-    public LootTableEditingScreen(BlockPos pos, ResourceLocation originalLootTable){
+    public LootTableEditingScreen(BlockPos pos, Identifier originalLootTable){
         super(0, 0, 200, 66);
         this.pos = pos;
         this.original = originalLootTable;
@@ -54,7 +54,7 @@ public class LootTableEditingScreen extends BaseWidget {
         this.saveButton = this.addWidget(new TemplateEditButton(128, 51, 72, 15, TextComponents.translation("formations.edit_loot.save").get(), TemplateEditButton.GREEN_RIGHT_BUTTON, () -> {
             String lootTableText = lootTableField.getText().trim();
             if(lootTableText.isEmpty() || RegistryUtil.isValidIdentifier(lootTableText)){
-                ResourceLocation lootTable = lootTableText.isEmpty() ? null : ResourceLocation.parse(lootTableText);
+                Identifier lootTable = lootTableText.isEmpty() ? null : Identifier.parse(lootTableText);
                 if(!Objects.equals(lootTable, this.original))
                     FormationsDev.CHANNEL.sendToServer(new SetLootTablePacket(this.pos, lootTable));
                 ClientUtils.getMinecraft().setScreen(null);
