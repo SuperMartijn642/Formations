@@ -6,7 +6,7 @@ import com.supermartijn642.core.generator.ResourceGenerator;
 import com.supermartijn642.core.generator.ResourceType;
 import com.supermartijn642.core.registry.GeneratorRegistrationHandler;
 import com.supermartijn642.core.util.Pair;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -134,7 +134,7 @@ public final class StructureResourceGenerators {
         handler.addGenerator(cache -> new FormationsStructureSetGenerator(this.modid, cache) {
             @Override
             public void generate(){
-                properties.forEach(structure -> this.addStructure(structure.structureSet, ResourceLocation.fromNamespaceAndPath(this.modid, structure.identifier), structure.weight));
+                properties.forEach(structure -> this.addStructure(structure.structureSet, Identifier.fromNamespaceAndPath(this.modid, structure.identifier), structure.weight));
             }
         });
     }

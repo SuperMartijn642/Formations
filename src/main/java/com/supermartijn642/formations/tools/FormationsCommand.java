@@ -9,6 +9,7 @@ import com.supermartijn642.formations.tools.template.TemplateManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.server.permissions.Permissions;
 import net.minecraftforge.event.RegisterCommandsEvent;
 
 /**
@@ -20,7 +21,7 @@ public class FormationsCommand {
         RegisterCommandsEvent.BUS.addListener(event ->
             event.getDispatcher().register(
                 Commands.literal("formations")
-                    .requires(source -> source.hasPermission(Commands.LEVEL_ADMINS))
+                    .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_ADMIN))
                     .then(registerExportTemplates())
                     .then(registerDevMode())
             )
@@ -29,7 +30,7 @@ public class FormationsCommand {
 
     private static LiteralArgumentBuilder<CommandSourceStack> registerExportTemplates(){
         return Commands.literal("export")
-            .requires(source -> source.hasPermission(Commands.LEVEL_ADMINS) && source.isPlayer())
+            .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_ADMIN) && source.isPlayer())
             .executes(context -> {
                 CommandSourceStack source = context.getSource();
                 Pair<Integer,Integer> successes = TemplateManager.get(source.getLevel()).exportAll();

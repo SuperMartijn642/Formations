@@ -22,7 +22,7 @@ public class TntBlockMixin {
         cancellable = true
     )
     private static void cancelExplosion(Level level, BlockPos pos, LivingEntity igniter, CallbackInfoReturnable<Boolean> ci){
-        if(!level.isClientSide && FormationsLevelData.SERVER.isDevMode())
+        if(!level.isClientSide() && FormationsLevelData.SERVER.isDevMode())
             ci.setReturnValue(false);
     }
 }

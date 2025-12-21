@@ -1,6 +1,6 @@
 package com.supermartijn642.formations;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
@@ -18,8 +18,8 @@ public class Formations {
     public static final String MODID = "formations";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
-    public static ResourceLocation location(String identifier){
-        return ResourceLocation.fromNamespaceAndPath(MODID, identifier);
+    public static Identifier location(String identifier){
+        return Identifier.fromNamespaceAndPath(MODID, identifier);
     }
 
     public Formations(FMLJavaModLoadingContext context){

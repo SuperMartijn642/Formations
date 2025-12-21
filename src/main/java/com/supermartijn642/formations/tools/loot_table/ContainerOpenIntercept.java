@@ -19,7 +19,7 @@ public class ContainerOpenIntercept {
         PlayerInteractEvent.RightClickBlock.BUS.addListener(event -> {
             Player player = event.getEntity();
             Level world = event.getLevel();
-            if(player.isSpectator() || world.isClientSide || !FormationsLevelData.SERVER.isDevMode()){
+            if(player.isSpectator() || world.isClientSide() || !FormationsLevelData.SERVER.isDevMode()){
                 event.setCancellationResult(InteractionResult.PASS);
                 return true;
             }
@@ -31,7 +31,7 @@ public class ContainerOpenIntercept {
 
             BlockEntity entity = world.getBlockEntity(event.getPos());
             if(entity instanceof RandomizableContainerBlockEntity && (!player.isShiftKeyDown() || ((RandomizableContainerBlockEntity)entity).lootTable != null)){
-                FormationsDev.CHANNEL.sendToPlayer(player, new OpenLootTableScreenPacket(entity.getBlockPos(), ((RandomizableContainerBlockEntity)entity).lootTable.location()));
+                FormationsDev.CHANNEL.sendToPlayer(player, new OpenLootTableScreenPacket(entity.getBlockPos(), ((RandomizableContainerBlockEntity)entity).lootTable.identifier()));
                 event.setCancellationResult(InteractionResult.FAIL);
                 return true;
             }

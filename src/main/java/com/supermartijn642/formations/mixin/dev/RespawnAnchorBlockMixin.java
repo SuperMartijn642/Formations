@@ -22,7 +22,7 @@ public class RespawnAnchorBlockMixin {
         cancellable = true
     )
     private void explode(BlockState state, Level level, BlockPos pos, CallbackInfo ci){
-        if(level.isClientSide ? FormationsLevelData.CLIENT.isDevMode() : FormationsLevelData.SERVER.isDevMode())
+        if(level.isClientSide() ? FormationsLevelData.CLIENT.isDevMode() : FormationsLevelData.SERVER.isDevMode())
             ci.cancel();
     }
 }

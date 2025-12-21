@@ -6,7 +6,7 @@ import com.mojang.serialization.JsonOps;
 import com.supermartijn642.core.generator.ResourceCache;
 import com.supermartijn642.core.generator.ResourceGenerator;
 import com.supermartijn642.core.generator.ResourceType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  */
 public abstract class TemplatePoolGenerator extends ResourceGenerator {
 
-    private final Map<ResourceLocation,TemplatePoolBuilder> builders = new HashMap<>();
+    private final Map<Identifier,TemplatePoolBuilder> builders = new HashMap<>();
 
     public TemplatePoolGenerator(String modid, ResourceCache cache){
         super(modid, cache);
@@ -31,7 +31,7 @@ public abstract class TemplatePoolGenerator extends ResourceGenerator {
     public void save(){
         for(TemplatePoolBuilder pool : this.builders.values()){
             // Validate all templates actually exist
-            List<ResourceLocation> missingStructures = pool.entries.stream()
+            List<Identifier> missingStructures = pool.entries.stream()
                 .map(entry -> entry.location)
                 .collect(Collectors.toSet())
                 .stream()
@@ -81,7 +81,7 @@ public abstract class TemplatePoolGenerator extends ResourceGenerator {
     }
 
     public TemplatePoolBuilder pool(String namespace, String identifier){
-        return this.builders.computeIfAbsent(ResourceLocation.fromNamespaceAndPath(namespace, identifier), i -> new TemplatePoolBuilder(this.modid, i));
+        return this.builders.computeIfAbsent(Identifier.fromNamespaceAndPath(namespace, identifier), i -> new TemplatePoolBuilder(this.modid, i));
     }
 
     public TemplatePoolBuilder pool(String identifier){
@@ -96,22 +96,22 @@ public abstract class TemplatePoolGenerator extends ResourceGenerator {
     public static class TemplatePoolBuilder {
 
         private final String owningModid;
-        private final ResourceLocation identifier;
-        private ResourceLocation fallbackPool = ResourceLocation.fromNamespaceAndPath("minecraft", "empty");
+        private final Identifier identifier;
+        private Identifier fallbackPool = Identifier.fromNamespaceAndPath("minecraft", "empty");
         private final List<TemplatePoolEntryBuilder> entries = new ArrayList<>();
 
-        private TemplatePoolBuilder(String owningModid, ResourceLocation identifier){
+        private TemplatePoolBuilder(String owningModid, Identifier identifier){
             this.owningModid = owningModid;
             this.identifier = identifier;
         }
 
         public TemplatePoolBuilder fallback(String namespace, String identifier){
-            this.fallbackPool = ResourceLocation.fromNamespaceAndPath(namespace, identifier);
+            this.fallbackPool = Identifier.fromNamespaceAndPath(namespace, identifier);
             return this;
         }
 
         public TemplatePoolBuilder entry(String template, Consumer<TemplatePoolEntryBuilder> entryBuilder){
-            TemplatePoolEntryBuilder entry = new TemplatePoolEntryBuilder(ResourceLocation.fromNamespaceAndPath(this.owningModid, template));
+            TemplatePoolEntryBuilder entry = new TemplatePoolEntryBuilder(Identifier.fromNamespaceAndPath(this.owningModid, template));
             entryBuilder.accept(entry);
             this.entries.add(entry);
             return this;
@@ -129,14 +129,14 @@ public abstract class TemplatePoolGenerator extends ResourceGenerator {
 
     public static class TemplatePoolEntryBuilder {
 
-        private final ResourceLocation location;
+        private final Identifier location;
         private final List<StructureProcessor> processors = new ArrayList<>();
         private StructureTemplatePool.Projection projection = StructureTemplatePool.Projection.RIGID;
         private Integer groundLevel;
-        private ResourceLocation type = ResourceLocation.fromNamespaceAndPath("formations", "single_pool_element");
+        private Identifier type = Identifier.fromNamespaceAndPath("formations", "single_pool_element");
         private int weight = 1;
 
-        private TemplatePoolEntryBuilder(ResourceLocation location){
+        private TemplatePoolEntryBuilder(Identifier location){
             this.location = location;
         }
 

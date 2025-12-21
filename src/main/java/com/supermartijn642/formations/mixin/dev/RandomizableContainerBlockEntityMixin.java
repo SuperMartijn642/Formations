@@ -24,11 +24,11 @@ public class RandomizableContainerBlockEntityMixin {
         cancellable = true
     )
     private void openLootTableMenu(int containerId, Inventory inventory, Player player, CallbackInfoReturnable<AbstractContainerMenu> ci){
-        if(!player.level().isClientSide && FormationsLevelData.SERVER.isDevMode()){
+        if(!player.level().isClientSide() && FormationsLevelData.SERVER.isDevMode()){
             //noinspection DataFlowIssue
             RandomizableContainerBlockEntity entity = (RandomizableContainerBlockEntity)(Object)this;
             if(!player.isShiftKeyDown() || entity.lootTable != null){
-                FormationsDev.CHANNEL.sendToPlayer(player, new OpenLootTableScreenPacket(entity.getBlockPos(), entity.lootTable.location()));
+                FormationsDev.CHANNEL.sendToPlayer(player, new OpenLootTableScreenPacket(entity.getBlockPos(), entity.lootTable.identifier()));
                 ci.setReturnValue(null);
             }
         }
