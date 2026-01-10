@@ -1,14 +1,38 @@
----
 name: Feature request
-about: Suggest an idea for this project
-title: "[Feature] ..."
+title: "[Feature] Your title here"
+description: Suggest an idea for this project
 labels: feature request
-assignees: ''
-
----
-
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
-
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+body:
+  - type: textarea
+    id: textarea-0
+    attributes:
+      label: Relevant Minecraft versions and other mods/projects
+      description: If your feature request is related to specific Minecraft versions
+        or other mods or projects, please mention them here. Please also shortly
+        explain what the Minecraft versions or other projects do if relevant to
+        the feature request.
+  - type: textarea
+    id: textarea-1
+    attributes:
+      label: Description of the feature
+      description: Please describe the feature you would like to be added. It is often clearest if you describe the current behavior and the expected behavior with the feature.
+    validations:
+      required: true
+  - type: textarea
+    id: textarea-2
+    attributes:
+      label: Use case
+      description: Please describe your use case for the feature.
+    validations:
+      required: true
+  - type: textarea
+    id: textarea-3
+    attributes:
+      label: Example usages
+      description: "Please give some example for how your feature would be used in a data pack. This may includes: JSON format, file structure, structures, example data pack, etc."
+  - type: textarea
+    id: textarea-4
+    attributes:
+      label: Additional context
+      description: Please share any other context or screenshots about the feature
+        request here.
