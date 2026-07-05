@@ -3,7 +3,6 @@ package com.supermartijn642.formations.structure.processors;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.supermartijn642.formations.FormationsStructures;
 import com.supermartijn642.formations.structure.BlockInstance;
 import com.supermartijn642.formations.structure.FormationsStructureProcessor;
 import net.minecraft.core.BlockPos;
@@ -13,7 +12,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +21,7 @@ import java.util.Map;
 /**
  * Created 22/11/2024 by SuperMartijn642
  */
-public class WaterloggingProcessor extends StructureProcessor implements FormationsStructureProcessor {
+public class WaterloggingProcessor implements StructureProcessor, FormationsStructureProcessor {
 
     public static final MapCodec<WaterloggingProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(WaterHandling.CODEC.optionalFieldOf("handling", WaterHandling.TAKE_STRUCTURE).forGetter(p -> p.waterHandling)).apply(instance, WaterloggingProcessor::new));
 
@@ -64,8 +62,8 @@ public class WaterloggingProcessor extends StructureProcessor implements Formati
     }
 
     @Override
-    protected StructureProcessorType<?> getType(){
-        return FormationsStructures.WATERLOGGING_PROCESSOR;
+    public MapCodec<? extends StructureProcessor> codec(){
+        return CODEC;
     }
 
     public enum WaterHandling implements StringRepresentable {

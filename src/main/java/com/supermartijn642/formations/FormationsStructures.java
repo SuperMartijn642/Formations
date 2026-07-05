@@ -1,12 +1,16 @@
 package com.supermartijn642.formations;
 
+import com.mojang.serialization.MapCodec;
 import com.supermartijn642.formations.structure.FormationsSinglePoolElement;
 import com.supermartijn642.formations.structure.PiecedStructure;
 import com.supermartijn642.formations.structure.SimpleStructure;
 import com.supermartijn642.formations.structure.processors.*;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+
+import static com.supermartijn642.formations.Formations.location;
 
 /**
  * Created 30/08/2023 by SuperMartijn642
@@ -21,14 +25,14 @@ public class FormationsStructures {
     public static final StructurePoolElementType<FormationsSinglePoolElement> SINGLE_POOL_ELEMENT = StructurePoolElementType.register("formations:single_pool_element", FormationsSinglePoolElement.CODEC);
 
     // Processors
-    public static final StructureProcessorType<BedColorProcessor> BED_COLOR_PROCESSOR = StructureProcessorType.register("formations:random_bed_color", BedColorProcessor.CODEC);
-    public static final StructureProcessorType<BiomeReplacementProcessor> BIOME_REPLACEMENT_PROCESSOR = StructureProcessorType.register("formations:biome_replacements", BiomeReplacementProcessor.CODEC);
-    public static final StructureProcessorType<BrewingStandProcessor> BREWING_STAND_PROCESSOR = StructureProcessorType.register("formations:fill_brewing_stands", BrewingStandProcessor.CODEC);
-    public static final StructureProcessorType<ChiseledBookshelfProcessor> CHISELED_BOOKSHELF_PROCESSOR = StructureProcessorType.register("formations:fill_chiseled_bookshelves", ChiseledBookshelfProcessor.CODEC);
-    public static final StructureProcessorType<FormationsBlockAgeProcessor> BLOCK_AGE_PROCESSOR = StructureProcessorType.register("formations:block_age", FormationsBlockAgeProcessor.CODEC);
-    public static final StructureProcessorType<PlantGrowthProcessor> PLANT_GROWTH_PROCESSOR = StructureProcessorType.register("formations:random_plant_growth", PlantGrowthProcessor.CODEC);
-    public static final StructureProcessorType<RespawnAnchorProcessor> RESPAWN_ANCHOR_PROCESSOR = StructureProcessorType.register("formations:respawn_anchor_charges", RespawnAnchorProcessor.CODEC);
-    public static final StructureProcessorType<WaterloggingProcessor> WATERLOGGING_PROCESSOR = StructureProcessorType.register("formations:waterlogging", WaterloggingProcessor.CODEC);
+    public static final MapCodec<BedColorProcessor> BED_COLOR_PROCESSOR = Registry.register(BuiltInRegistries.STRUCTURE_PROCESSOR, location("random_bed_color"), BedColorProcessor.CODEC);
+    public static final MapCodec<BiomeReplacementProcessor> BIOME_REPLACEMENT_PROCESSOR = Registry.register(BuiltInRegistries.STRUCTURE_PROCESSOR, location("biome_replacements"), BiomeReplacementProcessor.CODEC);
+    public static final MapCodec<BrewingStandProcessor> BREWING_STAND_PROCESSOR = Registry.register(BuiltInRegistries.STRUCTURE_PROCESSOR, location("fill_brewing_stands"), BrewingStandProcessor.CODEC);
+    public static final MapCodec<ChiseledBookshelfProcessor> CHISELED_BOOKSHELF_PROCESSOR = Registry.register(BuiltInRegistries.STRUCTURE_PROCESSOR, location("fill_chiseled_bookshelves"), ChiseledBookshelfProcessor.CODEC);
+    public static final MapCodec<FormationsBlockAgeProcessor> BLOCK_AGE_PROCESSOR = Registry.register(BuiltInRegistries.STRUCTURE_PROCESSOR, location("block_age"), FormationsBlockAgeProcessor.CODEC);
+    public static final MapCodec<PlantGrowthProcessor> PLANT_GROWTH_PROCESSOR = Registry.register(BuiltInRegistries.STRUCTURE_PROCESSOR, location("random_plant_growth"), PlantGrowthProcessor.CODEC);
+    public static final MapCodec<RespawnAnchorProcessor> RESPAWN_ANCHOR_PROCESSOR = Registry.register(BuiltInRegistries.STRUCTURE_PROCESSOR, location("respawn_anchor_charges"), RespawnAnchorProcessor.CODEC);
+    public static final MapCodec<WaterloggingProcessor> WATERLOGGING_PROCESSOR = Registry.register(BuiltInRegistries.STRUCTURE_PROCESSOR, location("waterlogging"), WaterloggingProcessor.CODEC);
 
     public static void init(){
     }
