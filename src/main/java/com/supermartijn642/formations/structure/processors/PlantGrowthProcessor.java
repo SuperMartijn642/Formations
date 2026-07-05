@@ -3,7 +3,6 @@ package com.supermartijn642.formations.structure.processors;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.supermartijn642.formations.FormationsStructures;
 import com.supermartijn642.formations.structure.BlockInstance;
 import com.supermartijn642.formations.structure.FormationsStructureProcessor;
 import net.minecraft.core.BlockPos;
@@ -13,7 +12,6 @@ import net.minecraft.world.level.block.NetherWartBlock;
 import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -21,7 +19,7 @@ import java.util.Map;
 /**
  * Created 01/09/2023 by SuperMartijn642
  */
-public class PlantGrowthProcessor extends StructureProcessor implements FormationsStructureProcessor {
+public class PlantGrowthProcessor implements StructureProcessor, FormationsStructureProcessor {
 
     public static final MapCodec<PlantGrowthProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(Codec.floatRange(0, 1).optionalFieldOf("minGrowth", 0f).forGetter(p -> p.minGrowth), Codec.floatRange(0, 1).optionalFieldOf("maxGrowth", 1f).forGetter(p -> p.maxGrowth)).apply(instance, PlantGrowthProcessor::new));
 
@@ -56,7 +54,7 @@ public class PlantGrowthProcessor extends StructureProcessor implements Formatio
     }
 
     @Override
-    protected StructureProcessorType<?> getType(){
-        return FormationsStructures.PLANT_GROWTH_PROCESSOR.get();
+    public MapCodec<? extends StructureProcessor> codec(){
+        return CODEC;
     }
 }

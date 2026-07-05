@@ -2,7 +2,6 @@ package com.supermartijn642.formations.structure.processors;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.MapCodec;
-import com.supermartijn642.formations.FormationsStructures;
 import com.supermartijn642.formations.structure.BlockInstance;
 import com.supermartijn642.formations.structure.FormationsStructureProcessor;
 import net.minecraft.core.BlockPos;
@@ -18,7 +17,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -28,7 +26,7 @@ import java.util.*;
  * <p>
  * Created 31/08/2023 by SuperMartijn642
  */
-public class BiomeReplacementProcessor extends StructureProcessor implements FormationsStructureProcessor {
+public class BiomeReplacementProcessor implements StructureProcessor, FormationsStructureProcessor {
 
     public static final MapCodec<BiomeReplacementProcessor> CODEC = MapCodec.unit(BiomeReplacementProcessor::new);
 
@@ -578,7 +576,7 @@ public class BiomeReplacementProcessor extends StructureProcessor implements For
     }
 
     @Override
-    protected StructureProcessorType<?> getType(){
-        return FormationsStructures.BIOME_REPLACEMENT_PROCESSOR.get();
+    public MapCodec<? extends StructureProcessor> codec(){
+        return CODEC;
     }
 }

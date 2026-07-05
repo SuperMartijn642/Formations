@@ -52,7 +52,7 @@ public class TemplateEditingScreen extends BaseWidget {
             // Cancel button
             this.addWidget(new TemplateEditButton(0, 151, 72, 15, TextComponents.translation("formations.template.edit.cancel").get(), TemplateEditButton.LEFT_BUTTON, () -> {
                 TemplateRenderer.selectionDimension = null;
-                ClientUtils.getMinecraft().setScreen(null);
+                ClientUtils.getMinecraft().gui.setScreen(null);
             }));
             // Save button
             this.saveButton = new TemplateEditButton(72, 151, 72, 15, TextComponents.translation("formations.template.edit.save").get(), TemplateEditButton.GREEN_RIGHT_BUTTON, () -> {
@@ -60,7 +60,7 @@ public class TemplateEditingScreen extends BaseWidget {
                 if(Template.isValidName(name) && TemplateManager.get(ClientUtils.getWorld()).getTemplateByName(name) == null){
                     FormationsDev.CHANNEL.sendToServer(new CreateTemplatePacket(Template.create(new AABB(TemplateRenderer.selectionPos1).minmax(new AABB(TemplateRenderer.selectionPos2)), name)));
                     TemplateRenderer.selectionDimension = null;
-                    ClientUtils.getMinecraft().setScreen(null);
+                    ClientUtils.getMinecraft().gui.setScreen(null);
                 }
             });
             this.saveButton.active = false;
@@ -73,16 +73,16 @@ public class TemplateEditingScreen extends BaseWidget {
             // Delete button
             this.addWidget(new TemplateEditButton(0, 151, 72, 15, TextComponents.translation("formations.template.edit.delete").get(), TemplateEditButton.RED_LEFT_BUTTON, () -> {
                 FormationsDev.CHANNEL.sendToServer(new DeleteTemplatePacket(this.template));
-                ClientUtils.getMinecraft().setScreen(null);
+                ClientUtils.getMinecraft().gui.setScreen(null);
             }));
             // Confirm button
             this.saveButton = new TemplateEditButton(72, 151, 72, 15, TextComponents.translation("formations.template.edit.confirm").get(), TemplateEditButton.RIGHT_BUTTON, () -> {
                 String name = nameField.getText().trim();
                 if(name.equals(this.template.getName()))
-                    ClientUtils.getMinecraft().setScreen(null);
+                    ClientUtils.getMinecraft().gui.setScreen(null);
                 else if(Template.isValidName(name) && TemplateManager.get(ClientUtils.getWorld()).getTemplateByName(name) == null){
                     FormationsDev.CHANNEL.sendToServer(new CreateTemplatePacket(Template.create(this.template.getArea(), name)));
-                    ClientUtils.getMinecraft().setScreen(null);
+                    ClientUtils.getMinecraft().gui.setScreen(null);
                 }
             });
             this.saveButton.active = true;

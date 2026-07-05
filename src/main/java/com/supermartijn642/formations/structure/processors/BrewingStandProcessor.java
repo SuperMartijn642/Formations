@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.supermartijn642.formations.Formations;
-import com.supermartijn642.formations.FormationsStructures;
 import com.supermartijn642.formations.structure.BlockInstance;
 import com.supermartijn642.formations.structure.FormationsStructureProcessor;
 import net.minecraft.core.BlockPos;
@@ -27,7 +26,6 @@ import net.minecraft.world.level.block.BrewingStandBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.TagValueOutput;
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +35,7 @@ import java.util.Map;
 /**
  * Created 01/09/2023 by SuperMartijn642
  */
-public class BrewingStandProcessor extends StructureProcessor implements FormationsStructureProcessor {
+public class BrewingStandProcessor implements StructureProcessor, FormationsStructureProcessor {
 
     public static final MapCodec<BrewingStandProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(Codec.floatRange(0, 1).optionalFieldOf("slotFillChance", 0.5f).forGetter(p -> p.slotFillChance), Codec.intRange(0, 64).optionalFieldOf("maxBlazePowder", 16).forGetter(p -> p.maxBlazePowder)).apply(instance, BrewingStandProcessor::new));
 
@@ -56,7 +54,7 @@ public class BrewingStandProcessor extends StructureProcessor implements Formati
             // Load the potions from the brewing stand's nbt
             NonNullList<ItemStack> potions = NonNullList.withSize(5, ItemStack.EMPTY);
             if(block.nbt() != null){
-                Identifier name = level.registryAccess().lookupOrThrow(Registries.STRUCTURE_PROCESSOR).getKey(this.getType());
+                Identifier name = level.registryAccess().lookupOrThrow(Registries.STRUCTURE_PROCESSOR).getKey(this.codec());
                 try(ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(name::toString, Formations.LOGGER)){
                     ContainerHelper.loadAllItems(TagValueInput.create(reporter, level.registryAccess(), block.nbt()), potions);
                 }
@@ -73,7 +71,7 @@ public class BrewingStandProcessor extends StructureProcessor implements Formati
             }
             // Convert the potions back to nbt
             CompoundTag nbt = block.nbt() == null ? new CompoundTag() : block.nbt().copy();
-            Identifier name = level.registryAccess().lookupOrThrow(Registries.STRUCTURE_PROCESSOR).getKey(this.getType());
+            Identifier name = level.registryAccess().lookupOrThrow(Registries.STRUCTURE_PROCESSOR).getKey(this.codec());
             try(ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(name::toString, Formations.LOGGER)){
                 TagValueOutput output = TagValueOutput.createWithContext(reporter, level.registryAccess());
                 ContainerHelper.saveAllItems(output, potions);
@@ -85,7 +83,7 @@ public class BrewingStandProcessor extends StructureProcessor implements Formati
     }
 
     @Override
-    protected StructureProcessorType<?> getType(){
-        return FormationsStructures.BREWING_STAND_PROCESSOR.get();
+    public MapCodec<? extends StructureProcessor> codec(){
+        return CODEC;
     }
 }

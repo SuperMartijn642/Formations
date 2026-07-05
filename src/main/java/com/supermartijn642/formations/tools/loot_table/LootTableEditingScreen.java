@@ -48,7 +48,7 @@ public class LootTableEditingScreen extends BaseWidget {
         this.addWidget(lootTableField);
         // Cancel button
         this.addWidget(new TemplateEditButton(0, 51, 72, 15, TextComponents.translation("formations.edit_loot.cancel").get(), TemplateEditButton.LEFT_BUTTON, () -> {
-            ClientUtils.getMinecraft().setScreen(null);
+            ClientUtils.getMinecraft().gui.setScreen(null);
         }));
         // Save button
         this.saveButton = this.addWidget(new TemplateEditButton(128, 51, 72, 15, TextComponents.translation("formations.edit_loot.save").get(), TemplateEditButton.GREEN_RIGHT_BUTTON, () -> {
@@ -57,14 +57,14 @@ public class LootTableEditingScreen extends BaseWidget {
                 Identifier lootTable = lootTableText.isEmpty() ? null : Identifier.parse(lootTableText);
                 if(!Objects.equals(lootTable, this.original))
                     FormationsDev.CHANNEL.sendToServer(new SetLootTablePacket(this.pos, lootTable));
-                ClientUtils.getMinecraft().setScreen(null);
+                ClientUtils.getMinecraft().gui.setScreen(null);
             }
         }));
     }
 
     @Override
     public void renderBackground(WidgetRenderContext context, GuiGraphicsHelper graphics, int mouseX, int mouseY){
-//        graphics.submitTexture(SCREEN_BACKGROUND, this.left(), this.top(), this.width, this.height); TODO
+        graphics.submitTexture(SCREEN_BACKGROUND, this.left(), this.top(), this.width, this.height);
         super.renderBackground(context, graphics, mouseX, mouseY);
     }
 

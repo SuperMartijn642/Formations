@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.supermartijn642.formations.Formations;
-import com.supermartijn642.formations.FormationsStructures;
 import com.supermartijn642.formations.structure.BlockInstance;
 import com.supermartijn642.formations.structure.FormationsStructureProcessor;
 import net.minecraft.core.BlockPos;
@@ -22,7 +21,6 @@ import net.minecraft.world.level.block.ChiseledBookShelfBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.TagValueOutput;
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +31,7 @@ import java.util.Optional;
 /**
  * Created 01/09/2023 by SuperMartijn642
  */
-public class ChiseledBookshelfProcessor extends StructureProcessor implements FormationsStructureProcessor {
+public class ChiseledBookshelfProcessor implements StructureProcessor, FormationsStructureProcessor {
 
     public static final MapCodec<ChiseledBookshelfProcessor> CODEC = RecordCodecBuilder.mapCodec(instance ->
         instance.group(
@@ -71,7 +69,7 @@ public class ChiseledBookshelfProcessor extends StructureProcessor implements Fo
             // Load the books from the bookshelf's nbt
             NonNullList<ItemStack> books = NonNullList.withSize(6, ItemStack.EMPTY);
             if(block.nbt() != null){
-                Identifier name = level.registryAccess().lookupOrThrow(Registries.STRUCTURE_PROCESSOR).getKey(this.getType());
+                Identifier name = level.registryAccess().lookupOrThrow(Registries.STRUCTURE_PROCESSOR).getKey(this.codec());
                 try(ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(name::toString, Formations.LOGGER)){
                     ContainerHelper.loadAllItems(TagValueInput.create(reporter, level.registryAccess(), block.nbt()), books);
                 }
@@ -88,7 +86,7 @@ public class ChiseledBookshelfProcessor extends StructureProcessor implements Fo
             }
             // Convert the books back to nbt
             CompoundTag nbt = block.nbt() == null ? new CompoundTag() : block.nbt().copy();
-            Identifier name = level.registryAccess().lookupOrThrow(Registries.STRUCTURE_PROCESSOR).getKey(this.getType());
+            Identifier name = level.registryAccess().lookupOrThrow(Registries.STRUCTURE_PROCESSOR).getKey(this.codec());
             try(ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(name::toString, Formations.LOGGER)){
                 TagValueOutput output = TagValueOutput.createWithContext(reporter, level.registryAccess());
                 ContainerHelper.saveAllItems(output, books);
@@ -100,7 +98,7 @@ public class ChiseledBookshelfProcessor extends StructureProcessor implements Fo
     }
 
     @Override
-    protected StructureProcessorType<?> getType(){
-        return FormationsStructures.CHISELED_BOOKSHELF_PROCESSOR.get();
+    public MapCodec<? extends StructureProcessor> codec(){
+        return CODEC;
     }
 }
