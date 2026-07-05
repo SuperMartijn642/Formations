@@ -3,7 +3,6 @@ package com.supermartijn642.formations.structure.processors;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.supermartijn642.formations.FormationsStructures;
 import com.supermartijn642.formations.structure.BlockInstance;
 import com.supermartijn642.formations.structure.FormationsStructureProcessor;
 import net.minecraft.core.BlockPos;
@@ -18,7 +17,6 @@ import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -28,7 +26,7 @@ import java.util.Set;
 /**
  * Created 14/09/2023 by SuperMartijn642
  */
-public class FormationsBlockAgeProcessor extends StructureProcessor implements FormationsStructureProcessor {
+public class FormationsBlockAgeProcessor implements StructureProcessor, FormationsStructureProcessor {
 
     public static final MapCodec<FormationsBlockAgeProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(Codec.floatRange(0, 1).optionalFieldOf("mossy_chance", 0.3f).forGetter(p -> p.mossiness), Codec.floatRange(0, 1).optionalFieldOf("degradation_chance", 0.15f).forGetter(p -> p.degradation), Codec.floatRange(0, 1).optionalFieldOf("disintegration_chance", 0.05f).forGetter(p -> p.disintegration)).apply(instance, FormationsBlockAgeProcessor::new));
 
@@ -118,7 +116,7 @@ public class FormationsBlockAgeProcessor extends StructureProcessor implements F
     }
 
     @Override
-    protected StructureProcessorType<?> getType(){
-        return FormationsStructures.BLOCK_AGE_PROCESSOR.get();
+    public MapCodec<? extends StructureProcessor> codec(){
+        return CODEC;
     }
 }

@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.supermartijn642.formations.FormationsStructures;
 import com.supermartijn642.formations.structure.BlockInstance;
 import com.supermartijn642.formations.structure.FormationsStructureProcessor;
 import net.minecraft.core.BlockPos;
@@ -13,7 +12,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RespawnAnchorBlock;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -21,7 +19,7 @@ import java.util.Map;
 /**
  * Created 22/09/2023 by SuperMartijn642
  */
-public class RespawnAnchorProcessor extends StructureProcessor implements FormationsStructureProcessor {
+public class RespawnAnchorProcessor implements StructureProcessor, FormationsStructureProcessor {
 
     public static final MapCodec<RespawnAnchorProcessor> CODEC = RecordCodecBuilder.<RespawnAnchorProcessor>mapCodec(instance -> instance.group(Codec.intRange(0, 4).optionalFieldOf("minCharges", 0).forGetter(p -> p.minCharges), Codec.intRange(0, 4).optionalFieldOf("maxCharges", 4).forGetter(p -> p.maxCharges)).apply(instance, RespawnAnchorProcessor::new))
         .validate(processor -> {
@@ -51,7 +49,7 @@ public class RespawnAnchorProcessor extends StructureProcessor implements Format
     }
 
     @Override
-    protected StructureProcessorType<?> getType(){
-        return FormationsStructures.RESPAWN_ANCHOR_PROCESSOR.get();
+    public MapCodec<? extends StructureProcessor> codec(){
+        return CODEC;
     }
 }

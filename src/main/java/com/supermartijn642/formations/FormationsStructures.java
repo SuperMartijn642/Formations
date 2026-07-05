@@ -1,5 +1,6 @@
 package com.supermartijn642.formations;
 
+import com.mojang.serialization.MapCodec;
 import com.supermartijn642.formations.structure.FormationsSinglePoolElement;
 import com.supermartijn642.formations.structure.PiecedStructure;
 import com.supermartijn642.formations.structure.SimpleStructure;
@@ -7,7 +8,7 @@ import com.supermartijn642.formations.structure.processors.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -29,15 +30,15 @@ public class FormationsStructures {
     public static final DeferredHolder<StructurePoolElementType<?>,StructurePoolElementType<FormationsSinglePoolElement>> SINGLE_POOL_ELEMENT = STRUCTURE_POOL_ELEMENTS.register("single_pool_element", () -> () -> FormationsSinglePoolElement.CODEC);
 
     // Processors
-    private static final DeferredRegister<StructureProcessorType<?>> STRUCTURE_PROCESSOR_TYPES = DeferredRegister.create(Registries.STRUCTURE_PROCESSOR, Formations.MODID);
-    public static final DeferredHolder<StructureProcessorType<?>,StructureProcessorType<BedColorProcessor>> BED_COLOR_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("random_bed_color", () -> () -> BedColorProcessor.CODEC);
-    public static final DeferredHolder<StructureProcessorType<?>,StructureProcessorType<BiomeReplacementProcessor>> BIOME_REPLACEMENT_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("biome_replacements", () -> () -> BiomeReplacementProcessor.CODEC);
-    public static final DeferredHolder<StructureProcessorType<?>,StructureProcessorType<BrewingStandProcessor>> BREWING_STAND_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("fill_brewing_stands", () -> () -> BrewingStandProcessor.CODEC);
-    public static final DeferredHolder<StructureProcessorType<?>,StructureProcessorType<ChiseledBookshelfProcessor>> CHISELED_BOOKSHELF_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("fill_chiseled_bookshelves", () -> () -> ChiseledBookshelfProcessor.CODEC);
-    public static final DeferredHolder<StructureProcessorType<?>,StructureProcessorType<FormationsBlockAgeProcessor>> BLOCK_AGE_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("block_age", () -> () -> FormationsBlockAgeProcessor.CODEC);
-    public static final DeferredHolder<StructureProcessorType<?>,StructureProcessorType<PlantGrowthProcessor>> PLANT_GROWTH_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("random_plant_growth", () -> () -> PlantGrowthProcessor.CODEC);
-    public static final DeferredHolder<StructureProcessorType<?>,StructureProcessorType<RespawnAnchorProcessor>> RESPAWN_ANCHOR_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("respawn_anchor_charges", () -> () -> RespawnAnchorProcessor.CODEC);
-    public static final DeferredHolder<StructureProcessorType<?>,StructureProcessorType<WaterloggingProcessor>> WATERLOGGING_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("waterlogging", () -> () -> WaterloggingProcessor.CODEC);
+    private static final DeferredRegister<MapCodec<? extends StructureProcessor>> STRUCTURE_PROCESSOR_TYPES = DeferredRegister.create(Registries.STRUCTURE_PROCESSOR, Formations.MODID);
+    public static final DeferredHolder<MapCodec<? extends StructureProcessor>,MapCodec<BedColorProcessor>> BED_COLOR_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("random_bed_color", () -> BedColorProcessor.CODEC);
+    public static final DeferredHolder<MapCodec<? extends StructureProcessor>,MapCodec<BiomeReplacementProcessor>> BIOME_REPLACEMENT_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("biome_replacements", () -> BiomeReplacementProcessor.CODEC);
+    public static final DeferredHolder<MapCodec<? extends StructureProcessor>,MapCodec<BrewingStandProcessor>> BREWING_STAND_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("fill_brewing_stands", () -> BrewingStandProcessor.CODEC);
+    public static final DeferredHolder<MapCodec<? extends StructureProcessor>,MapCodec<ChiseledBookshelfProcessor>> CHISELED_BOOKSHELF_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("fill_chiseled_bookshelves", () -> ChiseledBookshelfProcessor.CODEC);
+    public static final DeferredHolder<MapCodec<? extends StructureProcessor>,MapCodec<FormationsBlockAgeProcessor>> BLOCK_AGE_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("block_age", () -> FormationsBlockAgeProcessor.CODEC);
+    public static final DeferredHolder<MapCodec<? extends StructureProcessor>,MapCodec<PlantGrowthProcessor>> PLANT_GROWTH_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("random_plant_growth", () -> PlantGrowthProcessor.CODEC);
+    public static final DeferredHolder<MapCodec<? extends StructureProcessor>,MapCodec<RespawnAnchorProcessor>> RESPAWN_ANCHOR_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("respawn_anchor_charges", () -> RespawnAnchorProcessor.CODEC);
+    public static final DeferredHolder<MapCodec<? extends StructureProcessor>,MapCodec<WaterloggingProcessor>> WATERLOGGING_PROCESSOR = STRUCTURE_PROCESSOR_TYPES.register("waterlogging", () -> WaterloggingProcessor.CODEC);
 
     public static void init(){
         IEventBus eventBus = ModLoadingContext.get().getActiveContainer().getEventBus();
