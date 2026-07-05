@@ -4,8 +4,10 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
+import com.supermartijn642.formations.Formations;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.saveddata.SavedDataType;
@@ -15,7 +17,7 @@ import net.minecraft.world.level.saveddata.SavedDataType;
  */
 public class TemplateManagerSaveData extends SavedData {
 
-    private static final String IDENTIFIER = "formations_templates";
+    private static final Identifier IDENTIFIER = Identifier.fromNamespaceAndPath(Formations.MODID, "templates");
 
     private final TemplateManager manager;
 

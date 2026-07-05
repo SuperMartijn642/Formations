@@ -36,7 +36,7 @@ public class TemplateEditorItem extends BaseItem {
                 if(TemplateRenderer.selectionDimension == level.dimension() && TemplateRenderer.selectionPos1 != null && TemplateRenderer.selectionPos2 != null)
                     ClientUtils.displayScreen(WidgetScreen.of(new TemplateEditingScreen(null)));
                 else
-                    player.displayClientMessage(TextComponents.translation("formations.template.edit.no_selection").color(ChatFormatting.RED).get(), true);
+                    player.sendOverlayMessage(TextComponents.translation("formations.template.edit.no_selection").color(ChatFormatting.RED).get());
             }
             return ItemUseResult.success(stack);
         }
@@ -58,7 +58,7 @@ public class TemplateEditorItem extends BaseItem {
                 if(TemplateRenderer.selectionDimension == level.dimension() && TemplateRenderer.selectionPos1 != null && TemplateRenderer.selectionPos2 != null)
                     ClientUtils.displayScreen(WidgetScreen.of(new TemplateEditingScreen(null)));
                 else
-                    player.displayClientMessage(TextComponents.translation("formations.template.edit.no_selection").color(ChatFormatting.RED).get(), true);
+                    player.sendOverlayMessage(TextComponents.translation("formations.template.edit.no_selection").color(ChatFormatting.RED).get());
                 return InteractionFeedback.SUCCESS;
             }else{
                 // Set second selection pos

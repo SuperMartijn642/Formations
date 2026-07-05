@@ -26,7 +26,7 @@ public class Formations {
         FormationsStructures.init(context);
 
         // Only register dev stuff if we're in a development environment
-        if(ModList.get().isLoaded("supermartijn642corelib") && !FMLEnvironment.production)
+        if(ModList.isLoaded("supermartijn642corelib") && !FMLEnvironment.production)
             FormationsDev.initDevTools();
 
         // Client stuff
