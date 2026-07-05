@@ -6,7 +6,7 @@ import com.supermartijn642.formations.FormationsDev;
 import com.supermartijn642.formations.extensions.TemplateHoldingLevel;
 import com.supermartijn642.formations.tools.template.packets.AllTemplatesPacket;
 import com.supermartijn642.formations.tools.template.packets.DeleteTemplatePacket;
-import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
+import net.fabricmc.fabric.api.entity.event.v1.ServerEntityLevelChangeEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.nbt.CompoundTag;
@@ -32,7 +32,7 @@ public class TemplateManager {
     }
 
     public static void registerListeners(){
-        ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, origin, destination) -> get(origin).sendTemplatesToPlayer(player));
+        ServerEntityLevelChangeEvents.AFTER_PLAYER_CHANGE_LEVEL.register((player, origin, destination) -> get(origin).sendTemplatesToPlayer(player));
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> get(handler.player.level()).sendTemplatesToPlayer(handler.player));
         ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> get(newPlayer.level()).sendTemplatesToPlayer(newPlayer));
     }
